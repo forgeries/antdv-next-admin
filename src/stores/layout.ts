@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed'
 const AI_COLLAB_ENABLED_KEY = 'layout-ai-collab-enabled'
+const AI_ENTRY_VISIBLE_KEY = 'layout-ai-entry-visible'
 const AI_PANEL_WIDTH_KEY = 'layout-ai-panel-width'
 const AI_PANEL_MIN_WIDTH = 320
 const AI_PANEL_MAX_WIDTH = 560
@@ -14,6 +15,7 @@ export const useLayoutStore = defineStore('layout', () => {
   const collapsedWidth = ref(80)
   const isMobile = ref(false)
   const pageFullscreen = ref(false)
+  const aiEntryVisible = ref(true)
   const aiCollabEnabled = ref(false)
   const aiPanelWidth = ref(420)
 
@@ -54,6 +56,14 @@ export const useLayoutStore = defineStore('layout', () => {
     localStorage.setItem(AI_COLLAB_ENABLED_KEY, value.toString())
   }
 
+  const setAiEntryVisible = (value: boolean) => {
+    aiEntryVisible.value = value
+    localStorage.setItem(AI_ENTRY_VISIBLE_KEY, value.toString())
+    if (!value) {
+      setAiCollabEnabled(false)
+    }
+  }
+
   const setAiPanelWidth = (value: number) => {
     const nextWidth = Math.max(AI_PANEL_MIN_WIDTH, Math.min(AI_PANEL_MAX_WIDTH, Math.round(value)))
     aiPanelWidth.value = nextWidth
@@ -74,6 +84,11 @@ export const useLayoutStore = defineStore('layout', () => {
     const savedAiCollabEnabled = localStorage.getItem(AI_COLLAB_ENABLED_KEY)
     if (savedAiCollabEnabled !== null) {
       aiCollabEnabled.value = savedAiCollabEnabled === 'true'
+    }
+
+    const savedAiEntryVisible = localStorage.getItem(AI_ENTRY_VISIBLE_KEY)
+    if (savedAiEntryVisible !== null) {
+      aiEntryVisible.value = savedAiEntryVisible === 'true'
     }
 
     const savedAiPanelWidth = localStorage.getItem(AI_PANEL_WIDTH_KEY)
@@ -99,6 +114,7 @@ export const useLayoutStore = defineStore('layout', () => {
     collapsedWidth,
     isMobile,
     pageFullscreen,
+    aiEntryVisible,
     aiCollabEnabled,
     aiPanelWidth,
     // Actions
@@ -109,6 +125,7 @@ export const useLayoutStore = defineStore('layout', () => {
     setPageFullscreen,
     toggleAiCollab,
     setAiCollabEnabled,
+    setAiEntryVisible,
     setAiPanelWidth,
     getCurrentSidebarWidth,
     initLayout

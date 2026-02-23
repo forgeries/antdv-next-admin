@@ -32,7 +32,7 @@
 
       <!-- Desktop: Show all actions -->
       <template v-if="!layoutStore.isMobile">
-        <a-tooltip :title="layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable')">
+        <a-tooltip v-if="layoutStore.aiEntryVisible" :title="layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable')">
           <a-button
             type="text"
             class="header-action ai-toggle-btn"
@@ -179,18 +179,24 @@ const handleMoreMenuClick = ({ key }: { key: string }) => {
   }
 }
 
-const moreMenuProps = computed(() => ({
-  items: [
+const moreMenuProps = computed(() => {
+  const items: any[] = [
     {
       key: 'fullscreen',
       label: $t('layout.fullscreen'),
       icon: h(FullscreenOutlined)
-    },
-    {
+    }
+  ]
+
+  if (layoutStore.aiEntryVisible) {
+    items.push({
       key: 'ai-collab',
       label: layoutStore.aiCollabEnabled ? $t('layout.aiCollabDisable') : $t('layout.aiCollabEnable'),
       icon: h(MessageOutlined)
-    },
+    })
+  }
+
+  items.push(
     {
       type: 'divider'
     },
@@ -244,9 +250,10 @@ const moreMenuProps = computed(() => ({
       label: $t('settings.title'),
       icon: h(SettingOutlined)
     }
-  ],
-  onClick: handleMoreMenuClick
-}))
+  )
+
+  return { items, onClick: handleMoreMenuClick }
+})
 
 const handleKeydown = (e: KeyboardEvent) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {

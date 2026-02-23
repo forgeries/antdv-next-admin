@@ -78,9 +78,9 @@
       <div class="settings-section">
         <h4>{{ $t('settings.aiCollab') }}</h4>
         <a-switch
-          :checked="layoutStore.aiCollabEnabled"
+          :checked="layoutStore.aiEntryVisible"
           :disabled="layoutStore.isMobile"
-          @change="handleAiCollabChange"
+          @change="handleAiEntryChange"
         />
         <div class="hint">
           {{ layoutStore.isMobile ? $t('settings.aiCollabHintMobile') : $t('settings.aiCollabHint') }}
@@ -169,14 +169,15 @@ const handleReset = () => {
     title: $t('settings.confirmReset'),
     onOk: () => {
       settingsStore.resetSettings()
+      layoutStore.setAiEntryVisible(true)
       layoutStore.setAiCollabEnabled(false)
       customColor.value = '#1890ff'
     }
   })
 }
 
-const handleAiCollabChange = (checked: boolean) => {
-  layoutStore.setAiCollabEnabled(checked)
+const handleAiEntryChange = (checked: boolean) => {
+  layoutStore.setAiEntryVisible(checked)
 }
 
 const open = () => {

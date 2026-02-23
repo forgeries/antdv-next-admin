@@ -202,7 +202,7 @@ export default {
     rememberTabState: '탭 상태 기억',
     rememberTabStateHint: '새로 고침 후 이전에 열었던 탭을 자동으로 복원',
     aiCollab: 'AI 채팅 분할 보기',
-    aiCollabHint: '업무 페이지 오른쪽에 AI 채팅 협업 패널을 표시합니다',
+    aiCollabHint: '상단 내비게이션 바에 AI 채팅 입구 아이콘을 표시합니다',
     aiCollabHintMobile: '모바일에서는 AI 채팅 분할 보기를 사용할 수 없습니다',
     reset: '재설정 설정',
     confirmReset: '모든 기본 설정을 재설정하시겠습니까?',
