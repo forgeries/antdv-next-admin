@@ -32,19 +32,21 @@
               </div>
             </div>
 
-            <template v-if="isAICollabActive">
-              <div
-                class="page-workspace-resizer"
-                role="separator"
-                aria-orientation="vertical"
-                @mousedown="startAiResize"
-              />
-              <AICollabPanel
-                class="page-workspace-ai"
-                :style="{ width: `${effectiveAiPanelWidth}px` }"
-                @close="layoutStore.setAiCollabEnabled(false)"
-              />
-            </template>
+            <Transition name="ai-panel">
+              <div v-if="isAICollabActive" class="page-workspace-side" :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }">
+                <div
+                  class="page-workspace-resizer"
+                  role="separator"
+                  aria-orientation="vertical"
+                  @mousedown="startAiResize"
+                />
+                <AICollabPanel
+                  class="page-workspace-ai"
+                  :style="{ width: `${effectiveAiPanelWidth}px` }"
+                  @close="layoutStore.setAiCollabEnabled(false)"
+                />
+              </div>
+            </Transition>
           </div>
         </a-layout-content>
       </a-layout>
@@ -114,19 +116,21 @@
                 </div>
               </div>
 
-              <template v-if="isAICollabActive">
-                <div
-                  class="page-workspace-resizer"
-                  role="separator"
-                  aria-orientation="vertical"
-                  @mousedown="startAiResize"
-                />
-                <AICollabPanel
-                  class="page-workspace-ai"
-                  :style="{ width: `${effectiveAiPanelWidth}px` }"
-                  @close="layoutStore.setAiCollabEnabled(false)"
-                />
-              </template>
+              <Transition name="ai-panel">
+                <div v-if="isAICollabActive" class="page-workspace-side" :style="{ '--ai-side-width': `${effectiveAiPanelWidth + 14}px` }">
+                  <div
+                    class="page-workspace-resizer"
+                    role="separator"
+                    aria-orientation="vertical"
+                    @mousedown="startAiResize"
+                  />
+                  <AICollabPanel
+                    class="page-workspace-ai"
+                    :style="{ width: `${effectiveAiPanelWidth}px` }"
+                    @close="layoutStore.setAiCollabEnabled(false)"
+                  />
+                </div>
+              </Transition>
             </div>
           </div>
         </a-layout-content>
@@ -767,9 +771,33 @@ watch(
     container-type: inline-size;
   }
 
+  .page-workspace-side {
+    width: var(--ai-side-width);
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
   .page-workspace-ai {
     height: 100%;
     flex-shrink: 0;
+  }
+
+  .ai-panel-enter-active {
+    transition: width var(--duration-slow) var(--ease-out), opacity var(--duration-slow) var(--ease-out);
+    overflow: hidden;
+  }
+
+  .ai-panel-leave-active {
+    transition: width var(--duration-slow) var(--ease-in), opacity var(--duration-base) var(--ease-in);
+    overflow: hidden;
+  }
+
+  .ai-panel-enter-from,
+  .ai-panel-leave-to {
+    width: 0 !important;
+    opacity: 0;
   }
 
   .page-workspace-resizer {
