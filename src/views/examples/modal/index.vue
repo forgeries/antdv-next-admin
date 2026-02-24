@@ -177,10 +177,12 @@ const handleConfirm = () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   padding: 12px 14px;
   border: 1px solid var(--color-border-secondary);
   border-radius: 10px;
   background: var(--color-bg-container);
+  white-space: nowrap;
 }
 
 .modal-content {
