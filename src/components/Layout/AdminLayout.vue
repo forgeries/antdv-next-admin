@@ -800,7 +800,8 @@ watch(
 
   .page-scroll {
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     overscroll-behavior: contain;
   }
 
