@@ -63,12 +63,12 @@ html.theme-view-transition::view-transition-old(root) {
 }
 
 html.theme-view-transition::view-transition-new(root) {
-  animation: theme-clip-reveal 0.74s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: theme-clip-reveal 0.74s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   z-index: 9999;
 }
 
 html.theme-view-transition.dark::view-transition-old(root) {
-  animation: theme-clip-conceal 0.74s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: theme-clip-conceal 0.74s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   z-index: 9999;
 }
 
