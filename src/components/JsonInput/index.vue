@@ -787,9 +787,10 @@ function handleAddField() {
       defaultValue = ''
   }
 
+  const currentOrder = getFieldOrderByPath(targetPath).filter(key => key !== fieldName)
   targetObject[fieldName] = defaultValue
   setDynamicFieldType(targetPath, fieldName, newField.value.type)
-  setFieldOrderByPath(targetPath, [...getFieldOrderByPath(targetPath), fieldName])
+  setFieldOrderByPath(targetPath, [...currentOrder, fieldName])
 
   if (newField.value.type === 'array') {
     arrayTextBuffer.value[getFieldPathKey(targetPath, fieldName)] = '[]'
