@@ -115,14 +115,12 @@
           />
         </a-form-item>
         <a-form-item label="字段类型">
-          <a-select v-model:value="newField.type" size="middle" placeholder="请选择字段类型">
-            <a-select-option value="string">文本</a-select-option>
-            <a-select-option value="number">数字</a-select-option>
-            <a-select-option value="boolean">布尔值</a-select-option>
-            <a-select-option value="tags">标签</a-select-option>
-            <a-select-option value="array">数组</a-select-option>
-            <a-select-option value="object">对象</a-select-option>
-          </a-select>
+          <a-select
+            v-model:value="newField.type"
+            size="middle"
+            placeholder="请选择字段类型"
+            :options="fieldTypeOptions"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -227,6 +225,14 @@ const newField = ref<{ name: string; type: FieldType }>({ name: '', type: 'strin
 
 const okText = '确定'
 const cancelText = '取消'
+const fieldTypeOptions: Array<{ label: string; value: FieldType }> = [
+  { label: '文本', value: 'string' },
+  { label: '数字', value: 'number' },
+  { label: '布尔值', value: 'boolean' },
+  { label: '标签', value: 'tags' },
+  { label: '数组', value: 'array' },
+  { label: '对象', value: 'object' }
+]
 
 const displayValue = computed(() => {
   if (!props.value) {
