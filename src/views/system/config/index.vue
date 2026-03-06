@@ -6,18 +6,20 @@
         <div class="config-groups-header">
           <h3>{{ $t('config.configGroups') }}</h3>
         </div>
-        <div class="config-groups-list">
-          <div
+        <a-menu
+          v-model:selectedKeys="selectedMenuKeys"
+          mode="inline"
+          class="config-groups-menu"
+        >
+          <a-menu-item
             v-for="group in groups"
             :key="group"
-            class="config-group-item"
-            :class="{ active: selectedGroup === group }"
             @click="selectedGroup = group"
           >
             <span class="group-name">{{ $t(`config.groups.${group}`) }}</span>
             <span class="group-count">{{ getGroupCount(group) }}</span>
-          </div>
-        </div>
+          </a-menu-item>
+        </a-menu>
       </template>
 
       <template #main>
@@ -132,6 +134,12 @@ const groups = ref<string[]>(['basic', 'security', 'upload', 'notification'])
 const selectedGroup = ref('basic')
 const allConfigs = ref<SysConfig[]>([])
 const refreshKey = ref(0)
+const selectedMenuKeys = computed({
+  get: () => [selectedGroup.value],
+  set: (keys: string[]) => {
+    if (keys.length > 0) selectedGroup.value = keys[0]
+  }
+})
 
 const getGroupCount = (group: string) => allConfigs.value.filter(c => c.group === group).length
 
@@ -230,92 +238,74 @@ loadAllConfigs()
 </script>
 
 <style scoped lang="scss">
-.config-container {
+.page-container {
   display: flex;
   gap: 16px;
   flex: 1;
   min-height: 0;
 }
 
-.config-groups {
-  width: 200px;
-  flex-shrink: 0;
-  background: var(--color-bg-container);
-  border-radius: 8px;
-  padding: 20px 12px 16px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+.config-groups-header {
+  padding: 0 16px;
+  margin-bottom: 8px;
 
-  .config-groups-header {
-    padding: 0 8px;
-    margin-bottom: 12px;
-    h3 { margin: 0; font-size: 15px; font-weight: 600; }
-  }
-
-  .config-groups-list {
-    flex: 1;
-
-    .config-group-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-bottom: 4px;
-      transition: all 0.2s;
-      position: relative;
-
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 3px;
-        height: 0;
-        background: var(--ant-primary-color);
-        border-radius: 0 3px 3px 0;
-        transition: height 0.2s;
-      }
-
-      &:hover { background: var(--color-fill-quaternary, #fafafa); }
-
-      &.active {
-        background: var(--ant-primary-color-deprecated-l-50, rgba(22, 119, 255, 0.06));
-        &::before { height: 60%; }
-        .group-name { color: var(--ant-primary-color); font-weight: 600; }
-      }
-
-      .group-name { font-size: 14px; }
-      .group-count {
-        font-size: 12px;
-        color: var(--color-text-quaternary, #bfbfbf);
-        background: var(--color-fill-quaternary, #f5f5f5);
-        padding: 0 8px;
-        border-radius: 10px;
-        line-height: 20px;
-      }
-    }
+  h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-heading);
   }
 }
 
-.config-data {
+.config-groups-menu {
   flex: 1;
-  background: var(--color-bg-container);
-  border-radius: 8px;
-  padding: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  min-width: 0;
+  overflow: auto;
+  background: transparent;
+  border: none;
 
-  :deep(.ant-table-thead > tr > th) { background: #fafafa; }
+  :deep(.ant-menu-item) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4px 8px;
+    padding: 10px 12px !important;
+    border-radius: 8px;
+    height: auto;
+    transition: all 0.2s;
 
-  .config-value {
-    font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
-    font-size: 13px;
-    color: var(--color-text-secondary);
+    &::before {
+      // Remove default selected indicator
+      display: none;
+    }
+
+    &:hover {
+      background: var(--color-fill-quaternary, #fafafa);
+    }
+
+    &.ant-menu-item-selected {
+      background: var(--ant-primary-color-deprecated-l-50, rgba(22, 119, 255, 0.06));
+
+      .group-name {
+        color: var(--ant-primary-color);
+        font-weight: 600;
+      }
+    }
+
+    .group-name {
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .group-count {
+      font-size: 12px;
+      color: var(--color-text-quaternary);
+      background: var(--color-fill-quaternary);
+      padding: 0 8px;
+      border-radius: 10px;
+      line-height: 20px;
+      margin-left: 8px;
+      flex-shrink: 0;
+    }
   }
 }
 </style>
