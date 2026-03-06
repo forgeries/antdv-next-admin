@@ -14,10 +14,11 @@
           @click="handleMenuClick"
         >
           <template #labelRender="{ item }">
-            <div class="menu-item-label">
+            <div v-if="item.label && item.key && groups.includes(item.key)" class="menu-item-label">
               <span class="group-name">{{ item.label }}</span>
               <span class="group-count">{{ getGroupCount(item.key) }}</span>
             </div>
+            <span v-else>{{ item.label }}</span>
           </template>
         </a-menu>
       </template>
