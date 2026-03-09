@@ -1,26 +1,27 @@
-import { defineMock } from "vite-plugin-mock-dev-server";
-import { adminUser, regularUser } from "../data/users.data";
+import { defineMock } from 'vite-plugin-mock-dev-server';
+
+import { adminUser, regularUser } from '../data/users.data';
 
 export default defineMock([
   // Login
   {
-    url: "/api/auth/login",
-    method: "POST",
+    url: '/api/auth/login',
+    method: 'POST',
     body: (req) => {
       const { username, password } = req.body;
 
       // Validate credentials
       let user = null;
-      if (username === "admin" && password === "123456") {
+      if (username === 'admin' && password === '123456') {
         user = adminUser;
-      } else if (username === "user" && password === "123456") {
+      } else if (username === 'user' && password === '123456') {
         user = regularUser;
       }
 
       if (user) {
         return {
           code: 200,
-          message: "Login successful",
+          message: 'Login successful',
           data: {
             token: `mock-token-${user.id}-${Date.now()}`,
             refreshToken: `mock-refresh-token-${user.id}-${Date.now()}`,
@@ -31,7 +32,7 @@ export default defineMock([
       } else {
         return {
           code: 401,
-          message: "Invalid username or password",
+          message: 'Invalid username or password',
           data: null,
           success: false,
         };
@@ -41,11 +42,11 @@ export default defineMock([
 
   // Logout
   {
-    url: "/api/auth/logout",
-    method: "POST",
+    url: '/api/auth/logout',
+    method: 'POST',
     body: {
       code: 200,
-      message: "Logout successful",
+      message: 'Logout successful',
       data: null,
       success: true,
     },
@@ -53,28 +54,28 @@ export default defineMock([
 
   // Get user info
   {
-    url: "/api/auth/info",
-    method: "GET",
+    url: '/api/auth/info',
+    method: 'GET',
     body: (req) => {
       // Get token from header
-      const token = req.headers.authorization?.replace("Bearer ", "");
+      const token = req.headers.authorization?.replace('Bearer ', '');
 
       if (!token) {
         return {
           code: 401,
-          message: "Unauthorized",
+          message: 'Unauthorized',
           data: null,
           success: false,
         };
       }
 
       // Extract user ID from token
-      const userId = token.split("-")[2];
-      const user = userId === "1" ? adminUser : regularUser;
+      const userId = token.split('-')[2];
+      const user = userId === '1' ? adminUser : regularUser;
 
       return {
         code: 200,
-        message: "Success",
+        message: 'Success',
         data: user,
         success: true,
       };
@@ -83,15 +84,15 @@ export default defineMock([
 
   // Refresh token
   {
-    url: "/api/auth/refresh",
-    method: "POST",
+    url: '/api/auth/refresh',
+    method: 'POST',
     body: (req) => {
       const { refreshToken } = req.body;
 
       if (refreshToken) {
         return {
           code: 200,
-          message: "Token refreshed",
+          message: 'Token refreshed',
           data: {
             token: `new-mock-token-${Date.now()}`,
             refreshToken: `new-mock-refresh-token-${Date.now()}`,
@@ -102,7 +103,7 @@ export default defineMock([
       } else {
         return {
           code: 401,
-          message: "Invalid refresh token",
+          message: 'Invalid refresh token',
           data: null,
           success: false,
         };

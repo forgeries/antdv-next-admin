@@ -1,7 +1,7 @@
-import { $t } from "@/locales";
+import { $t } from '@/locales';
 
-export function resolveLocaleText(key?: string, fallback = ""): string {
-  const safeFallback = fallback || "-";
+export function resolveLocaleText(key?: string, fallback = ''): string {
+  const safeFallback = fallback || '-';
   if (!key) {
     return safeFallback;
   }

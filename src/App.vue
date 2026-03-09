@@ -11,13 +11,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import { theme as antdTheme, type ThemeConfig } from "antdv-next";
-import { useThemeStore } from "./stores/theme";
-import { useSettingsStore } from "./stores/settings";
-import { useWatermarkStore } from "./stores/watermark";
-import { useNotificationStore } from "./stores/notification";
-import { appDefaultSettings } from "./settings";
+import { theme as antdTheme, type ThemeConfig } from 'antdv-next';
+import { computed, onMounted } from 'vue';
+
+import { appDefaultSettings } from './settings';
+import { useNotificationStore } from './stores/notification';
+import { useSettingsStore } from './stores/settings';
+import { useThemeStore } from './stores/theme';
+import { useWatermarkStore } from './stores/watermark';
 
 const themeStore = useThemeStore();
 const settingsStore = useSettingsStore();

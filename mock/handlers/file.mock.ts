@@ -1,10 +1,11 @@
-import { defineMock } from "vite-plugin-mock-dev-server";
-import { sysFiles } from "../data/file.data";
+import { defineMock } from 'vite-plugin-mock-dev-server';
+
+import { sysFiles } from '../data/file.data';
 
 export default defineMock([
   {
-    url: "/api/file/list",
-    method: "GET",
+    url: '/api/file/list',
+    method: 'GET',
     body: (req) => {
       const { name, ext, storage, page = 1, pageSize = 20 } = req.query;
       let filtered = [...sysFiles];
@@ -18,20 +19,20 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "success",
+        message: 'success',
         data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) },
       };
     },
   },
 
   {
-    url: "/api/file/:id",
-    method: "DELETE",
+    url: '/api/file/:id',
+    method: 'DELETE',
     body: (req) => {
       const index = sysFiles.findIndex((item) => item.id === req.params.id);
-      if (index === -1) return { code: 404, message: "文件不存在" };
+      if (index === -1) return { code: 404, message: '文件不存在' };
       sysFiles.splice(index, 1);
-      return { code: 200, message: "删除成功" };
+      return { code: 200, message: '删除成功' };
     },
   },
 ]);

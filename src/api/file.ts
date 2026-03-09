@@ -1,10 +1,11 @@
-import { request } from "@/utils/request";
-import type { ApiResponse } from "@/types/api";
-import type { SysFile, SysFileQueryParams } from "@/types/file";
+import type { ApiResponse } from '@/types/api';
+import type { SysFile, SysFileQueryParams } from '@/types/file';
 
-const isMock = import.meta.env.VITE_USE_MOCK === "true";
+import { request } from '@/utils/request';
 
-const ok = <T>(data: T, message = "success"): ApiResponse<T> => ({
+const isMock = import.meta.env.VITE_USE_MOCK === 'true';
+
+const ok = <T>(data: T, message = 'success'): ApiResponse<T> => ({
   code: 200,
   message,
   data,
@@ -26,9 +27,9 @@ export async function getFileList(params: SysFileQueryParams): Promise<
     pageSize: number;
   }>
 > {
-  if (!isMock) return request.get("/file/list", { params });
+  if (!isMock) return request.get('/file/list', { params });
 
-  const { sysFiles } = await import("../../mock/data/file.data");
+  const { sysFiles } = await import('../../mock/data/file.data');
   const { page = 1, pageSize = 10, name, ext, storage } = params;
   let filtered = [...sysFiles];
 
@@ -46,10 +47,10 @@ export async function getFileList(params: SysFileQueryParams): Promise<
 export async function deleteFile(id: string): Promise<ApiResponse<void>> {
   if (!isMock) return request.delete(`/file/${id}`);
 
-  const { sysFiles } = await import("../../mock/data/file.data");
+  const { sysFiles } = await import('../../mock/data/file.data');
   const index = sysFiles.findIndex((f) => f.id === id);
-  if (index === -1) return error(404, "文件不存在");
+  if (index === -1) return error(404, '文件不存在');
 
   sysFiles.splice(index, 1);
-  return ok(undefined as any, "删除成功");
+  return ok(undefined as any, '删除成功');
 }

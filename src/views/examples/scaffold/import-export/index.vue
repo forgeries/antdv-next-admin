@@ -1,30 +1,30 @@
 <template>
   <div class="page-container">
     <div class="card">
-      <h2>{{ $t("examples.scaffold.importExport.title") }}</h2>
-      <p class="text-secondary mb-lg">{{ $t("examples.scaffold.importExport.description") }}</p>
+      <h2>{{ $t('examples.scaffold.importExport.title') }}</h2>
+      <p class="text-secondary mb-lg">{{ $t('examples.scaffold.importExport.description') }}</p>
 
       <a-space wrap class="mb-lg">
         <a-button @click="downloadTemplate">
           <DownloadOutlined />
-          {{ $t("examples.scaffold.importExport.downloadTemplate") }}
+          {{ $t('examples.scaffold.importExport.downloadTemplate') }}
         </a-button>
 
         <a-upload :show-upload-list="false" accept=".csv" :before-upload="handleImport">
           <a-button type="primary" :loading="importing">
             <UploadOutlined />
-            {{ $t("examples.scaffold.importExport.importCsv") }}
+            {{ $t('examples.scaffold.importExport.importCsv') }}
           </a-button>
         </a-upload>
 
         <a-button @click="exportCurrentData">
           <DownloadOutlined />
-          {{ $t("examples.scaffold.importExport.exportCurrent") }}
+          {{ $t('examples.scaffold.importExport.exportCurrent') }}
         </a-button>
 
         <a-button :disabled="importErrors.length === 0" @click="exportErrorReceipt">
           <DownloadOutlined />
-          {{ $t("examples.scaffold.importExport.exportErrorReceipt") }}
+          {{ $t('examples.scaffold.importExport.exportErrorReceipt') }}
         </a-button>
       </a-space>
 
@@ -84,10 +84,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { message } from "antdv-next";
-import { DownloadOutlined, UploadOutlined } from "@antdv-next/icons";
-import { $t } from "@/locales";
+import { DownloadOutlined, UploadOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { computed, ref } from 'vue';
+
+import { $t } from '@/locales';
 
 interface ProductRow {
   code: string;
@@ -112,9 +113,9 @@ interface ImportSummary {
 }
 
 const rows = ref<ProductRow[]>([
-  { code: "SKU-1001", name: "Keyboard", category: "Accessory", price: 299, stock: 120 },
-  { code: "SKU-1002", name: "Mouse", category: "Accessory", price: 159, stock: 200 },
-  { code: "SKU-1003", name: "Monitor", category: "Display", price: 1299, stock: 45 },
+  { code: 'SKU-1001', name: 'Keyboard', category: 'Accessory', price: 299, stock: 120 },
+  { code: 'SKU-1002', name: 'Mouse', category: 'Accessory', price: 159, stock: 200 },
+  { code: 'SKU-1003', name: 'Monitor', category: 'Display', price: 1299, stock: 45 },
 ]);
 
 const importing = ref(false);
@@ -127,30 +128,30 @@ const lastSummary = ref<ImportSummary>({
 });
 
 const dataColumns = computed(() => [
-  { title: $t("examples.scaffold.importExport.colCode"), dataIndex: "code", width: 140 },
-  { title: $t("examples.scaffold.importExport.colName"), dataIndex: "name", width: 220 },
-  { title: $t("examples.scaffold.importExport.colCategory"), dataIndex: "category", width: 160 },
-  { title: $t("examples.scaffold.importExport.colPrice"), dataIndex: "price", width: 120 },
-  { title: $t("examples.scaffold.importExport.colStock"), dataIndex: "stock", width: 120 },
+  { title: $t('examples.scaffold.importExport.colCode'), dataIndex: 'code', width: 140 },
+  { title: $t('examples.scaffold.importExport.colName'), dataIndex: 'name', width: 220 },
+  { title: $t('examples.scaffold.importExport.colCategory'), dataIndex: 'category', width: 160 },
+  { title: $t('examples.scaffold.importExport.colPrice'), dataIndex: 'price', width: 120 },
+  { title: $t('examples.scaffold.importExport.colStock'), dataIndex: 'stock', width: 120 },
 ]);
 
 const errorColumns = computed(() => [
-  { title: $t("examples.scaffold.importExport.errorRowNo"), dataIndex: "rowNo", width: 100 },
-  { title: $t("examples.scaffold.importExport.errorReason"), dataIndex: "reason", width: 260 },
-  { title: $t("examples.scaffold.importExport.errorRaw"), dataIndex: "raw" },
+  { title: $t('examples.scaffold.importExport.errorRowNo'), dataIndex: 'rowNo', width: 100 },
+  { title: $t('examples.scaffold.importExport.errorReason'), dataIndex: 'reason', width: 260 },
+  { title: $t('examples.scaffold.importExport.errorRaw'), dataIndex: 'raw' },
 ]);
 
 function downloadTemplate() {
-  const header = ["code", "name", "category", "price", "stock"];
+  const header = ['code', 'name', 'category', 'price', 'stock'];
   const examples = [
-    ["SKU-2001", "Laptop Stand", "Accessory", "399", "80"],
-    ["SKU-2002", "USB-C Hub", "Accessory", "259", "150"],
+    ['SKU-2001', 'Laptop Stand', 'Accessory', '399', '80'],
+    ['SKU-2002', 'USB-C Hub', 'Accessory', '259', '150'],
   ];
-  downloadCsv([header, ...examples], "import-template.csv");
+  downloadCsv([header, ...examples], 'import-template.csv');
 }
 
 function exportCurrentData() {
-  const header = ["code", "name", "category", "price", "stock"];
+  const header = ['code', 'name', 'category', 'price', 'stock'];
   const body = rows.value.map((item) => [
     item.code,
     item.name,
@@ -158,7 +159,7 @@ function exportCurrentData() {
     String(item.price),
     String(item.stock),
   ]);
-  downloadCsv([header, ...body], "products-export.csv");
+  downloadCsv([header, ...body], 'products-export.csv');
 }
 
 function exportErrorReceipt() {
@@ -166,9 +167,9 @@ function exportErrorReceipt() {
     return;
   }
 
-  const header = ["rowNo", "reason", "raw"];
+  const header = ['rowNo', 'reason', 'raw'];
   const body = importErrors.value.map((item) => [String(item.rowNo), item.reason, item.raw]);
-  downloadCsv([header, ...body], "import-error-receipt.csv");
+  downloadCsv([header, ...body], 'import-error-receipt.csv');
 }
 
 async function handleImport(file: File) {
@@ -178,21 +179,21 @@ async function handleImport(file: File) {
     const text = await file.text();
     const rowsInCsv = parseCsv(text);
     if (rowsInCsv.length < 2) {
-      message.warning($t("examples.scaffold.importExport.emptyFile"));
+      message.warning($t('examples.scaffold.importExport.emptyFile'));
       return false;
     }
 
     const header = rowsInCsv[0].map((item) => item.trim().toLowerCase());
     const indexes = {
-      code: header.indexOf("code"),
-      name: header.indexOf("name"),
-      category: header.indexOf("category"),
-      price: header.indexOf("price"),
-      stock: header.indexOf("stock"),
+      code: header.indexOf('code'),
+      name: header.indexOf('name'),
+      category: header.indexOf('category'),
+      price: header.indexOf('price'),
+      stock: header.indexOf('stock'),
     };
 
     if (Object.values(indexes).some((index) => index < 0)) {
-      message.error($t("examples.scaffold.importExport.invalidHeader"));
+      message.error($t('examples.scaffold.importExport.invalidHeader'));
       return false;
     }
 
@@ -215,8 +216,8 @@ async function handleImport(file: File) {
         errors.push({
           id: `${rowNo}-required`,
           rowNo,
-          reason: $t("examples.scaffold.importExport.errorRequired"),
-          raw: line.join(" | "),
+          reason: $t('examples.scaffold.importExport.errorRequired'),
+          raw: line.join(' | '),
         });
         return;
       }
@@ -225,8 +226,8 @@ async function handleImport(file: File) {
         errors.push({
           id: `${rowNo}-price`,
           rowNo,
-          reason: $t("examples.scaffold.importExport.errorPrice"),
-          raw: line.join(" | "),
+          reason: $t('examples.scaffold.importExport.errorPrice'),
+          raw: line.join(' | '),
         });
         return;
       }
@@ -235,8 +236,8 @@ async function handleImport(file: File) {
         errors.push({
           id: `${rowNo}-stock`,
           rowNo,
-          reason: $t("examples.scaffold.importExport.errorStock"),
-          raw: line.join(" | "),
+          reason: $t('examples.scaffold.importExport.errorStock'),
+          raw: line.join(' | '),
         });
         return;
       }
@@ -271,14 +272,14 @@ async function handleImport(file: File) {
     };
 
     message.success(
-      $t("examples.scaffold.importExport.importDone", {
+      $t('examples.scaffold.importExport.importDone', {
         success: lastSummary.value.success,
         failed: lastSummary.value.failed,
       }),
     );
   } catch (error) {
     console.error(error);
-    message.error($t("examples.scaffold.importExport.parseFailed"));
+    message.error($t('examples.scaffold.importExport.parseFailed'));
   } finally {
     importing.value = false;
   }
@@ -288,8 +289,8 @@ async function handleImport(file: File) {
 
 function parseCsv(csvText: string) {
   const lines = csvText
-    .replace(/\r/g, "")
-    .split("\n")
+    .replace(/\r/g, '')
+    .split('\n')
     .map((line) => line.trim())
     .filter(Boolean);
 
@@ -298,7 +299,7 @@ function parseCsv(csvText: string) {
 
 function parseCsvLine(line: string) {
   const result: string[] = [];
-  let current = "";
+  let current = '';
   let inQuotes = false;
 
   for (let i = 0; i < line.length; i += 1) {
@@ -315,9 +316,9 @@ function parseCsvLine(line: string) {
       continue;
     }
 
-    if (char === "," && !inQuotes) {
+    if (char === ',' && !inQuotes) {
       result.push(current.trim());
-      current = "";
+      current = '';
       continue;
     }
 
@@ -330,20 +331,20 @@ function parseCsvLine(line: string) {
 
 function getCell(line: string[], index: number) {
   if (index < 0 || index >= line.length) {
-    return "";
+    return '';
   }
   return line[index].trim();
 }
 
 function downloadCsv(rowsForExport: string[][], fileName: string) {
   const csv = rowsForExport
-    .map((line) => line.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(","))
-    .join("\n");
+    .map((line) => line.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(','))
+    .join('\n');
 
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
 
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
   link.download = fileName;
   link.click();

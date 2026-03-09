@@ -85,7 +85,7 @@
       <template #footer>
         <a-space>
           <a-button @click="toggleEditMode" size="small">
-            {{ useRawEdit ? "结构编辑" : "原始编辑" }}
+            {{ useRawEdit ? '结构编辑' : '原始编辑' }}
           </a-button>
           <a-button @click="handleCancel" size="small">
             {{ cancelText }}
@@ -132,18 +132,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, type PropType } from "vue";
-import { EditOutlined } from "@antdv-next/icons";
-import { message } from "antdv-next";
+import { EditOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { ref, computed, watch, type PropType } from 'vue';
+
 import JsonFieldTreeList, {
   type FieldType,
   type JsonObject,
   type FieldConfig,
   type JsonTreeEditorApi,
-} from "./JsonFieldTreeList.vue";
+} from './JsonFieldTreeList.vue';
 
 defineOptions({
-  name: "JsonInput",
+  name: 'JsonInput',
 });
 
 interface LabelMap {
@@ -171,7 +172,7 @@ const props = defineProps({
   },
   displayKey: {
     type: String,
-    default: "",
+    default: '',
   },
   labelMap: {
     type: Object as PropType<LabelMap>,
@@ -203,19 +204,19 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "",
+    default: '',
   },
   modalTitle: {
     type: String,
-    default: "",
+    default: '',
   },
   modalWidth: {
     type: String,
-    default: "900px",
+    default: '900px',
   },
 });
 
-const emit = defineEmits(["update:value", "change"]);
+const emit = defineEmits(['update:value', 'change']);
 
 const modalVisible = ref(false);
 const editData = ref<JsonObject>({});
@@ -223,29 +224,29 @@ const fieldOrderMap = ref<Record<string, string[]>>({});
 const dynamicTypeMap = ref<Record<string, FieldType>>({});
 const arrayTextBuffer = ref<Record<string, string>>({});
 const expandedPathKeys = ref<string[]>([]);
-const errorMessage = ref("");
+const errorMessage = ref('');
 const useRawEdit = ref(false);
-const rawJsonText = ref("");
-const hoveredFieldPathKey = ref("");
-const draggingFieldPathKey = ref("");
+const rawJsonText = ref('');
+const hoveredFieldPathKey = ref('');
+const draggingFieldPathKey = ref('');
 const showAddFieldDialog = ref(false);
 const addFieldTargetPath = ref<string[]>([]);
-const newField = ref<{ name: string; type: FieldType }>({ name: "", type: "string" });
+const newField = ref<{ name: string; type: FieldType }>({ name: '', type: 'string' });
 
-const okText = "确定";
-const cancelText = "取消";
+const okText = '确定';
+const cancelText = '取消';
 const fieldTypeOptions: Array<{ label: string; value: FieldType }> = [
-  { label: "文本", value: "string" },
-  { label: "数字", value: "number" },
-  { label: "布尔值", value: "boolean" },
-  { label: "标签", value: "tags" },
-  { label: "数组", value: "array" },
-  { label: "对象", value: "object" },
+  { label: '文本', value: 'string' },
+  { label: '数字', value: 'number' },
+  { label: '布尔值', value: 'boolean' },
+  { label: '标签', value: 'tags' },
+  { label: '数组', value: 'array' },
+  { label: '对象', value: 'object' },
 ];
 
 const displayValue = computed(() => {
   if (!props.value) {
-    return "";
+    return '';
   }
   if (props.displayKey && props.value[props.displayKey] !== undefined) {
     return String(props.value[props.displayKey]);
@@ -256,7 +257,7 @@ const displayValue = computed(() => {
 const rootFieldCount = computed(() => getFieldOrderByPath([]).length);
 
 function isPlainObject(value: unknown): value is JsonObject {
-  return Object.prototype.toString.call(value) === "[object Object]";
+  return Object.prototype.toString.call(value) === '[object Object]';
 }
 
 function deepCloneObject<T>(value: T): T {
@@ -277,7 +278,7 @@ function serializePath(path: string[]): string {
 function parsePath(pathKey: string): string[] {
   try {
     const parsed: unknown = JSON.parse(pathKey);
-    if (Array.isArray(parsed) && parsed.every((item) => typeof item === "string")) {
+    if (Array.isArray(parsed) && parsed.every((item) => typeof item === 'string')) {
       return parsed;
     }
   } catch {
@@ -330,24 +331,24 @@ function getFieldPathKey(path: string[], key: string): string {
 }
 
 function getFieldConfigByPath(path: string[], key: string): FieldConfig | undefined {
-  const fullPathKey = getFieldPath(path, key).join(".");
+  const fullPathKey = getFieldPath(path, key).join('.');
   return props.fieldConfig[fullPathKey] || props.fieldConfig[key];
 }
 
 function getFieldLabelByPath(path: string[], key: string): string {
   const config = getFieldConfigByPath(path, key);
-  const fullPathKey = getFieldPath(path, key).join(".");
+  const fullPathKey = getFieldPath(path, key).join('.');
   return config?.label || props.labelMap[fullPathKey] || props.labelMap[key] || key;
 }
 
 function hasLabelMapByPath(path: string[], key: string): boolean {
   const config = getFieldConfigByPath(path, key);
-  const fullPathKey = getFieldPath(path, key).join(".");
+  const fullPathKey = getFieldPath(path, key).join('.');
   return Boolean(config?.label || props.labelMap[fullPathKey] || props.labelMap[key]);
 }
 
 function isLongTextFieldByPath(path: string[], key: string): boolean {
-  return getFieldConfigByPath(path, key)?.component === "textarea";
+  return getFieldConfigByPath(path, key)?.component === 'textarea';
 }
 
 function setDynamicFieldType(path: string[], key: string, type: FieldType) {
@@ -382,33 +383,33 @@ function getFieldTypeByPath(path: string[], key: string): FieldType {
   const value = target ? target[key] : undefined;
 
   if (value === null || value === undefined) {
-    return "string";
+    return 'string';
   }
-  if (typeof value === "boolean") {
-    return "boolean";
+  if (typeof value === 'boolean') {
+    return 'boolean';
   }
-  if (typeof value === "number") {
-    return "number";
+  if (typeof value === 'number') {
+    return 'number';
   }
   if (Array.isArray(value)) {
-    if (value.length > 0 && value.every((item) => typeof item === "string")) {
-      return "tags";
+    if (value.length > 0 && value.every((item) => typeof item === 'string')) {
+      return 'tags';
     }
-    return "array";
+    return 'array';
   }
   if (isPlainObject(value)) {
-    return "object";
+    return 'object';
   }
-  return "string";
+  return 'string';
 }
 
 function isFieldDisabledByPath(path: string[], key: string): boolean {
-  const fullPathKey = getFieldPath(path, key).join(".");
+  const fullPathKey = getFieldPath(path, key).join('.');
   return props.disabledFields.includes(fullPathKey) || props.disabledFields.includes(key);
 }
 
 function isFieldReadonlyByPath(path: string[], key: string): boolean {
-  const fullPathKey = getFieldPath(path, key).join(".");
+  const fullPathKey = getFieldPath(path, key).join('.');
   return (
     isFieldDisabledByPath(path, key) ||
     props.readonlyFields.includes(fullPathKey) ||
@@ -464,9 +465,9 @@ function formatPathSegment(segment: string): string {
 
 function formatPathLabel(path: string[]): string {
   if (path.length === 0) {
-    return "root";
+    return 'root';
   }
-  return ["root", ...path.map(formatPathSegment)].join(" / ");
+  return ['root', ...path.map(formatPathSegment)].join(' / ');
 }
 
 function getObjectSummaryByPath(path: string[], key: string): string {
@@ -475,7 +476,7 @@ function getObjectSummaryByPath(path: string[], key: string): string {
   if (isPlainObject(value)) {
     return `对象（${Object.keys(value).length} 个字段）`;
   }
-  return "对象";
+  return '对象';
 }
 
 function parseArrayTextValue(value: string): unknown[] {
@@ -486,7 +487,7 @@ function parseArrayTextValue(value: string): unknown[] {
 
   const parsed = JSON.parse(trimmed);
   if (!Array.isArray(parsed)) {
-    throw new Error("NOT_ARRAY");
+    throw new Error('NOT_ARRAY');
   }
 
   return parsed;
@@ -505,10 +506,10 @@ function getArrayFieldTextByPath(path: string[], key: string): string {
   if (Array.isArray(value)) {
     return JSON.stringify(value, null, 2);
   }
-  if (typeof value === "string") {
+  if (typeof value === 'string') {
     return value;
   }
-  return "[]";
+  return '[]';
 }
 
 function onArrayTextChangeByPath(path: string[], key: string, value: string) {
@@ -547,7 +548,7 @@ function commitArrayBuffer(path: string[]): boolean {
 
 function validateArrayByPath(path: string[], key: string) {
   if (commitArrayBuffer(getFieldPath(path, key))) {
-    errorMessage.value = "";
+    errorMessage.value = '';
   }
 }
 
@@ -668,8 +669,8 @@ function resetEditorState(nextValue: JsonObject) {
   fieldOrderMap.value = {};
   dynamicTypeMap.value = {};
   arrayTextBuffer.value = {};
-  hoveredFieldPathKey.value = "";
-  draggingFieldPathKey.value = "";
+  hoveredFieldPathKey.value = '';
+  draggingFieldPathKey.value = '';
   addFieldTargetPath.value = [];
   getFieldOrderByPath([]);
   expandedPathKeys.value = collectObjectPathKeys(nextValue);
@@ -677,7 +678,7 @@ function resetEditorState(nextValue: JsonObject) {
 
 function showModal() {
   modalVisible.value = true;
-  errorMessage.value = "";
+  errorMessage.value = '';
   useRawEdit.value = false;
   showAddFieldDialog.value = false;
 
@@ -689,24 +690,24 @@ function showModal() {
 function handleCancel() {
   modalVisible.value = false;
   showAddFieldDialog.value = false;
-  errorMessage.value = "";
+  errorMessage.value = '';
 }
 
 function handleOk() {
-  errorMessage.value = "";
+  errorMessage.value = '';
 
   if (useRawEdit.value) {
     try {
       const parsed: unknown = JSON.parse(rawJsonText.value);
       if (!isPlainObject(parsed)) {
-        errorMessage.value = "JSON 根节点必须是对象";
+        errorMessage.value = 'JSON 根节点必须是对象';
         return;
       }
-      emit("update:value", parsed);
-      emit("change", parsed);
+      emit('update:value', parsed);
+      emit('change', parsed);
       modalVisible.value = false;
     } catch {
-      errorMessage.value = "JSON 格式错误";
+      errorMessage.value = 'JSON 格式错误';
     }
     return;
   }
@@ -717,12 +718,12 @@ function handleOk() {
 
   const result = buildOrderedValue(editData.value);
   if (!isPlainObject(result)) {
-    errorMessage.value = "JSON 根节点必须是对象";
+    errorMessage.value = 'JSON 根节点必须是对象';
     return;
   }
 
-  emit("update:value", result);
-  emit("change", result);
+  emit('update:value', result);
+  emit('change', result);
   modalVisible.value = false;
 }
 
@@ -739,68 +740,68 @@ function toggleEditMode() {
   try {
     const parsed: unknown = JSON.parse(rawJsonText.value);
     if (!isPlainObject(parsed)) {
-      errorMessage.value = "JSON 根节点必须是对象";
+      errorMessage.value = 'JSON 根节点必须是对象';
       return;
     }
 
     resetEditorState(parsed);
-    errorMessage.value = "";
+    errorMessage.value = '';
     useRawEdit.value = false;
   } catch {
-    errorMessage.value = "JSON 格式错误";
+    errorMessage.value = 'JSON 格式错误';
   }
 }
 
 function openAddFieldDialog(path: string[]) {
   const target = getObjectByPath(path);
   if (!target) {
-    message.warning("目标对象不存在");
+    message.warning('目标对象不存在');
     return;
   }
 
   addFieldTargetPath.value = [...path];
-  newField.value = { name: "", type: "string" };
+  newField.value = { name: '', type: 'string' };
   showAddFieldDialog.value = true;
 }
 
 function handleAddField() {
   const fieldName = newField.value.name.trim();
   if (!fieldName) {
-    message.warning("请输入字段名");
+    message.warning('请输入字段名');
     return;
   }
 
   const targetPath = [...addFieldTargetPath.value];
   const targetObject = getObjectByPath(targetPath);
   if (!targetObject) {
-    message.warning("目标对象不存在");
+    message.warning('目标对象不存在');
     return;
   }
 
   if (Object.prototype.hasOwnProperty.call(targetObject, fieldName)) {
-    message.warning("字段已存在");
+    message.warning('字段已存在');
     return;
   }
 
-  let defaultValue: unknown = "";
+  let defaultValue: unknown = '';
   switch (newField.value.type) {
-    case "boolean":
+    case 'boolean':
       defaultValue = false;
       break;
-    case "number":
+    case 'number':
       defaultValue = 0;
       break;
-    case "tags":
+    case 'tags':
       defaultValue = [];
       break;
-    case "array":
+    case 'array':
       defaultValue = [];
       break;
-    case "object":
+    case 'object':
       defaultValue = {};
       break;
     default:
-      defaultValue = "";
+      defaultValue = '';
   }
 
   const currentOrder = getFieldOrderByPath(targetPath).filter((key) => key !== fieldName);
@@ -808,17 +809,17 @@ function handleAddField() {
   setDynamicFieldType(targetPath, fieldName, newField.value.type);
   setFieldOrderByPath(targetPath, [...currentOrder, fieldName]);
 
-  if (newField.value.type === "array") {
-    arrayTextBuffer.value[getFieldPathKey(targetPath, fieldName)] = "[]";
+  if (newField.value.type === 'array') {
+    arrayTextBuffer.value[getFieldPathKey(targetPath, fieldName)] = '[]';
   }
 
-  if (newField.value.type === "object") {
+  if (newField.value.type === 'object') {
     setPathExpanded(getFieldPath(targetPath, fieldName), true);
   }
 
-  newField.value = { name: "", type: "string" };
+  newField.value = { name: '', type: 'string' };
   showAddFieldDialog.value = false;
-  message.success("添加成功");
+  message.success('添加成功');
 }
 
 function onRemoveField(payload: RemoveFieldPayload) {
@@ -840,10 +841,10 @@ function onRemoveField(payload: RemoveFieldPayload) {
 
   const removedPathKey = serializePath(removedPath);
   if (hoveredFieldPathKey.value === removedPathKey) {
-    hoveredFieldPathKey.value = "";
+    hoveredFieldPathKey.value = '';
   }
   if (draggingFieldPathKey.value === removedPathKey) {
-    draggingFieldPathKey.value = "";
+    draggingFieldPathKey.value = '';
   }
 }
 
@@ -853,17 +854,17 @@ function onHoverChange(pathKey: string) {
 
 function onDragStart(payload: DragStartPayload) {
   if (payload.oldIndex === undefined) {
-    draggingFieldPathKey.value = "";
+    draggingFieldPathKey.value = '';
     return;
   }
 
   const currentOrder = getFieldOrderByPath(payload.path);
   const fieldKey = currentOrder[payload.oldIndex];
-  draggingFieldPathKey.value = fieldKey ? getFieldPathKey(payload.path, fieldKey) : "";
+  draggingFieldPathKey.value = fieldKey ? getFieldPathKey(payload.path, fieldKey) : '';
 }
 
 function onDragEnd() {
-  draggingFieldPathKey.value = "";
+  draggingFieldPathKey.value = '';
 }
 
 const treeEditorApi: JsonTreeEditorApi = {
@@ -959,7 +960,7 @@ watch(
 }
 
 .raw-editor {
-  font-family: "Monaco", "Menlo", "Consolas", monospace;
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
   font-size: 13px;
 }
 </style>

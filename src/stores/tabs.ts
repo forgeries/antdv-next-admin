@@ -1,16 +1,19 @@
-import { defineStore } from "pinia";
-import { ref, computed, watch } from "vue";
-import type { Tab } from "@/types/layout";
-import type { RouteLocationNormalized } from "vue-router";
-import router from "@/router";
-import { useSettingsStore } from "./settings";
+import type { Tab } from '@/types/layout';
+import type { RouteLocationNormalized } from 'vue-router';
 
-const TABS_STORAGE_KEY = "app-tabs-state";
+import { defineStore } from 'pinia';
+import { ref, computed, watch } from 'vue';
 
-export const useTabsStore = defineStore("tabs", () => {
+import router from '@/router';
+
+import { useSettingsStore } from './settings';
+
+const TABS_STORAGE_KEY = 'app-tabs-state';
+
+export const useTabsStore = defineStore('tabs', () => {
   // State
   const tabs = ref<Tab[]>([]);
-  const activeTabPath = ref<string>("");
+  const activeTabPath = ref<string>('');
   const refreshingRoutes = ref<string[]>([]);
   const isRestored = ref(false);
 
@@ -31,21 +34,21 @@ export const useTabsStore = defineStore("tabs", () => {
       }
     }
 
-    activeTabPath.value = tabs.value[0]?.path || "";
+    activeTabPath.value = tabs.value[0]?.path || '';
   };
 
-  const resolveRoutePath = (path: string, basePath = ""): string => {
+  const resolveRoutePath = (path: string, basePath = ''): string => {
     if (!path) {
-      return basePath || "/";
+      return basePath || '/';
     }
 
-    if (path.startsWith("/")) {
+    if (path.startsWith('/')) {
       return path;
     }
 
-    const normalizedBase = basePath === "/" ? "" : basePath.replace(/\/$/, "");
-    const resolved = `${normalizedBase}/${path}`.replace(/\/+/g, "/");
-    return resolved.startsWith("/") ? resolved : `/${resolved}`;
+    const normalizedBase = basePath === '/' ? '' : basePath.replace(/\/$/, '');
+    const resolved = `${normalizedBase}/${path}`.replace(/\/+/g, '/');
+    return resolved.startsWith('/') ? resolved : `/${resolved}`;
   };
 
   // Getters
@@ -120,7 +123,7 @@ export const useTabsStore = defineStore("tabs", () => {
     // If closing active tab, activate adjacent tab
     if (activeTabPath.value === path) {
       const nextTab = tabs.value[index] || tabs.value[index - 1];
-      activeTabPath.value = nextTab?.path || "";
+      activeTabPath.value = nextTab?.path || '';
     }
 
     ensureActiveTab();
@@ -180,7 +183,7 @@ export const useTabsStore = defineStore("tabs", () => {
 
       // 2. Navigate to redirect page
       // This will unmount the current component and mount the Redirect component
-      await router.replace("/redirect" + path);
+      await router.replace('/redirect' + path);
 
       // 3. Restore cache state
       // The Redirect component will immediately navigate back to the original path.
@@ -198,9 +201,9 @@ export const useTabsStore = defineStore("tabs", () => {
   const initAffixTabs = (routes: any[]) => {
     const affixTabs: Tab[] = [];
 
-    const findAffixRoutes = (routes: any[], basePath = "") => {
+    const findAffixRoutes = (routes: any[], basePath = '') => {
       routes.forEach((route) => {
-        const routePath = route.path ? String(route.path) : "";
+        const routePath = route.path ? String(route.path) : '';
         const fullPath = resolveRoutePath(routePath, basePath);
 
         if (route.meta?.affix && routePath) {
@@ -257,9 +260,9 @@ export const useTabsStore = defineStore("tabs", () => {
       if (state.tabs && Array.isArray(state.tabs) && state.tabs.length > 0) {
         // Filter out tabs that no longer exist in routes
         const validPaths = new Set<string>();
-        const collectPaths = (routeList: any[], basePath = "") => {
+        const collectPaths = (routeList: any[], basePath = '') => {
           routeList.forEach((route) => {
-            const routePath = route.path ? String(route.path) : "";
+            const routePath = route.path ? String(route.path) : '';
             const fullPath = resolveRoutePath(routePath, basePath);
             validPaths.add(fullPath);
             if (route.children) {

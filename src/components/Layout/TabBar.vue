@@ -34,10 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { Dropdown } from "antdv-next";
+import type { Tab } from '@/types/layout';
+
 import {
   ReloadOutlined,
   FullscreenOutlined,
@@ -52,12 +50,16 @@ import {
   VerticalRightOutlined,
   StarOutlined,
   StarFilled,
-} from "@antdv-next/icons";
-import { useTabsStore } from "@/stores/tabs";
-import { useLayoutStore } from "@/stores/layout";
-import type { Tab } from "@/types/layout";
-import { resolveLocaleText } from "@/utils/i18n";
-import { resolveIcon } from "@/utils/icon";
+} from '@antdv-next/icons';
+import { Dropdown } from 'antdv-next';
+import { computed, h } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+
+import { useLayoutStore } from '@/stores/layout';
+import { useTabsStore } from '@/stores/tabs';
+import { resolveLocaleText } from '@/utils/i18n';
+import { resolveIcon } from '@/utils/icon';
 
 const route = useRoute();
 const router = useRouter();
@@ -71,14 +73,14 @@ const toggleFullscreen = () => {
 };
 
 type TabMenuKey =
-  | "close"
-  | "pin"
-  | "favorite"
-  | "refresh"
-  | "closeLeft"
-  | "closeRight"
-  | "closeOthers"
-  | "closeAll";
+  | 'close'
+  | 'pin'
+  | 'favorite'
+  | 'refresh'
+  | 'closeLeft'
+  | 'closeRight'
+  | 'closeOthers'
+  | 'closeAll';
 
 const activeKey = computed({
   get: () => tabsStore.activeTabPath,
@@ -98,11 +100,11 @@ const tabItems = computed(() => {
   return tabsStore.tabs.map((tab) => ({
     key: tab.path,
     closable: tab.closable,
-    label: h("span", { class: "tab-label-wrapper" }, [
+    label: h('span', { class: 'tab-label-wrapper' }, [
       h(
         Dropdown,
         {
-          trigger: ["contextmenu"],
+          trigger: ['contextmenu'],
           menu: {
             items: getTabMenuItems(tab),
             onClick: ({ key }: { key: string | number }) =>
@@ -112,11 +114,11 @@ const tabItems = computed(() => {
         {
           default: () => {
             const icon = getTabIcon(tab);
-            return h("span", { class: "tab-label" }, [
-              icon ? h(icon, { class: "tab-menu-icon" }) : null,
-              h("span", { class: "tab-text" }, getTabLabel(tab)),
-              tab.favorite ? h(StarFilled, { class: "tab-favorite-icon" }) : null,
-              isTabFixed(tab) ? h(PushpinFilled, { class: "tab-pin-icon" }) : null,
+            return h('span', { class: 'tab-label' }, [
+              icon ? h(icon, { class: 'tab-menu-icon' }) : null,
+              h('span', { class: 'tab-text' }, getTabLabel(tab)),
+              tab.favorite ? h(StarFilled, { class: 'tab-favorite-icon' }) : null,
+              isTabFixed(tab) ? h(PushpinFilled, { class: 'tab-pin-icon' }) : null,
             ]);
           },
         },
@@ -165,52 +167,52 @@ const getTabMenuItems = (tab: Tab) => {
   // Call t() function to get reactive translations
   return [
     {
-      key: "close",
+      key: 'close',
       icon: h(CloseOutlined),
-      label: t("layout.tabs.close"),
+      label: t('layout.tabs.close'),
       disabled: !latestTab.closable,
     },
     {
-      key: "pin",
+      key: 'pin',
       icon: h(latestTab.pinned ? PushpinFilled : PushpinOutlined),
-      label: latestTab.pinned ? t("layout.tabs.unpin") : t("layout.tabs.pin"),
+      label: latestTab.pinned ? t('layout.tabs.unpin') : t('layout.tabs.pin'),
       disabled: Boolean(latestTab.affix),
     },
     {
-      key: "favorite",
+      key: 'favorite',
       icon: h(latestTab.favorite ? StarFilled : StarOutlined),
-      label: latestTab.favorite ? t("layout.tabs.unfavorite") : t("layout.tabs.favorite"),
+      label: latestTab.favorite ? t('layout.tabs.unfavorite') : t('layout.tabs.favorite'),
     },
     {
-      key: "refresh",
+      key: 'refresh',
       icon: h(ReloadOutlined),
-      label: t("layout.tabs.refresh"),
+      label: t('layout.tabs.refresh'),
     },
     {
-      type: "divider",
+      type: 'divider',
     },
     {
-      key: "closeLeft",
+      key: 'closeLeft',
       icon: h(VerticalLeftOutlined),
-      label: t("layout.tabs.closeLeft"),
+      label: t('layout.tabs.closeLeft'),
       disabled: !hasClosableLeftTabs(tab),
     },
     {
-      key: "closeRight",
+      key: 'closeRight',
       icon: h(VerticalRightOutlined),
-      label: t("layout.tabs.closeRight"),
+      label: t('layout.tabs.closeRight'),
       disabled: !hasClosableRightTabs(tab),
     },
     {
-      key: "closeOthers",
+      key: 'closeOthers',
       icon: h(CloseCircleOutlined),
-      label: t("layout.tabs.closeOthers"),
+      label: t('layout.tabs.closeOthers'),
       disabled: !hasClosableOtherTabs(tab),
     },
     {
-      key: "closeAll",
+      key: 'closeAll',
       icon: h(CloseSquareOutlined),
-      label: t("layout.tabs.closeAll"),
+      label: t('layout.tabs.closeAll'),
       disabled: !hasClosableTabs.value,
     },
   ];
@@ -220,8 +222,8 @@ const syncRouteWithActiveTab = () => {
   const active =
     tabsStore.tabs.find((tab) => tab.path === tabsStore.activeTabPath) || tabsStore.tabs[0];
   if (!active) {
-    if (route.path !== "/dashboard") {
-      router.push("/dashboard");
+    if (route.path !== '/dashboard') {
+      router.push('/dashboard');
     }
     return;
   }
@@ -234,32 +236,32 @@ const syncRouteWithActiveTab = () => {
 const handleContextMenu = (e: { key: string }, tab: Tab) => {
   const { key } = e;
   switch (key as TabMenuKey) {
-    case "close":
+    case 'close':
       tabsStore.closeTab(tab.path);
       syncRouteWithActiveTab();
       break;
-    case "pin":
+    case 'pin':
       tabsStore.togglePinTab(tab.path);
       break;
-    case "favorite":
+    case 'favorite':
       tabsStore.toggleFavoriteTab(tab.path);
       break;
-    case "refresh":
+    case 'refresh':
       tabsStore.refreshTab(tab.path);
       break;
-    case "closeOthers":
+    case 'closeOthers':
       tabsStore.closeOtherTabs(tab.path);
       syncRouteWithActiveTab();
       break;
-    case "closeAll":
+    case 'closeAll':
       tabsStore.closeAllTabs();
       syncRouteWithActiveTab();
       break;
-    case "closeLeft":
+    case 'closeLeft':
       tabsStore.closeLeftTabs(tab.path);
       syncRouteWithActiveTab();
       break;
-    case "closeRight":
+    case 'closeRight':
       tabsStore.closeRightTabs(tab.path);
       syncRouteWithActiveTab();
       break;

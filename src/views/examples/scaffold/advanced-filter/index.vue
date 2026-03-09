@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="card">
-      <h2>{{ $t("examples.scaffold.advancedFilter.title") }}</h2>
-      <p class="text-secondary mb-lg">{{ $t("examples.scaffold.advancedFilter.description") }}</p>
+      <h2>{{ $t('examples.scaffold.advancedFilter.title') }}</h2>
+      <p class="text-secondary mb-lg">{{ $t('examples.scaffold.advancedFilter.description') }}</p>
 
       <a-alert
         class="mb-lg"
@@ -19,15 +19,15 @@
           </a-radio-group>
           <a-button type="dashed" @click="addCondition">
             <PlusOutlined />
-            {{ $t("examples.scaffold.advancedFilter.addCondition") }}
+            {{ $t('examples.scaffold.advancedFilter.addCondition') }}
           </a-button>
-          <a-button @click="resetConditions">{{ $t("common.reset") }}</a-button>
+          <a-button @click="resetConditions">{{ $t('common.reset') }}</a-button>
           <a-button type="primary" :disabled="conditions.length === 0" @click="openSaveModal">
-            {{ $t("examples.scaffold.advancedFilter.saveScheme") }}
+            {{ $t('examples.scaffold.advancedFilter.saveScheme') }}
           </a-button>
         </a-space>
         <div class="text-secondary">
-          {{ $t("examples.scaffold.advancedFilter.matchedCount", { count: filteredRows.length }) }}
+          {{ $t('examples.scaffold.advancedFilter.matchedCount', { count: filteredRows.length }) }}
         </div>
       </div>
 
@@ -106,10 +106,10 @@
       <div class="scheme-bar">
         <a-space wrap>
           <span class="text-secondary">{{
-            $t("examples.scaffold.advancedFilter.savedSchemes")
+            $t('examples.scaffold.advancedFilter.savedSchemes')
           }}</span>
           <a-tag v-if="savedSchemes.length === 0">
-            {{ $t("examples.scaffold.advancedFilter.noSchemes") }}
+            {{ $t('examples.scaffold.advancedFilter.noSchemes') }}
           </a-tag>
           <a-tag
             v-for="scheme in savedSchemes"
@@ -154,26 +154,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { DeleteOutlined, PlusOutlined } from "@antdv-next/icons";
-import { message } from "antdv-next";
-import { $t } from "@/locales";
+import { DeleteOutlined, PlusOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { computed, ref } from 'vue';
 
-type Relation = "AND" | "OR";
-type FieldKey = "username" | "status" | "role" | "score" | "createdAt";
-type FieldType = "string" | "select" | "number" | "date";
+import { $t } from '@/locales';
+
+type Relation = 'AND' | 'OR';
+type FieldKey = 'username' | 'status' | 'role' | 'score' | 'createdAt';
+type FieldType = 'string' | 'select' | 'number' | 'date';
 type Operator =
-  | "contains"
-  | "equals"
-  | "notEquals"
-  | "in"
-  | "gt"
-  | "gte"
-  | "lt"
-  | "lte"
-  | "between"
-  | "before"
-  | "after";
+  | 'contains'
+  | 'equals'
+  | 'notEquals'
+  | 'in'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte'
+  | 'between'
+  | 'before'
+  | 'after';
 
 interface Condition {
   id: string;
@@ -193,8 +194,8 @@ interface SavedScheme {
 interface DemoRow {
   id: string;
   username: string;
-  status: "active" | "inactive" | "pending";
-  role: "admin" | "operator" | "auditor";
+  status: 'active' | 'inactive' | 'pending';
+  role: 'admin' | 'operator' | 'auditor';
   score: number;
   createdAt: string;
 }
@@ -205,59 +206,59 @@ interface FieldConfig {
 }
 
 const FIELD_CONFIG: Record<FieldKey, FieldConfig> = {
-  username: { type: "string" },
+  username: { type: 'string' },
   status: {
-    type: "select",
+    type: 'select',
     options: [
-      { label: $t("examples.scaffold.advancedFilter.statusActive"), value: "active" },
-      { label: $t("examples.scaffold.advancedFilter.statusInactive"), value: "inactive" },
-      { label: $t("examples.scaffold.advancedFilter.statusPending"), value: "pending" },
+      { label: $t('examples.scaffold.advancedFilter.statusActive'), value: 'active' },
+      { label: $t('examples.scaffold.advancedFilter.statusInactive'), value: 'inactive' },
+      { label: $t('examples.scaffold.advancedFilter.statusPending'), value: 'pending' },
     ],
   },
   role: {
-    type: "select",
+    type: 'select',
     options: [
-      { label: $t("examples.scaffold.advancedFilter.adminRole"), value: "admin" },
-      { label: $t("examples.scaffold.advancedFilter.operatorRole"), value: "operator" },
-      { label: $t("examples.scaffold.advancedFilter.auditorRole"), value: "auditor" },
+      { label: $t('examples.scaffold.advancedFilter.adminRole'), value: 'admin' },
+      { label: $t('examples.scaffold.advancedFilter.operatorRole'), value: 'operator' },
+      { label: $t('examples.scaffold.advancedFilter.auditorRole'), value: 'auditor' },
     ],
   },
-  score: { type: "number" },
-  createdAt: { type: "date" },
+  score: { type: 'number' },
+  createdAt: { type: 'date' },
 };
 
 const OPERATOR_MAP: Record<FieldType, Operator[]> = {
-  string: ["contains", "equals", "notEquals"],
-  select: ["equals", "notEquals", "in"],
-  number: ["equals", "gt", "gte", "lt", "lte", "between"],
-  date: ["equals", "before", "after", "between"],
+  string: ['contains', 'equals', 'notEquals'],
+  select: ['equals', 'notEquals', 'in'],
+  number: ['equals', 'gt', 'gte', 'lt', 'lte', 'between'],
+  date: ['equals', 'before', 'after', 'between'],
 };
 
-const relation = ref<Relation>("AND");
-const conditions = ref<Condition[]>([createCondition("username")]);
+const relation = ref<Relation>('AND');
+const conditions = ref<Condition[]>([createCondition('username')]);
 const savedSchemes = ref<SavedScheme[]>([]);
-const activeSchemeId = ref("");
+const activeSchemeId = ref('');
 
 const saveModalOpen = ref(false);
-const schemeName = ref("");
+const schemeName = ref('');
 
 const allRows = ref<DemoRow[]>(createRows());
 
 const fieldOptions = computed(() => [
-  { label: $t("user.username"), value: "username" },
-  { label: $t("common.status"), value: "status" },
-  { label: $t("menu.role"), value: "role" },
-  { label: $t("examples.scaffold.advancedFilter.score"), value: "score" },
-  { label: $t("common.createTime"), value: "createdAt" },
+  { label: $t('user.username'), value: 'username' },
+  { label: $t('common.status'), value: 'status' },
+  { label: $t('menu.role'), value: 'role' },
+  { label: $t('examples.scaffold.advancedFilter.score'), value: 'score' },
+  { label: $t('common.createTime'), value: 'createdAt' },
 ]);
 
 const columns = computed(() => [
-  { title: "ID", dataIndex: "id", width: 120 },
-  { title: $t("user.username"), dataIndex: "username", width: 180 },
-  { title: $t("common.status"), dataIndex: "status", width: 120 },
-  { title: $t("menu.role"), dataIndex: "role", width: 120 },
-  { title: $t("examples.scaffold.advancedFilter.score"), dataIndex: "score", width: 120 },
-  { title: $t("common.createTime"), dataIndex: "createdAt", width: 180 },
+  { title: 'ID', dataIndex: 'id', width: 120 },
+  { title: $t('user.username'), dataIndex: 'username', width: 180 },
+  { title: $t('common.status'), dataIndex: 'status', width: 120 },
+  { title: $t('menu.role'), dataIndex: 'role', width: 120 },
+  { title: $t('examples.scaffold.advancedFilter.score'), dataIndex: 'score', width: 120 },
+  { title: $t('common.createTime'), dataIndex: 'createdAt', width: 180 },
 ]);
 
 const filteredRows = computed(() => {
@@ -267,7 +268,7 @@ const filteredRows = computed(() => {
   }
 
   return allRows.value.filter((row) => {
-    if (relation.value === "AND") {
+    if (relation.value === 'AND') {
       return activeConditions.every((condition) => evaluateCondition(row, condition));
     }
     return activeConditions.some((condition) => evaluateCondition(row, condition));
@@ -277,17 +278,17 @@ const filteredRows = computed(() => {
 const previewRows = computed(() => filteredRows.value.slice(0, 30));
 
 function createRows() {
-  const statusList: DemoRow["status"][] = ["active", "inactive", "pending"];
-  const roleList: DemoRow["role"][] = ["admin", "operator", "auditor"];
+  const statusList: DemoRow['status'][] = ['active', 'inactive', 'pending'];
+  const roleList: DemoRow['role'][] = ['admin', 'operator', 'auditor'];
 
   return Array.from({ length: 180 }, (_, index) => {
     const i = index + 1;
-    const day = String((i % 28) + 1).padStart(2, "0");
-    const month = String((i % 12) + 1).padStart(2, "0");
+    const day = String((i % 28) + 1).padStart(2, '0');
+    const month = String((i % 12) + 1).padStart(2, '0');
 
     return {
-      id: `U${String(i).padStart(4, "0")}`,
-      username: `user_${String(i).padStart(4, "0")}`,
+      id: `U${String(i).padStart(4, '0')}`,
+      username: `user_${String(i).padStart(4, '0')}`,
       status: statusList[i % statusList.length],
       role: roleList[i % roleList.length],
       score: 50 + (i % 50),
@@ -304,16 +305,16 @@ function createCondition(field: FieldKey): Condition {
     id: `${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
     field,
     operator,
-    value: type === "number" ? 0 : "",
+    value: type === 'number' ? 0 : '',
   };
 }
 
 function isSelectField(field: FieldKey) {
-  return FIELD_CONFIG[field].type === "select";
+  return FIELD_CONFIG[field].type === 'select';
 }
 
 function isNumberField(field: FieldKey) {
-  return FIELD_CONFIG[field].type === "number";
+  return FIELD_CONFIG[field].type === 'number';
 }
 
 function getSelectOptions(field: FieldKey) {
@@ -330,37 +331,37 @@ function getOperatorOptions(field: FieldKey) {
 
 function getOperatorLabel(operator: Operator) {
   const map: Record<Operator, string> = {
-    contains: $t("examples.scaffold.advancedFilter.opContains"),
-    equals: $t("examples.scaffold.advancedFilter.opEquals"),
-    notEquals: $t("examples.scaffold.advancedFilter.opNotEquals"),
-    in: $t("examples.scaffold.advancedFilter.opIn"),
-    gt: $t("examples.scaffold.advancedFilter.opGt"),
-    gte: $t("examples.scaffold.advancedFilter.opGte"),
-    lt: $t("examples.scaffold.advancedFilter.opLt"),
-    lte: $t("examples.scaffold.advancedFilter.opLte"),
-    between: $t("examples.scaffold.advancedFilter.opBetween"),
-    before: $t("examples.scaffold.advancedFilter.opBefore"),
-    after: $t("examples.scaffold.advancedFilter.opAfter"),
+    contains: $t('examples.scaffold.advancedFilter.opContains'),
+    equals: $t('examples.scaffold.advancedFilter.opEquals'),
+    notEquals: $t('examples.scaffold.advancedFilter.opNotEquals'),
+    in: $t('examples.scaffold.advancedFilter.opIn'),
+    gt: $t('examples.scaffold.advancedFilter.opGt'),
+    gte: $t('examples.scaffold.advancedFilter.opGte'),
+    lt: $t('examples.scaffold.advancedFilter.opLt'),
+    lte: $t('examples.scaffold.advancedFilter.opLte'),
+    between: $t('examples.scaffold.advancedFilter.opBetween'),
+    before: $t('examples.scaffold.advancedFilter.opBefore'),
+    after: $t('examples.scaffold.advancedFilter.opAfter'),
   };
 
   return map[operator];
 }
 
 function getValuePlaceholder(condition: Condition) {
-  if (condition.field === "createdAt") {
-    return "YYYY-MM-DD";
+  if (condition.field === 'createdAt') {
+    return 'YYYY-MM-DD';
   }
   if (isSelectField(condition.field)) {
-    return $t("examples.scaffold.advancedFilter.selectValue");
+    return $t('examples.scaffold.advancedFilter.selectValue');
   }
-  return $t("examples.scaffold.advancedFilter.inputValue");
+  return $t('examples.scaffold.advancedFilter.inputValue');
 }
 
 function onFieldChange(condition: Condition, field: FieldKey) {
   condition.field = field;
   const type = FIELD_CONFIG[field].type;
   condition.operator = OPERATOR_MAP[type][0];
-  condition.value = type === "number" ? 0 : "";
+  condition.value = type === 'number' ? 0 : '';
   condition.value2 = null;
 }
 
@@ -368,31 +369,31 @@ function onOperatorChange(condition: Condition, operator: Operator) {
   condition.operator = operator;
   condition.value2 = null;
 
-  if (operator === "in") {
+  if (operator === 'in') {
     condition.value = Array.isArray(condition.value) ? condition.value : [];
     return;
   }
 
   if (Array.isArray(condition.value)) {
-    condition.value = condition.value[0] || "";
+    condition.value = condition.value[0] || '';
   }
 }
 
 function hasValue(condition: Condition) {
-  if (condition.operator === "between") {
+  if (condition.operator === 'between') {
     return (
-      condition.value !== "" &&
+      condition.value !== '' &&
       condition.value !== null &&
-      condition.value2 !== "" &&
+      condition.value2 !== '' &&
       condition.value2 !== null
     );
   }
 
-  if (condition.operator === "in") {
+  if (condition.operator === 'in') {
     return Array.isArray(condition.value) && condition.value.length > 0;
   }
 
-  return condition.value !== "" && condition.value !== null;
+  return condition.value !== '' && condition.value !== null;
 }
 
 function evaluateCondition(row: DemoRow, condition: Condition) {
@@ -400,27 +401,27 @@ function evaluateCondition(row: DemoRow, condition: Condition) {
   const target = condition.value;
 
   switch (condition.operator) {
-    case "contains":
+    case 'contains':
       return String(rowValue).toLowerCase().includes(String(target).toLowerCase());
-    case "equals":
+    case 'equals':
       return String(rowValue) === String(target);
-    case "notEquals":
+    case 'notEquals':
       return String(rowValue) !== String(target);
-    case "in":
+    case 'in':
       return Array.isArray(target) && target.includes(String(rowValue));
-    case "gt":
+    case 'gt':
       return Number(rowValue) > Number(target);
-    case "gte":
+    case 'gte':
       return Number(rowValue) >= Number(target);
-    case "lt":
+    case 'lt':
       return Number(rowValue) < Number(target);
-    case "lte":
+    case 'lte':
       return Number(rowValue) <= Number(target);
-    case "between":
+    case 'between':
       return String(rowValue) >= String(target) && String(rowValue) <= String(condition.value2);
-    case "before":
+    case 'before':
       return String(rowValue) < String(target);
-    case "after":
+    case 'after':
       return String(rowValue) > String(target);
     default:
       return true;
@@ -428,31 +429,31 @@ function evaluateCondition(row: DemoRow, condition: Condition) {
 }
 
 function addCondition() {
-  conditions.value.push(createCondition("username"));
+  conditions.value.push(createCondition('username'));
 }
 
 function removeCondition(id: string) {
   conditions.value = conditions.value.filter((item) => item.id !== id);
   if (conditions.value.length === 0) {
-    conditions.value = [createCondition("username")];
+    conditions.value = [createCondition('username')];
   }
 }
 
 function resetConditions() {
-  relation.value = "AND";
-  activeSchemeId.value = "";
-  conditions.value = [createCondition("username")];
+  relation.value = 'AND';
+  activeSchemeId.value = '';
+  conditions.value = [createCondition('username')];
 }
 
 function openSaveModal() {
-  schemeName.value = "";
+  schemeName.value = '';
   saveModalOpen.value = true;
 }
 
 function saveCurrentScheme() {
   const name = schemeName.value.trim();
   if (!name) {
-    message.warning($t("examples.scaffold.advancedFilter.schemeNameRequired"));
+    message.warning($t('examples.scaffold.advancedFilter.schemeNameRequired'));
     return;
   }
 
@@ -466,7 +467,7 @@ function saveCurrentScheme() {
   savedSchemes.value = [newScheme, ...savedSchemes.value];
   activeSchemeId.value = newScheme.id;
   saveModalOpen.value = false;
-  message.success($t("examples.scaffold.advancedFilter.saveSuccess"));
+  message.success($t('examples.scaffold.advancedFilter.saveSuccess'));
 }
 
 function applyScheme(id: string) {
@@ -483,7 +484,7 @@ function applyScheme(id: string) {
 function removeScheme(id: string) {
   savedSchemes.value = savedSchemes.value.filter((item) => item.id !== id);
   if (activeSchemeId.value === id) {
-    activeSchemeId.value = "";
+    activeSchemeId.value = '';
   }
 }
 </script>

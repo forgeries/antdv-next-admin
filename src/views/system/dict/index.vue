@@ -4,10 +4,10 @@
       <template #side>
         <!-- dict type list -->
         <div class="dict-types-header">
-          <h3>{{ t("dict.dictType") }}</h3>
+          <h3>{{ t('dict.dictType') }}</h3>
           <a-button type="primary" size="small" @click="handleAddType">
             <template #icon><PlusOutlined /></template>
-            {{ t("common.add") }}
+            {{ t('common.add') }}
           </a-button>
         </div>
         <div class="dict-types-list">
@@ -50,7 +50,7 @@
         >
           <template #toolbar-actions>
             <a-button type="primary" @click="handleAdd">
-              <PlusOutlined /> {{ t("dict.createData") }}
+              <PlusOutlined /> {{ t('dict.createData') }}
             </a-button>
           </template>
           <template #bodyCell="{ column, record }">
@@ -61,11 +61,11 @@
               <a-space :size="4">
                 <a-button type="link" size="small" @click="handleEdit(record)">
                   <template #icon><EditOutlined /></template>
-                  {{ t("common.edit") }}
+                  {{ t('common.edit') }}
                 </a-button>
                 <a-button type="link" size="small" danger @click="handleDelete(record)">
                   <template #icon><DeleteOutlined /></template>
-                  {{ t("common.delete") }}
+                  {{ t('common.delete') }}
                 </a-button>
               </a-space>
             </template>
@@ -99,8 +99,8 @@
         </a-form-item>
         <a-form-item :label="t('common.status')">
           <a-radio-group v-model:value="typeForm.status">
-            <a-radio value="enabled">{{ t("dict.enabled") }}</a-radio>
-            <a-radio value="disabled">{{ t("dict.disabled") }}</a-radio>
+            <a-radio value="enabled">{{ t('dict.enabled') }}</a-radio>
+            <a-radio value="disabled">{{ t('dict.disabled') }}</a-radio>
           </a-radio-group>
         </a-form-item>
       </a-form>
@@ -120,8 +120,8 @@
         </a-form-item>
         <a-form-item :label="t('common.status')">
           <a-radio-group v-model:value="dataForm.status">
-            <a-radio value="enabled">{{ t("dict.enabled") }}</a-radio>
-            <a-radio value="disabled">{{ t("dict.disabled") }}</a-radio>
+            <a-radio value="enabled">{{ t('dict.enabled') }}</a-radio>
+            <a-radio value="disabled">{{ t('dict.disabled') }}</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item :label="t('dict.remark')">
@@ -137,15 +137,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { message, Modal } from "antdv-next";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@antdv-next/icons";
-import { useI18n } from "vue-i18n";
-import ProTable from "@/components/Pro/ProTable/index.vue";
-import ProStatus from "@/components/Pro/ProStatus/index.vue";
-import ProSplitLayout from "@/components/Pro/ProSplitLayout/index.vue";
-import type { ProTableColumn, ProStatusMap } from "@/types/pro";
-import type { DictType, DictData } from "@/types/dict";
+import type { DictType, DictData } from '@/types/dict';
+import type { ProTableColumn, ProStatusMap } from '@/types/pro';
+
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@antdv-next/icons';
+import { message, Modal } from 'antdv-next';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import {
   getDictTypes,
   createDictType,
@@ -155,84 +154,87 @@ import {
   createDictData,
   updateDictData,
   deleteDictData,
-} from "@/api/dict";
-import { useDictStore } from "@/stores/dict";
+} from '@/api/dict';
+import ProSplitLayout from '@/components/Pro/ProSplitLayout/index.vue';
+import ProStatus from '@/components/Pro/ProStatus/index.vue';
+import ProTable from '@/components/Pro/ProTable/index.vue';
+import { useDictStore } from '@/stores/dict';
 
 const { t } = useI18n();
 const dictStore = useDictStore();
 
 const dictStatusMap = computed<ProStatusMap>(() => ({
-  enabled: { text: t("dict.enabled"), color: "#52c41a" },
-  disabled: { text: t("dict.disabled"), color: "#bfbfbf" },
+  enabled: { text: t('dict.enabled'), color: '#52c41a' },
+  disabled: { text: t('dict.disabled'), color: '#bfbfbf' },
 }));
 
 // dict type list
 const dictTypes = ref<DictType[]>([]);
-const selectedTypeCode = ref<string>("");
+const selectedTypeCode = ref<string>('');
 const selectedTypeName = computed(() => {
   const type = dictTypes.value.find((t) => t.code === selectedTypeCode.value);
-  return type?.name || "";
+  return type?.name || '';
 });
 
 // dict type modal
 const typeModalVisible = ref(false);
 const typeModalTitle = computed(() =>
-  typeForm.value.id ? t("dict.editType") : t("dict.createType"),
+  typeForm.value.id ? t('dict.editType') : t('dict.createType'),
 );
 const typeForm = ref<Partial<DictType>>({
-  name: "",
-  code: "",
-  description: "",
-  status: "enabled",
+  name: '',
+  code: '',
+  description: '',
+  status: 'enabled',
 });
 
 // dict data modal
 const dataModalVisible = ref(false);
 const dataModalTitle = computed(() =>
-  dataForm.value.id ? t("dict.editData") : t("dict.createData"),
+  dataForm.value.id ? t('dict.editData') : t('dict.createData'),
 );
 const dataForm = ref<Partial<DictData>>({
-  label: "",
-  value: "",
+  label: '',
+  value: '',
   sort: 0,
-  status: "enabled",
-  remark: "",
+  status: 'enabled',
+  remark: '',
 });
 
 // table columns
 const columns: ProTableColumn[] = [
   {
-    title: t("dict.dictLabel"),
-    dataIndex: "label",
-    key: "label",
+    title: t('dict.dictLabel'),
+    dataIndex: 'label',
+    key: 'label',
   },
   {
-    title: t("dict.dictValue"),
-    dataIndex: "value",
-    key: "value",
+    title: t('dict.dictValue'),
+    dataIndex: 'value',
+    key: 'value',
   },
   {
-    title: t("dict.sort"),
-    dataIndex: "sort",
-    key: "sort",
+    title: t('dict.sort'),
+    dataIndex: 'sort',
+    key: 'sort',
     width: 80,
   },
   {
-    title: t("common.status"),
-    dataIndex: "status",
-    key: "status",
+    title: t('common.status'),
+    dataIndex: 'status',
+    key: 'status',
     width: 80,
   },
   {
-    title: t("dict.remark"),
-    dataIndex: "remark",
-    key: "remark",
+    title: t('dict.remark'),
+    dataIndex: 'remark',
+    key: 'remark',
   },
   {
-    title: t("common.actions"),
-    key: "action",
+    title: t('common.actions'),
+    key: 'action',
     width: 150,
-    fixed: "right",
+    fixed: 'right',
   },
 ];
 
@@ -247,7 +249,7 @@ const loadDictTypes = async () => {
       }
     }
   } catch (error) {
-    console.error(t("dict.loadTypeFailed"), error);
+    console.error(t('dict.loadTypeFailed'), error);
   }
 };
 
@@ -267,7 +269,7 @@ const loadData = async (params: any) => {
       };
     }
   } catch (error) {
-    console.error(t("dict.loadDataFailed"), error);
+    console.error(t('dict.loadDataFailed'), error);
   }
   return {
     data: [],
@@ -284,10 +286,10 @@ const handleSelectType = (type: DictType) => {
 // add dict type
 const handleAddType = () => {
   typeForm.value = {
-    name: "",
-    code: "",
-    description: "",
-    status: "enabled",
+    name: '',
+    code: '',
+    description: '',
+    status: 'enabled',
   };
   typeModalVisible.value = true;
 };
@@ -301,20 +303,20 @@ const handleEditType = (type: DictType) => {
 // delete dict type
 const handleDeleteType = (type: DictType) => {
   Modal.confirm({
-    title: t("dict.confirmDelete"),
-    content: t("dict.confirmDeleteType", { name: type.name }),
+    title: t('dict.confirmDelete'),
+    content: t('dict.confirmDeleteType', { name: type.name }),
     onOk: async () => {
       try {
         const response = (await deleteDictType(type.id)) as any;
         if (response.code === 200) {
-          message.success(t("dict.deleteSuccess"));
+          message.success(t('dict.deleteSuccess'));
           loadDictTypes();
           if (selectedTypeCode.value === type.code) {
-            selectedTypeCode.value = "";
+            selectedTypeCode.value = '';
           }
         }
       } catch (error) {
-        message.error(t("dict.deleteFailed"));
+        message.error(t('dict.deleteFailed'));
       }
     },
   });
@@ -323,7 +325,7 @@ const handleDeleteType = (type: DictType) => {
 // submit dict type
 const handleTypeSubmit = async () => {
   if (!typeForm.value.name || !typeForm.value.code) {
-    message.warning(t("dict.requiredFields"));
+    message.warning(t('dict.requiredFields'));
     return;
   }
 
@@ -331,20 +333,20 @@ const handleTypeSubmit = async () => {
     if (typeForm.value.id) {
       const response = (await updateDictType(typeForm.value.id, typeForm.value)) as any;
       if (response.code === 200) {
-        message.success(t("dict.updateSuccess"));
+        message.success(t('dict.updateSuccess'));
         typeModalVisible.value = false;
         loadDictTypes();
       }
     } else {
       const response = (await createDictType(typeForm.value)) as any;
       if (response.code === 200) {
-        message.success(t("dict.createSuccess"));
+        message.success(t('dict.createSuccess'));
         typeModalVisible.value = false;
         loadDictTypes();
       }
     }
   } catch (error) {
-    message.error(t("dict.operateFailed"));
+    message.error(t('dict.operateFailed'));
   }
 };
 
@@ -352,11 +354,11 @@ const handleTypeSubmit = async () => {
 const handleAdd = () => {
   dataForm.value = {
     typeCode: selectedTypeCode.value,
-    label: "",
-    value: "",
+    label: '',
+    value: '',
     sort: 0,
-    status: "enabled",
-    remark: "",
+    status: 'enabled',
+    remark: '',
   };
   dataModalVisible.value = true;
 };
@@ -370,18 +372,18 @@ const handleEdit = (record: DictData) => {
 // delete dict data
 const handleDelete = (record: DictData) => {
   Modal.confirm({
-    title: t("dict.confirmDelete"),
-    content: t("dict.confirmDeleteData", { label: record.label }),
+    title: t('dict.confirmDelete'),
+    content: t('dict.confirmDeleteData', { label: record.label }),
     onOk: async () => {
       try {
         const response = (await deleteDictData(record.id)) as any;
         if (response.code === 200) {
-          message.success(t("dict.deleteSuccess"));
+          message.success(t('dict.deleteSuccess'));
           // refresh dict cache
           dictStore.refreshDictData();
         }
       } catch (error) {
-        message.error(t("dict.deleteFailed"));
+        message.error(t('dict.deleteFailed'));
       }
     },
   });
@@ -390,7 +392,7 @@ const handleDelete = (record: DictData) => {
 // submit dict data
 const handleDataSubmit = async () => {
   if (!dataForm.value.label || !dataForm.value.value) {
-    message.warning(t("dict.requiredFields"));
+    message.warning(t('dict.requiredFields'));
     return;
   }
 
@@ -398,7 +400,7 @@ const handleDataSubmit = async () => {
     if (dataForm.value.id) {
       const response = (await updateDictData(dataForm.value.id, dataForm.value)) as any;
       if (response.code === 200) {
-        message.success(t("dict.updateSuccess"));
+        message.success(t('dict.updateSuccess'));
         dataModalVisible.value = false;
         // refresh dict cache
         dictStore.refreshDictData();
@@ -406,14 +408,14 @@ const handleDataSubmit = async () => {
     } else {
       const response = (await createDictData(dataForm.value)) as any;
       if (response.code === 200) {
-        message.success(t("dict.createSuccess"));
+        message.success(t('dict.createSuccess'));
         dataModalVisible.value = false;
         // refresh dict cache
         dictStore.refreshDictData();
       }
     }
   } catch (error) {
-    message.error(t("dict.operateFailed"));
+    message.error(t('dict.operateFailed'));
   }
 };
 
@@ -470,7 +472,7 @@ loadDictTypes();
     overflow: hidden;
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       top: 50%;
@@ -522,7 +524,7 @@ loadDictTypes();
       .type-code {
         font-size: 12px;
         color: var(--color-text-quaternary, #bfbfbf);
-        font-family: "SF Mono", "Monaco", "Menlo", monospace;
+        font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

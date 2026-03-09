@@ -13,42 +13,43 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h } from "vue";
-import { useRouter } from "vue-router";
 import {
   DownOutlined,
   UserOutlined,
   GithubOutlined,
   BookOutlined,
   LogoutOutlined,
-} from "@antdv-next/icons";
-import { useAuthStore } from "@/stores/auth";
-import { Modal } from "antdv-next";
-import { $t } from "@/locales";
+} from '@antdv-next/icons';
+import { Modal } from 'antdv-next';
+import { computed, h } from 'vue';
+import { useRouter } from 'vue-router';
+
+import { $t } from '@/locales';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 const handleMenuClick = ({ key }: { key: string }) => {
   switch (key) {
-    case "profile":
-      router.push("/profile");
+    case 'profile':
+      router.push('/profile');
       break;
-    case "github":
-      window.open("https://github.com/yelog/antdv-next-admin", "_blank");
+    case 'github':
+      window.open('https://github.com/yelog/antdv-next-admin', '_blank');
       break;
-    case "docs":
-      window.open("https://antdv-next-admin-doc.yelog.org", "_blank");
+    case 'docs':
+      window.open('https://antdv-next-admin-doc.yelog.org', '_blank');
       break;
-    case "logout":
+    case 'logout':
       Modal.confirm({
-        title: $t("layout.logout"),
-        content: $t("layout.logoutConfirm"),
-        okText: $t("common.confirm"),
-        cancelText: $t("common.cancel"),
+        title: $t('layout.logout'),
+        content: $t('layout.logoutConfirm'),
+        okText: $t('common.confirm'),
+        cancelText: $t('common.cancel'),
         onOk: () => {
           authStore.logout();
-          router.push("/login");
+          router.push('/login');
         },
       });
       break;
@@ -58,26 +59,26 @@ const handleMenuClick = ({ key }: { key: string }) => {
 const menuProps = computed(() => ({
   items: [
     {
-      key: "profile",
-      label: $t("layout.profile"),
+      key: 'profile',
+      label: $t('layout.profile'),
       icon: h(UserOutlined),
     },
     {
-      key: "github",
-      label: "GitHub",
+      key: 'github',
+      label: 'GitHub',
       icon: h(GithubOutlined),
     },
     {
-      key: "docs",
-      label: $t("layout.documentation"),
+      key: 'docs',
+      label: $t('layout.documentation'),
       icon: h(BookOutlined),
     },
     {
-      type: "divider",
+      type: 'divider',
     },
     {
-      key: "logout",
-      label: $t("layout.logout"),
+      key: 'logout',
+      label: $t('layout.logout'),
       icon: h(LogoutOutlined),
     },
   ],

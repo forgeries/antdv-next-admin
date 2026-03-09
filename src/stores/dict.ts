@@ -1,9 +1,11 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import { getAllDictData } from "@/api/dict";
-import type { DictData, DictGroup } from "@/types/dict";
+import type { DictData, DictGroup } from '@/types/dict';
 
-export const useDictStore = defineStore("dict", () => {
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+
+import { getAllDictData } from '@/api/dict';
+
+export const useDictStore = defineStore('dict', () => {
   // 所有字典数据
   const dictData = ref<DictData[]>([]);
 
@@ -47,11 +49,11 @@ export const useDictStore = defineStore("dict", () => {
       loading.value = true;
       const response = (await getAllDictData()) as any;
       if (response.code === 200) {
-        dictData.value = response.data.filter((item: DictData) => item.status === "enabled");
+        dictData.value = response.data.filter((item: DictData) => item.status === 'enabled');
         loaded.value = true;
       }
     } catch (error) {
-      console.error("加载字典数据失败:", error);
+      console.error('加载字典数据失败:', error);
     } finally {
       loading.value = false;
     }

@@ -1,7 +1,7 @@
-import { localStorage } from "./storage";
+import { localStorage } from './storage';
 
-const TOKEN_KEY = "access_token";
-const REFRESH_TOKEN_KEY = "refresh_token";
+const TOKEN_KEY = 'access_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
 
 /**
  * Get token from localStorage
@@ -51,7 +51,7 @@ export function removeRefreshToken(): void {
 export function clearAuthData(): void {
   removeToken();
   removeRefreshToken();
-  localStorage.remove("user_info");
+  localStorage.remove('user_info');
 }
 
 /**

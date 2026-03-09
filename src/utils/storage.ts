@@ -46,7 +46,7 @@ class Storage {
       const data = JSON.parse(item) as StorageData<T> | T;
 
       // Compatible with wrapped storage format: { value, expire }
-      if (typeof data === "object" && data !== null && "value" in data) {
+      if (typeof data === 'object' && data !== null && 'value' in data) {
         const wrappedData = data as StorageData<T>;
 
         // Check if expired
@@ -105,14 +105,14 @@ export const sessionStorage = new Storage(window.sessionStorage);
 class EncryptedStorage extends Storage {
   private encryptionKey: string;
 
-  constructor(storage: globalThis.Storage, encryptionKey: string = "default-key") {
+  constructor(storage: globalThis.Storage, encryptionKey: string = 'default-key') {
     super(storage);
     this.encryptionKey = encryptionKey;
   }
 
   private encrypt(text: string): string {
     // Simple XOR encryption (not secure, just for obfuscation)
-    let result = "";
+    let result = '';
     for (let i = 0; i < text.length; i++) {
       result += String.fromCharCode(
         text.charCodeAt(i) ^ this.encryptionKey.charCodeAt(i % this.encryptionKey.length),
@@ -124,7 +124,7 @@ class EncryptedStorage extends Storage {
   private decrypt(encrypted: string): string {
     try {
       const text = atob(encrypted);
-      let result = "";
+      let result = '';
       for (let i = 0; i < text.length; i++) {
         result += String.fromCharCode(
           text.charCodeAt(i) ^ this.encryptionKey.charCodeAt(i % this.encryptionKey.length),
@@ -132,8 +132,8 @@ class EncryptedStorage extends Storage {
       }
       return result;
     } catch (error) {
-      console.error("Decryption failed:", error);
-      return "";
+      console.error('Decryption failed:', error);
+      return '';
     }
   }
 
@@ -169,7 +169,7 @@ class EncryptedStorage extends Storage {
 
       return data.value;
     } catch (error) {
-      console.error("Failed to parse encrypted storage item:", error);
+      console.error('Failed to parse encrypted storage item:', error);
       return defaultValue ?? null;
     }
   }

@@ -2,8 +2,8 @@
   <aside class="ai-panel">
     <div class="panel-header">
       <div class="title-wrap">
-        <div class="title">{{ $t("layout.aiAssistantTitle") }}</div>
-        <div class="subtitle">{{ $t("layout.aiAssistantSubtitle") }}</div>
+        <div class="title">{{ $t('layout.aiAssistantTitle') }}</div>
+        <div class="subtitle">{{ $t('layout.aiAssistantSubtitle') }}</div>
       </div>
       <a-button type="text" class="close-btn" @click="emitClose">
         <CloseOutlined />
@@ -11,12 +11,12 @@
     </div>
 
     <div class="context-row">
-      <a-tag color="blue">{{ $t("layout.aiCurrentPage") }}: {{ currentPageTitle }}</a-tag>
+      <a-tag color="blue">{{ $t('layout.aiCurrentPage') }}: {{ currentPageTitle }}</a-tag>
       <a-tag>{{ route.path }}</a-tag>
     </div>
 
     <div class="quick-actions">
-      <div class="section-title">{{ $t("layout.aiQuickActions") }}</div>
+      <div class="section-title">{{ $t('layout.aiQuickActions') }}</div>
       <a-space wrap size="small">
         <a-button
           v-for="item in quickActions"
@@ -40,13 +40,13 @@
             { 'is-streaming': isStreaming && streamingMessageId === message.id },
           ]"
         >
-          <div class="message-role">{{ message.role === "assistant" ? "AI" : "You" }}</div>
+          <div class="message-role">{{ message.role === 'assistant' ? 'AI' : 'You' }}</div>
           <div class="message-content">{{ message.content }}</div>
         </div>
       </template>
       <div v-else class="message-empty">
-        <div class="empty-title">{{ $t("layout.aiEmptyTitle") }}</div>
-        <div class="empty-desc">{{ $t("layout.aiEmptyDescription") }}</div>
+        <div class="empty-title">{{ $t('layout.aiEmptyTitle') }}</div>
+        <div class="empty-desc">{{ $t('layout.aiEmptyDescription') }}</div>
       </div>
     </div>
 
@@ -59,17 +59,17 @@
       />
       <div class="input-actions">
         <span class="hint">{{
-          isStreaming ? $t("common.loading") : $t("layout.aiEnterHint")
+          isStreaming ? $t('common.loading') : $t('layout.aiEnterHint')
         }}</span>
         <a-space size="small">
-          <a-button size="small" @click="clearMessages">{{ $t("common.clear") }}</a-button>
+          <a-button size="small" @click="clearMessages">{{ $t('common.clear') }}</a-button>
           <a-button
             type="primary"
             size="small"
             :disabled="!draft.trim() || isStreaming"
             @click="sendMessage"
           >
-            {{ $t("common.submit") }}
+            {{ $t('common.submit') }}
           </a-button>
         </a-space>
       </div>
@@ -78,13 +78,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, ref } from "vue";
-import { useRoute } from "vue-router";
-import { CloseOutlined } from "@antdv-next/icons";
-import { $t } from "@/locales";
-import { resolveLocaleText } from "@/utils/i18n";
+import { CloseOutlined } from '@antdv-next/icons';
+import { computed, nextTick, onBeforeUnmount, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-type MessageRole = "assistant" | "user";
+import { $t } from '@/locales';
+import { resolveLocaleText } from '@/utils/i18n';
+
+type MessageRole = 'assistant' | 'user';
 
 interface ChatMessage {
   id: number;
@@ -103,7 +104,7 @@ const emit = defineEmits<{
 }>();
 
 const route = useRoute();
-const draft = ref("");
+const draft = ref('');
 const messages = ref<ChatMessage[]>([]);
 const messagesBodyRef = ref<HTMLElement | null>(null);
 const isStreaming = ref(false);
@@ -112,8 +113,8 @@ let messageId = 0;
 let streamTimer: number | null = null;
 
 const currentPageTitle = computed(() => {
-  const routeTitle = typeof route.meta?.title === "string" ? route.meta.title : "";
-  const routeName = typeof route.name === "string" ? route.name : route.path;
+  const routeTitle = typeof route.meta?.title === 'string' ? route.meta.title : '';
+  const routeName = typeof route.name === 'string' ? route.name : route.path;
   if (routeTitle) {
     return resolveLocaleText(routeTitle, routeName);
   }
@@ -123,31 +124,31 @@ const currentPageTitle = computed(() => {
 const quickActions = computed<QuickActionItem[]>(() => {
   return [
     {
-      id: "explain",
-      label: $t("layout.aiActionExplain"),
-      prompt: $t("layout.aiActionExplain"),
+      id: 'explain',
+      label: $t('layout.aiActionExplain'),
+      prompt: $t('layout.aiActionExplain'),
     },
     {
-      id: "summary",
-      label: $t("layout.aiActionSummary"),
-      prompt: $t("layout.aiActionSummary"),
+      id: 'summary',
+      label: $t('layout.aiActionSummary'),
+      prompt: $t('layout.aiActionSummary'),
     },
     {
-      id: "risk",
-      label: $t("layout.aiActionRisk"),
-      prompt: $t("layout.aiActionRisk"),
+      id: 'risk',
+      label: $t('layout.aiActionRisk'),
+      prompt: $t('layout.aiActionRisk'),
     },
     {
-      id: "next-step",
-      label: $t("layout.aiActionNextStep"),
-      prompt: $t("layout.aiActionNextStep"),
+      id: 'next-step',
+      label: $t('layout.aiActionNextStep'),
+      prompt: $t('layout.aiActionNextStep'),
     },
   ];
 });
 
 const emitClose = () => {
   stopStreaming();
-  emit("close");
+  emit('close');
 };
 
 const appendMessage = (role: MessageRole, content: string) => {
@@ -186,7 +187,7 @@ const stopStreaming = () => {
 const streamAssistantReply = (fullReply: string) => {
   stopStreaming();
 
-  const assistantId = appendMessage("assistant", "");
+  const assistantId = appendMessage('assistant', '');
   streamingMessageId.value = assistantId;
   isStreaming.value = true;
 
@@ -219,12 +220,12 @@ const sendMessage = async () => {
     return;
   }
 
-  appendMessage("user", input);
-  draft.value = "";
+  appendMessage('user', input);
+  draft.value = '';
   await nextTick();
   scrollToBottom();
 
-  const reply = $t("layout.aiDemoReply", { page: currentPageTitle.value });
+  const reply = $t('layout.aiDemoReply', { page: currentPageTitle.value });
   streamAssistantReply(reply);
 };
 
@@ -343,7 +344,7 @@ onBeforeUnmount(() => {
 }
 
 .message-item.is-streaming .message-content::after {
-  content: "";
+  content: '';
   display: inline-block;
   width: 2px;
   height: 1em;

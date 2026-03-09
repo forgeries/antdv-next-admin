@@ -13,7 +13,7 @@
       <img :src="logoImg" alt="Logo" class="logo-img" />
       <transition name="fade">
         <span v-show="!layoutStore.collapsed" class="logo-title">
-          {{ $t("common.appName") }}
+          {{ $t('common.appName') }}
         </span>
       </transition>
     </div>
@@ -32,20 +32,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, h, nextTick } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import type { MenuProps } from "antdv-next";
-import { useLayoutStore } from "@/stores/layout";
-import { useSettingsStore } from "@/stores/settings";
-import { useThemeStore } from "@/stores/theme";
-import { usePermissionStore } from "@/stores/permission";
-import { basicRoutes } from "@/router/routes";
-import { routesToMenuTree } from "@/router/utils";
-import type { MenuItem as MenuItemType } from "@/types/router";
-import type { SidebarTheme } from "@/types/layout";
-import { resolveLocaleText } from "@/utils/i18n";
-import { resolveIcon } from "@/utils/icon";
-import logoImg from "@/assets/images/logo.png";
+import type { SidebarTheme } from '@/types/layout';
+import type { MenuItem as MenuItemType } from '@/types/router';
+import type { MenuProps } from 'antdv-next';
+
+import { ref, computed, watch, h, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+import logoImg from '@/assets/images/logo.png';
+import { basicRoutes } from '@/router/routes';
+import { routesToMenuTree } from '@/router/utils';
+import { useLayoutStore } from '@/stores/layout';
+import { usePermissionStore } from '@/stores/permission';
+import { useSettingsStore } from '@/stores/settings';
+import { useThemeStore } from '@/stores/theme';
+import { resolveLocaleText } from '@/utils/i18n';
+import { resolveIcon } from '@/utils/icon';
 
 const route = useRoute();
 const router = useRouter();
@@ -83,8 +85,8 @@ const showMobileMask = computed(() => {
   return layoutStore.isMobile && !layoutStore.collapsed;
 });
 
-const antMenuItems = computed<MenuProps["items"]>(() => {
-  const convert = (menus: MenuItemType[]): NonNullable<MenuProps["items"]> => {
+const antMenuItems = computed<MenuProps['items']>(() => {
+  const convert = (menus: MenuItemType[]): NonNullable<MenuProps['items']> => {
     return menus.map((menu) => {
       const iconComponent = resolveIcon(menu.icon);
       const item = {
@@ -133,7 +135,7 @@ function findMenuOpenKeys(
 }
 
 function isExternalLinkPath(path: string): boolean {
-  return path.startsWith("http://") || path.startsWith("https://");
+  return path.startsWith('http://') || path.startsWith('https://');
 }
 
 function findMenuByPath(menus: MenuItemType[], targetPath: string): MenuItemType | null {
@@ -174,14 +176,14 @@ const closeMobileSidebar = () => {
 };
 
 const handleMenuClick = ({ key }: { key: string | number }) => {
-  if (typeof key !== "string") return;
+  if (typeof key !== 'string') return;
 
   // External links: open in a new tab
-  if (key.startsWith("http://") || key.startsWith("https://")) {
+  if (key.startsWith('http://') || key.startsWith('https://')) {
     // Save current selected state before opening external link
     const currentSelected = [...selectedKeys.value];
 
-    window.open(key, "_blank", "noopener,noreferrer");
+    window.open(key, '_blank', 'noopener,noreferrer');
     closeMobileSidebar();
 
     // Restore selected state after Menu component updates
@@ -193,7 +195,7 @@ const handleMenuClick = ({ key }: { key: string | number }) => {
   }
 
   // Internal routes
-  if (key.startsWith("/")) {
+  if (key.startsWith('/')) {
     router.push(key);
     closeMobileSidebar();
   }

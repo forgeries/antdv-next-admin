@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 
 interface Props {
   width?: number | string;
@@ -41,13 +41,13 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  width: "100%",
+  width: '100%',
   height: 160,
-  src: "https://picsum.photos/320/160",
+  src: 'https://picsum.photos/320/160',
   tolerance: 5,
 });
 
-const emit = defineEmits(["success", "fail"]);
+const emit = defineEmits(['success', 'fail']);
 
 const containerRef = ref<HTMLElement | null>(null);
 const mainCanvasRef = ref<HTMLCanvasElement | null>(null);
@@ -71,7 +71,7 @@ const drawPuzzleShape = (
   ctx: CanvasRenderingContext2D,
   x: number,
   y: number,
-  operation: "fill" | "clip",
+  operation: 'fill' | 'clip',
 ) => {
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -84,11 +84,11 @@ const drawPuzzleShape = (
   ctx.arc(x + r - 2, y + l / 2, r + 0.4, 2.76 * PI, 1.24 * PI, true);
   ctx.lineTo(x, y);
   ctx.lineWidth = 2;
-  ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
   ctx.stroke();
-  ctx.globalCompositeOperation = "destination-over";
-  if (operation === "fill") {
+  ctx.globalCompositeOperation = 'destination-over';
+  if (operation === 'fill') {
     ctx.fill();
   } else {
     ctx.clip();
@@ -97,8 +97,8 @@ const drawPuzzleShape = (
 
 const init = () => {
   if (!mainCanvasRef.value || !moveCanvasRef.value) return;
-  const mainCtx = mainCanvasRef.value.getContext("2d");
-  const moveCtx = moveCanvasRef.value.getContext("2d");
+  const mainCtx = mainCanvasRef.value.getContext('2d');
+  const moveCtx = moveCanvasRef.value.getContext('2d');
   if (!mainCtx || !moveCtx) return;
 
   loading.value = true;
@@ -113,7 +113,7 @@ const init = () => {
     if (w > 0) {
       currentWidth.value = w;
       // If props.height is a number, use it. If string/auto, calculate from ratio
-      if (typeof props.height === "number") {
+      if (typeof props.height === 'number') {
         currentHeight.value = props.height;
       } else {
         currentHeight.value = Math.floor(w * ratio);
@@ -137,11 +137,11 @@ const init = () => {
   const targetY = Math.floor(Math.random() * (Math.max(0, safeHeight - l) - l) + l);
 
   const img = new Image();
-  img.crossOrigin = "Anonymous";
-  img.src = props.src + "?t=" + new Date().getTime();
+  img.crossOrigin = 'Anonymous';
+  img.src = props.src + '?t=' + new Date().getTime();
   img.onload = () => {
     // Draw puzzle piece
-    drawPuzzleShape(moveCtx, targetX.value, targetY, "clip");
+    drawPuzzleShape(moveCtx, targetX.value, targetY, 'clip');
     moveCtx.drawImage(img, 0, 0, currentWidth.value, currentHeight.value);
 
     // Extract puzzle piece
@@ -157,7 +157,7 @@ const init = () => {
 
     // Draw main background with hole
     mainCtx.drawImage(img, 0, 0, currentWidth.value, currentHeight.value);
-    drawPuzzleShape(mainCtx, targetX.value, targetY, "fill");
+    drawPuzzleShape(mainCtx, targetX.value, targetY, 'fill');
 
     loading.value = false;
   };
@@ -200,16 +200,16 @@ const handleMouseDown = (e: MouseEvent) => {
 
   const handleMouseUp = () => {
     isMoving.value = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
 
     // Validation logic
     const realTarget = targetX.value - r * 2;
     if (Math.abs(sliderLeft.value - realTarget) <= props.tolerance) {
       isSuccess.value = true;
-      emit("success");
+      emit('success');
     } else {
-      emit("fail");
+      emit('fail');
       // Reset animation
       const animate = () => {
         if (sliderLeft.value > 0) {
@@ -221,8 +221,8 @@ const handleMouseDown = (e: MouseEvent) => {
     }
   };
 
-  document.addEventListener("mousemove", handleMouseMove);
-  document.addEventListener("mouseup", handleMouseUp);
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
 };
 
 const reset = () => {

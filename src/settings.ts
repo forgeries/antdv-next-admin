@@ -1,5 +1,5 @@
-export type ProTableDensity = "large" | "middle" | "small" | "smal";
-export type ProTableHeight = "100%" | "auto" | string | number;
+export type ProTableDensity = 'large' | 'middle' | 'small' | 'smal';
+export type ProTableHeight = '100%' | 'auto' | string | number;
 
 export interface ProTableDefaultSettings {
   size: ProTableDensity;
@@ -32,8 +32,8 @@ export interface AppDefaultSettings {
 
 export const appDefaultSettings: AppDefaultSettings = {
   proTable: {
-    size: "smal",
-    height: "auto",
+    size: 'smal',
+    height: 'auto',
     resizable: true,
     columnResizable: true,
     ellipsis: true,

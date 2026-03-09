@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw } from 'vue-router';
 
 // Route Meta Custom Types
 export interface RouteMeta {
@@ -15,7 +15,7 @@ export interface RouteMeta {
   activeMenu?: string;
 }
 
-export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, "meta" | "children"> {
+export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta' | 'children'> {
   meta?: RouteMeta;
   children?: AppRouteRecordRaw[];
 }

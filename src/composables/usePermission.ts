@@ -1,5 +1,6 @@
-import { computed } from "vue";
-import { useAuthStore } from "@/stores/auth";
+import { computed } from 'vue';
+
+import { useAuthStore } from '@/stores/auth';
 
 /**
  * Permission composable

@@ -1,10 +1,10 @@
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
-export const useWatermarkStore = defineStore("watermark", () => {
+export const useWatermarkStore = defineStore('watermark', () => {
   // State
   const enabled = ref(false);
-  const content = ref("Antdv Next Admin");
+  const content = ref('Antdv Next Admin');
   const gap = ref<[number, number]>([100, 100]);
   const rotate = ref(-22);
   const fontSize = ref(16);
@@ -13,7 +13,7 @@ export const useWatermarkStore = defineStore("watermark", () => {
   // Computed
   const watermarkProps = computed(() => {
     if (!enabled.value) {
-      return { content: "" };
+      return { content: '' };
     }
     return {
       content: content.value,
@@ -29,43 +29,43 @@ export const useWatermarkStore = defineStore("watermark", () => {
   // Actions
   const setEnabled = (val: boolean) => {
     enabled.value = val;
-    localStorage.setItem("app-watermark-enabled", val.toString());
+    localStorage.setItem('app-watermark-enabled', val.toString());
   };
 
   const setContent = (val: string) => {
     content.value = val;
-    localStorage.setItem("app-watermark-content", val);
+    localStorage.setItem('app-watermark-content', val);
   };
 
   const setGap = (val: [number, number]) => {
     gap.value = val;
-    localStorage.setItem("app-watermark-gap", JSON.stringify(val));
+    localStorage.setItem('app-watermark-gap', JSON.stringify(val));
   };
 
   const setRotate = (val: number) => {
     rotate.value = val;
-    localStorage.setItem("app-watermark-rotate", val.toString());
+    localStorage.setItem('app-watermark-rotate', val.toString());
   };
 
   const setFontSize = (val: number) => {
     fontSize.value = val;
-    localStorage.setItem("app-watermark-fontSize", val.toString());
+    localStorage.setItem('app-watermark-fontSize', val.toString());
   };
 
   const setOpacity = (val: number) => {
     opacity.value = val;
-    localStorage.setItem("app-watermark-opacity", val.toString());
+    localStorage.setItem('app-watermark-opacity', val.toString());
   };
 
   const initWatermark = () => {
-    const savedEnabled = localStorage.getItem("app-watermark-enabled");
-    const savedContent = localStorage.getItem("app-watermark-content");
-    const savedGap = localStorage.getItem("app-watermark-gap");
-    const savedRotate = localStorage.getItem("app-watermark-rotate");
-    const savedFontSize = localStorage.getItem("app-watermark-fontSize");
-    const savedOpacity = localStorage.getItem("app-watermark-opacity");
+    const savedEnabled = localStorage.getItem('app-watermark-enabled');
+    const savedContent = localStorage.getItem('app-watermark-content');
+    const savedGap = localStorage.getItem('app-watermark-gap');
+    const savedRotate = localStorage.getItem('app-watermark-rotate');
+    const savedFontSize = localStorage.getItem('app-watermark-fontSize');
+    const savedOpacity = localStorage.getItem('app-watermark-opacity');
 
-    if (savedEnabled) setEnabled(savedEnabled === "true");
+    if (savedEnabled) setEnabled(savedEnabled === 'true');
     if (savedContent) setContent(savedContent);
     if (savedGap) {
       try {

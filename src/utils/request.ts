@@ -4,9 +4,10 @@ import axios, {
   AxiosResponse,
   AxiosError,
   InternalAxiosRequestConfig,
-} from "axios";
-import { useAuthStore } from "@/stores/auth";
-import router from "@/router";
+} from 'axios';
+
+import router from '@/router';
+import { useAuthStore } from '@/stores/auth';
 
 // Token refresh state
 let refreshPromise: Promise<string> | null = null;
@@ -16,7 +17,7 @@ const service: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 15000,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -33,7 +34,7 @@ service.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
-    console.error("Request error:", error);
+    console.error('Request error:', error);
     return Promise.reject(error);
   },
 );
@@ -48,13 +49,13 @@ service.interceptors.response.use(
       // Handle specific error codes
       if (res.code === 401) {
         // Will be handled in error interceptor
-        return Promise.reject(new Error(res.message || "Unauthorized"));
+        return Promise.reject(new Error(res.message || 'Unauthorized'));
       } else if (res.code === 403) {
         // Forbidden - no permission
-        console.error("No permission:", res.message);
+        console.error('No permission:', res.message);
       }
 
-      return Promise.reject(new Error(res.message || "Error"));
+      return Promise.reject(new Error(res.message || 'Error'));
     }
 
     return res;
@@ -65,11 +66,7 @@ service.interceptors.response.use(
     };
 
     // Handle 401 errors with token refresh
-    if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry
-    ) {
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       originalRequest._retry = true;
 
       try {
@@ -96,13 +93,13 @@ service.interceptors.response.use(
         // Refresh failed - logout and redirect to login
         const authStore = useAuthStore();
         authStore.logout();
-        router.push("/login");
+        router.push('/login');
         return Promise.reject(refreshError);
       }
     }
 
     // Handle other errors
-    console.error("Response error:", error);
+    console.error('Response error:', error);
 
     if (error.response) {
       const { status } = error.response;
@@ -110,25 +107,25 @@ service.interceptors.response.use(
       switch (status) {
         case 403:
           // Forbidden
-          console.error("Access forbidden");
-          router.push("/403");
+          console.error('Access forbidden');
+          router.push('/403');
           break;
         case 404:
           // Not found
-          console.error("Resource not found");
+          console.error('Resource not found');
           break;
         case 500:
           // Server error
-          console.error("Server error");
-          router.push("/500");
+          console.error('Server error');
+          router.push('/500');
           break;
         default:
           console.error(`Error ${status}:`, error.message);
       }
     } else if (error.request) {
-      console.error("No response received:", error.request);
+      console.error('No response received:', error.request);
     } else {
-      console.error("Request setup error:", error.message);
+      console.error('Request setup error:', error.message);
     }
 
     return Promise.reject(error);
@@ -141,19 +138,11 @@ export const request = {
     return service.get(url, config);
   },
 
-  post<T = any>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig,
-  ): Promise<T> {
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return service.post(url, data, config);
   },
 
-  put<T = any>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig,
-  ): Promise<T> {
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return service.put(url, data, config);
   },
 
@@ -161,11 +150,7 @@ export const request = {
     return service.delete(url, config);
   },
 
-  patch<T = any>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig,
-  ): Promise<T> {
+  patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return service.patch(url, data, config);
   },
 };

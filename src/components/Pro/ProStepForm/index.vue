@@ -24,7 +24,7 @@
     <div class="pro-step-form-actions">
       <a-space wrap>
         <a-button :disabled="currentStep === 0" @click="handlePrev">
-          {{ prevText || $t("proStepForm.prev") }}
+          {{ prevText || $t('proStepForm.prev') }}
         </a-button>
         <a-button
           v-if="currentStep < steps.length - 1"
@@ -32,10 +32,10 @@
           :loading="loading"
           @click="handleNext"
         >
-          {{ nextText || $t("proStepForm.next") }}
+          {{ nextText || $t('proStepForm.next') }}
         </a-button>
         <a-button v-else type="primary" :loading="loading" @click="handleSubmit">
-          {{ submitText || $t("common.submit") }}
+          {{ submitText || $t('common.submit') }}
         </a-button>
         <slot name="extra-actions" :current-step="currentStep" />
       </a-space>
@@ -44,9 +44,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import { useI18n } from "vue-i18n";
-import type { ProStepFormStep } from "@/types/pro";
+import type { ProStepFormStep } from '@/types/pro';
+
+import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const { t: $t } = useI18n();
 
@@ -66,10 +67,10 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: "update:modelValue", step: number): void;
-  (e: "next", currentStep: number): void;
-  (e: "prev", currentStep: number): void;
-  (e: "submit"): void;
+  (e: 'update:modelValue', step: number): void;
+  (e: 'next', currentStep: number): void;
+  (e: 'prev', currentStep: number): void;
+  (e: 'submit'): void;
 }>();
 
 const currentStep = ref(props.modelValue);
@@ -82,22 +83,22 @@ watch(
 );
 
 watch(currentStep, (val) => {
-  emit("update:modelValue", val);
+  emit('update:modelValue', val);
 });
 
 const handlePrev = () => {
   if (currentStep.value > 0) {
     currentStep.value -= 1;
-    emit("prev", currentStep.value);
+    emit('prev', currentStep.value);
   }
 };
 
 const handleNext = () => {
-  emit("next", currentStep.value);
+  emit('next', currentStep.value);
 };
 
 const handleSubmit = () => {
-  emit("submit");
+  emit('submit');
 };
 
 defineExpose({

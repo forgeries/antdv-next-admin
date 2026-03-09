@@ -5,15 +5,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from "@milkdown/core";
-import { nord } from "@milkdown/theme-nord";
-import { commonmark } from "@milkdown/preset-commonmark";
-import { gfm } from "@milkdown/preset-gfm";
-import { history } from "@milkdown/plugin-history";
-import { clipboard } from "@milkdown/plugin-clipboard";
-import { listener, listenerCtx } from "@milkdown/plugin-listener";
-import { prism } from "@milkdown/plugin-prism";
+import { Editor, rootCtx, defaultValueCtx, editorViewOptionsCtx } from '@milkdown/core';
+import { clipboard } from '@milkdown/plugin-clipboard';
+import { history } from '@milkdown/plugin-history';
+import { listener, listenerCtx } from '@milkdown/plugin-listener';
+import { prism } from '@milkdown/plugin-prism';
+import { commonmark } from '@milkdown/preset-commonmark';
+import { gfm } from '@milkdown/preset-gfm';
+import { nord } from '@milkdown/theme-nord';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 interface Props {
   modelValue?: string;
@@ -23,14 +23,14 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: "",
-  placeholder: "",
+  modelValue: '',
+  placeholder: '',
   readonly: false,
   height: 400,
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
+  'update:modelValue': [value: string];
   change: [value: string];
 }>();
 
@@ -40,7 +40,7 @@ const isDark = ref(false);
 
 // 检测暗色主题
 const checkDarkTheme = () => {
-  isDark.value = document.documentElement.classList.contains("dark");
+  isDark.value = document.documentElement.classList.contains('dark');
 };
 
 onMounted(async () => {
@@ -62,8 +62,8 @@ onMounted(async () => {
       // 监听内容变化
       ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
         if (markdown !== prevMarkdown) {
-          emit("update:modelValue", markdown);
-          emit("change", markdown);
+          emit('update:modelValue', markdown);
+          emit('change', markdown);
         }
       });
     })
@@ -150,7 +150,7 @@ watch(
 .milkdown-container {
   :deep(.milkdown) {
     padding: 16px;
-    min-height: v-bind(height + "px");
+    min-height: v-bind(height + 'px');
 
     // 编辑器样式覆盖
     .editor {
@@ -221,7 +221,7 @@ watch(
       padding: 0.2em 0.4em;
       border-radius: 3px;
       font-size: 0.9em;
-      font-family: "Courier New", monospace;
+      font-family: 'Courier New', monospace;
     }
 
     pre {

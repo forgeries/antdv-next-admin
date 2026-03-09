@@ -1,9 +1,10 @@
-import { defineStore } from "pinia";
-import { ref, computed } from "vue";
-import type { ThemeMode } from "@/types/layout";
+import type { ThemeMode } from '@/types/layout';
 
-const THEME_TRANSITION_CLASS = "theme-transition";
-const THEME_VIEW_TRANSITION_CLASS = "theme-view-transition";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+
+const THEME_TRANSITION_CLASS = 'theme-transition';
+const THEME_VIEW_TRANSITION_CLASS = 'theme-view-transition';
 const THEME_TRANSITION_DURATION_MS = 520;
 
 interface ThemeTransitionOrigin {
@@ -23,18 +24,18 @@ interface ViewTransitionLike {
 
 type StartViewTransition = (callback: () => void) => ViewTransitionLike;
 
-export const useThemeStore = defineStore("theme", () => {
+export const useThemeStore = defineStore('theme', () => {
   // State
-  const mode = ref<ThemeMode>("system");
+  const mode = ref<ThemeMode>('system');
   const systemPrefersDark = ref(false);
   let transitionTimer: number | null = null;
 
   // Getters
   const isDark = computed(() => {
-    if (mode.value === "system") {
+    if (mode.value === 'system') {
       return systemPrefersDark.value;
     }
-    return mode.value === "dark";
+    return mode.value === 'dark';
   });
 
   // Actions
@@ -59,14 +60,14 @@ export const useThemeStore = defineStore("theme", () => {
     const documentWithTransition = document as Document & {
       startViewTransition?: StartViewTransition;
     };
-    if (typeof documentWithTransition.startViewTransition !== "function") {
+    if (typeof documentWithTransition.startViewTransition !== 'function') {
       return null;
     }
     return documentWithTransition.startViewTransition.bind(documentWithTransition);
   };
 
   const supportsCircularRevealTransition = () => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return false;
     }
     return !!getStartViewTransition();
@@ -90,15 +91,15 @@ export const useThemeStore = defineStore("theme", () => {
     );
 
     root.classList.add(THEME_VIEW_TRANSITION_CLASS);
-    root.style.setProperty("--theme-transition-x", `${x}px`);
-    root.style.setProperty("--theme-transition-y", `${y}px`);
-    root.style.setProperty("--theme-transition-radius", `${endRadius}px`);
+    root.style.setProperty('--theme-transition-x', `${x}px`);
+    root.style.setProperty('--theme-transition-y', `${y}px`);
+    root.style.setProperty('--theme-transition-radius', `${endRadius}px`);
 
     const cleanup = () => {
       root.classList.remove(THEME_VIEW_TRANSITION_CLASS);
-      root.style.removeProperty("--theme-transition-x");
-      root.style.removeProperty("--theme-transition-y");
-      root.style.removeProperty("--theme-transition-radius");
+      root.style.removeProperty('--theme-transition-x');
+      root.style.removeProperty('--theme-transition-y');
+      root.style.removeProperty('--theme-transition-radius');
     };
 
     try {
@@ -117,8 +118,8 @@ export const useThemeStore = defineStore("theme", () => {
 
   const applyTheme = () => {
     const root = document.documentElement;
-    root.classList.toggle("dark", isDark.value);
-    localStorage.setItem("theme-mode", mode.value);
+    root.classList.toggle('dark', isDark.value);
+    localStorage.setItem('theme-mode', mode.value);
   };
 
   const updateTheme = (options: ThemeUpdateOptions = {}) => {
@@ -149,7 +150,7 @@ export const useThemeStore = defineStore("theme", () => {
   };
 
   const toggleTheme = (options: ThemeUpdateOptions = {}) => {
-    const modes: ThemeMode[] = ["light", "dark", "system"];
+    const modes: ThemeMode[] = ['light', 'dark', 'system'];
     const currentIndex = modes.indexOf(mode.value);
     const nextIndex = (currentIndex + 1) % modes.length;
     setTheme(modes[nextIndex], options);
@@ -157,18 +158,18 @@ export const useThemeStore = defineStore("theme", () => {
 
   const initTheme = () => {
     // Get saved theme mode
-    const savedMode = localStorage.getItem("theme-mode") as ThemeMode;
-    if (savedMode && ["light", "dark", "system"].includes(savedMode)) {
+    const savedMode = localStorage.getItem('theme-mode') as ThemeMode;
+    if (savedMode && ['light', 'dark', 'system'].includes(savedMode)) {
       mode.value = savedMode;
     }
 
     // Listen to system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     systemPrefersDark.value = mediaQuery.matches;
 
-    mediaQuery.addEventListener("change", (e) => {
+    mediaQuery.addEventListener('change', (e) => {
       systemPrefersDark.value = e.matches;
-      if (mode.value === "system") {
+      if (mode.value === 'system') {
         updateTheme({ withTransition: true });
       }
     });

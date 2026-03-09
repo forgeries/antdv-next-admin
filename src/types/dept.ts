@@ -16,7 +16,7 @@ export interface Department {
   /** 排序 */
   sort: number;
   /** 状态 */
-  status: "enabled" | "disabled";
+  status: 'enabled' | 'disabled';
   /** 备注 */
   remark?: string;
   createTime: string;
@@ -30,5 +30,5 @@ export interface Department {
  */
 export interface DeptQueryParams {
   name?: string;
-  status?: "enabled" | "disabled";
+  status?: 'enabled' | 'disabled';
 }

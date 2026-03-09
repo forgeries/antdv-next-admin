@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from 'vue';
 
 /**
  * Fullscreen composable
@@ -25,7 +25,7 @@ export function useFullscreen() {
 
       isFullscreen.value = true;
     } catch (error) {
-      console.error("Failed to enter fullscreen:", error);
+      console.error('Failed to enter fullscreen:', error);
     }
   };
 
@@ -46,7 +46,7 @@ export function useFullscreen() {
 
       isFullscreen.value = false;
     } catch (error) {
-      console.error("Failed to exit fullscreen:", error);
+      console.error('Failed to exit fullscreen:', error);
     }
   };
 
@@ -75,10 +75,10 @@ export function useFullscreen() {
 
   onMounted(() => {
     // Listen to fullscreen change events
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
     // Check initial state
     handleFullscreenChange();
@@ -86,10 +86,10 @@ export function useFullscreen() {
 
   onUnmounted(() => {
     // Remove event listeners
-    document.removeEventListener("fullscreenchange", handleFullscreenChange);
-    document.removeEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.removeEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
   });
 
   return {

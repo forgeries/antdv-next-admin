@@ -1,11 +1,12 @@
-import { defineMock } from "vite-plugin-mock-dev-server";
-import { operationLogs, loginLogs } from "../data/log.data";
+import { defineMock } from 'vite-plugin-mock-dev-server';
+
+import { operationLogs, loginLogs } from '../data/log.data';
 
 export default defineMock([
   // operation log list
   {
-    url: "/api/log/operation/list",
-    method: "GET",
+    url: '/api/log/operation/list',
+    method: 'GET',
     body: (req) => {
       const {
         username,
@@ -45,7 +46,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "success",
+        message: 'success',
         data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) },
       };
     },
@@ -53,8 +54,8 @@ export default defineMock([
 
   // login log list
   {
-    url: "/api/log/login/list",
-    method: "GET",
+    url: '/api/log/login/list',
+    method: 'GET',
     body: (req) => {
       const { username, ip, status, startTime, endTime, page = 1, pageSize = 10 } = req.query;
 
@@ -82,7 +83,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "success",
+        message: 'success',
         data: { list, total: filtered.length, page: Number(page), pageSize: Number(pageSize) },
       };
     },
@@ -90,21 +91,21 @@ export default defineMock([
 
   // clear operation log
   {
-    url: "/api/log/operation/clear",
-    method: "DELETE",
+    url: '/api/log/operation/clear',
+    method: 'DELETE',
     body: () => {
       operationLogs.length = 0;
-      return { code: 200, message: "success" };
+      return { code: 200, message: 'success' };
     },
   },
 
   // clear login log
   {
-    url: "/api/log/login/clear",
-    method: "DELETE",
+    url: '/api/log/login/clear',
+    method: 'DELETE',
     body: () => {
       loginLogs.length = 0;
-      return { code: 200, message: "success" };
+      return { code: 200, message: 'success' };
     },
   },
 ]);

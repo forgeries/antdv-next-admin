@@ -1,17 +1,17 @@
-import type { AppRouteRecordRaw, MenuItem, RouteConfig } from "@/types/router";
+import type { AppRouteRecordRaw, MenuItem, RouteConfig } from '@/types/router';
 
-function resolveRoutePath(path: string, basePath = ""): string {
+function resolveRoutePath(path: string, basePath = ''): string {
   if (!path) {
-    return basePath || "/";
+    return basePath || '/';
   }
 
-  if (path.startsWith("/")) {
+  if (path.startsWith('/')) {
     return path;
   }
 
-  const normalizedBase = basePath === "/" ? "" : basePath.replace(/\/$/, "");
-  const resolved = `${normalizedBase}/${path}`.replace(/\/+/g, "/");
-  return resolved.startsWith("/") ? resolved : `/${resolved}`;
+  const normalizedBase = basePath === '/' ? '' : basePath.replace(/\/$/, '');
+  const resolved = `${normalizedBase}/${path}`.replace(/\/+/g, '/');
+  return resolved.startsWith('/') ? resolved : `/${resolved}`;
 }
 
 /**
@@ -21,7 +21,7 @@ export function filterRoutesByPermission(
   routes: AppRouteRecordRaw[],
   permissions: string[],
 ): AppRouteRecordRaw[] {
-  const hasAllPermission = permissions.includes("*");
+  const hasAllPermission = permissions.includes('*');
 
   return routes.filter((route) => {
     if (route.meta?.requiredPermissions && !hasAllPermission) {
@@ -71,7 +71,7 @@ export function filterRoutesByRole(
 /**
  * Convert routes to menu tree
  */
-export function routesToMenuTree(routes: AppRouteRecordRaw[], basePath = ""): MenuItem[] {
+export function routesToMenuTree(routes: AppRouteRecordRaw[], basePath = ''): MenuItem[] {
   return routes
     .filter((route) => !route.meta?.hidden)
     .map((route) => {
@@ -190,7 +190,7 @@ export function getBreadcrumbFromRoute(
  * Check if route has permission
  */
 export function hasRoutePermission(route: AppRouteRecordRaw, permissions: string[]): boolean {
-  if (permissions.includes("*")) {
+  if (permissions.includes('*')) {
     return true;
   }
 
@@ -211,7 +211,7 @@ export function getAllMenuPaths(routes: AppRouteRecordRaw[]): Array<{
 }> {
   const result: Array<{ path: string; title: string; icon?: string }> = [];
 
-  const traverse = (routes: AppRouteRecordRaw[], basePath = "") => {
+  const traverse = (routes: AppRouteRecordRaw[], basePath = '') => {
     routes.forEach((route) => {
       const fullPath = resolveRoutePath(route.path, basePath);
 

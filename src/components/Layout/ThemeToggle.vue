@@ -10,17 +10,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from "vue";
-import { MoonOutlined, SunOutlined } from "@antdv-next/icons";
-import { useThemeStore } from "@/stores/theme";
-import { $t } from "@/locales";
+import { MoonOutlined, SunOutlined } from '@antdv-next/icons';
+import { computed, onBeforeUnmount, ref } from 'vue';
+
+import { $t } from '@/locales';
+import { useThemeStore } from '@/stores/theme';
 
 const themeStore = useThemeStore();
 const isRotating = ref(false);
 let rotateTimer: number | null = null;
 
 const tooltipTitle = computed(() => {
-  return themeStore.isDark ? `${$t("layout.theme")} (Light)` : `${$t("layout.theme")} (Dark)`;
+  return themeStore.isDark ? `${$t('layout.theme')} (Light)` : `${$t('layout.theme')} (Dark)`;
 });
 
 const resetRotateState = () => {
@@ -39,7 +40,7 @@ const handleThemeToggle = (event: MouseEvent) => {
     rotateTimer = null;
   }, 620);
 
-  themeStore.setTheme(themeStore.isDark ? "light" : "dark", {
+  themeStore.setTheme(themeStore.isDark ? 'light' : 'dark', {
     origin: {
       x: event.clientX,
       y: event.clientY,

@@ -1,13 +1,13 @@
 /**
  * Common form validation rules
  */
-import { $t } from "@/locales";
+import { $t } from '@/locales';
 
 export const commonRules = {
   /**
    * Required field
    */
-  required: (message = $t("validation.required")) => ({
+  required: (message = $t('validation.required')) => ({
     required: true,
     message,
   }),
@@ -15,7 +15,7 @@ export const commonRules = {
   /**
    * Email validation
    */
-  email: (message = $t("validation.email")) => ({
+  email: (message = $t('validation.email')) => ({
     validator: (_: any, value: any) => {
       if (!value) return Promise.resolve();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,7 +29,7 @@ export const commonRules = {
   /**
    * Phone number validation (Chinese)
    */
-  phone: (message = $t("validation.phone")) => ({
+  phone: (message = $t('validation.phone')) => ({
     validator: (_: any, value: any) => {
       if (!value) return Promise.resolve();
       if (/^1[3-9]\d{9}$/.test(value)) {
@@ -42,7 +42,7 @@ export const commonRules = {
   /**
    * ID card validation (Chinese)
    */
-  idCard: (message = $t("validation.idCard")) => ({
+  idCard: (message = $t('validation.idCard')) => ({
     pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
     message,
   }),
@@ -50,8 +50,8 @@ export const commonRules = {
   /**
    * URL validation
    */
-  url: (message = $t("validation.url")) => ({
-    type: "url" as const,
+  url: (message = $t('validation.url')) => ({
+    type: 'url' as const,
     message,
   }),
 
@@ -61,17 +61,17 @@ export const commonRules = {
   length: (min: number, max: number, message?: string) => ({
     min,
     max,
-    message: message || $t("validation.lengthRange", { min, max }),
+    message: message || $t('validation.lengthRange', { min, max }),
   }),
 
   /**
    * Number range validation
    */
   range: (min: number, max: number, message?: string) => ({
-    type: "number" as const,
+    type: 'number' as const,
     min,
     max,
-    message: message || $t("validation.numberRange", { min, max }),
+    message: message || $t('validation.numberRange', { min, max }),
   }),
 
   /**
@@ -92,7 +92,7 @@ export const commonRules = {
   /**
    * Username validation
    */
-  username: (message = $t("validation.usernamePattern")) => ({
+  username: (message = $t('validation.usernamePattern')) => ({
     validator: (_: any, value: any) => {
       if (!value) return Promise.resolve();
       if (/^[a-zA-Z0-9_]+$/.test(value)) {
@@ -105,7 +105,7 @@ export const commonRules = {
   /**
    * Password strength validation
    */
-  password: (message = $t("validation.passwordPattern")) => ({
+  password: (message = $t('validation.passwordPattern')) => ({
     validator: (_: any, value: any) => {
       if (!value) return Promise.resolve();
       if (/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(value)) {
@@ -120,10 +120,10 @@ export const commonRules = {
    */
   confirmPassword: (
     getFieldValue: (field: string) => any,
-    message = $t("validation.confirmPassword"),
+    message = $t('validation.confirmPassword'),
   ) => ({
     validator: (_: any, value: any) => {
-      if (!value || getFieldValue("password") === value) {
+      if (!value || getFieldValue('password') === value) {
         return Promise.resolve();
       }
       return Promise.reject(new Error(message));

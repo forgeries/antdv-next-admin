@@ -1,4 +1,4 @@
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
 
 // Statistics data
 export const mockStats = {
@@ -13,7 +13,7 @@ export const mockSalesTrend = Array.from({ length: 12 }, (_, index) => {
   const date = new Date();
   date.setMonth(date.getMonth() - (11 - index));
   return {
-    month: date.toLocaleDateString("en-US", { year: "numeric", month: "2-digit" }),
+    month: date.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit' }),
     sales: faker.number.int({ min: 20000, max: 80000 }),
     orders: faker.number.int({ min: 500, max: 2000 }),
   };
@@ -21,13 +21,13 @@ export const mockSalesTrend = Array.from({ length: 12 }, (_, index) => {
 
 // User distribution by city
 export const mockUserDistribution = [
-  { city: "Beijing", value: 2341 },
-  { city: "Shanghai", value: 2156 },
-  { city: "Guangzhou", value: 1876 },
-  { city: "Shenzhen", value: 1654 },
-  { city: "Hangzhou", value: 1432 },
-  { city: "Chengdu", value: 1289 },
-  { city: "Other", value: 2710 },
+  { city: 'Beijing', value: 2341 },
+  { city: 'Shanghai', value: 2156 },
+  { city: 'Guangzhou', value: 1876 },
+  { city: 'Shenzhen', value: 1654 },
+  { city: 'Hangzhou', value: 1432 },
+  { city: 'Chengdu', value: 1289 },
+  { city: 'Other', value: 2710 },
 ];
 
 // Recent activities
@@ -36,15 +36,15 @@ export const mockActivities = Array.from({ length: 10 }, (_, index) => ({
   user: faker.person.fullName(),
   avatar: faker.image.avatar(),
   action: faker.helpers.arrayElement([
-    "Created a new user",
-    "Updated role permissions",
-    "Deleted expired data",
-    "Exported reports",
-    "Updated system settings",
-    "Uploaded a new file",
+    'Created a new user',
+    'Updated role permissions',
+    'Deleted expired data',
+    'Exported reports',
+    'Updated system settings',
+    'Uploaded a new file',
   ]),
   timestamp: faker.date.recent({ days: 7 }).toISOString(),
-  type: faker.helpers.arrayElement(["success", "info", "warning", "error"]),
+  type: faker.helpers.arrayElement(['success', 'info', 'warning', 'error']),
 }));
 
 // Chart data for different visualizations
@@ -54,11 +54,11 @@ export const mockChartData = {
     xAxis: mockSalesTrend.map((item) => item.month),
     series: [
       {
-        name: "Sales",
+        name: 'Sales',
         data: mockSalesTrend.map((item) => item.sales),
       },
       {
-        name: "Orders",
+        name: 'Orders',
         data: mockSalesTrend.map((item) => item.orders),
       },
     ],
@@ -66,14 +66,14 @@ export const mockChartData = {
 
   // Bar chart - Monthly comparison
   barChart: {
-    xAxis: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+    xAxis: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     series: [
       {
-        name: "Current Year",
+        name: 'Current Year',
         data: [820, 932, 901, 934, 1290, 1330],
       },
       {
-        name: "Last Year",
+        name: 'Last Year',
         data: [720, 832, 801, 834, 1190, 1230],
       },
     ],
@@ -92,7 +92,7 @@ export const mockChartData = {
     xAxis: Array.from({ length: 24 }, (_, i) => `${i}:00`),
     series: [
       {
-        name: "Visits",
+        name: 'Visits',
         data: Array.from({ length: 24 }, () => faker.number.int({ min: 100, max: 1000 })),
       },
     ],

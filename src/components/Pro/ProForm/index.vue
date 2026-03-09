@@ -33,10 +33,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
-import { $t } from "@/locales";
-import type { ProFormItem, ProFormLayout, ProFormGrid } from "@/types/pro";
-import FormItemRender from "./FormItemRender.vue";
+import type { ProFormItem, ProFormLayout, ProFormGrid } from '@/types/pro';
+
+import { ref, computed, watch } from 'vue';
+
+import { $t } from '@/locales';
+
+import FormItemRender from './FormItemRender.vue';
 
 interface Props {
   formItems: ProFormItem[];
@@ -49,7 +52,7 @@ const props = withDefaults(defineProps<Props>(), {
   layout: () => ({
     labelCol: { span: 6 },
     wrapperCol: { span: 18 },
-    layout: "horizontal",
+    layout: 'horizontal',
   }),
   grid: () => ({
     gutter: 16,
@@ -57,7 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
   }),
 });
 
-const emit = defineEmits(["submit", "valuesChange", "finish"]);
+const emit = defineEmits(['submit', 'valuesChange', 'finish']);
 
 const formRef = ref();
 const formData = ref<Record<string, any>>({});
@@ -65,7 +68,7 @@ const formData = ref<Record<string, any>>({});
 // Computed
 const visibleFormItems = computed(() => {
   return props.formItems.filter((item) => {
-    if (typeof item.hidden === "function") return !item.hidden(formData.value);
+    if (typeof item.hidden === 'function') return !item.hidden(formData.value);
     return !item.hidden;
   });
 });
@@ -79,7 +82,7 @@ const formRules = computed(() => {
     if (item.required) {
       itemRules.push({
         required: true,
-        message: $t("proForm.enterPlaceholder", { label: String(item.label ?? "") }),
+        message: $t('proForm.enterPlaceholder', { label: String(item.label ?? '') }),
       });
     }
 
@@ -104,8 +107,8 @@ const getColSpan = (item: ProFormItem) => {
 };
 
 const handleFinish = (values: any) => {
-  emit("finish", values);
-  emit("submit", values);
+  emit('finish', values);
+  emit('submit', values);
 };
 
 // Watch initial values
@@ -123,7 +126,7 @@ watch(
 watch(
   formData,
   (values) => {
-    emit("valuesChange", values);
+    emit('valuesChange', values);
   },
   { deep: true },
 );
@@ -169,7 +172,7 @@ defineExpose({
       font-size: 14px;
       font-family: SimSun, sans-serif;
       line-height: 1;
-      content: "*";
+      content: '*';
     }
   }
 

@@ -1,17 +1,17 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import AntdvNext from "antdv-next";
-import App from "./App.vue";
-import router from "./router";
-import i18n from "./locales";
-import { setupDirectives } from "./directives";
-import { registerDefaultComponentProps } from "./components/Global/defaultComponentProps";
+import AntdvNext from 'antdv-next';
+import { createPinia } from 'pinia';
+import { createApp } from 'vue';
 
+import App from './App.vue';
+import { registerDefaultComponentProps } from './components/Global/defaultComponentProps';
+import { setupDirectives } from './directives';
+import i18n from './locales';
+import router from './router';
 // Import global styles
-import "antdv-next/dist/reset.css";
-import "./assets/styles/global.css";
-import "./assets/styles/variables.css";
-import "./assets/styles/animations.css";
+import 'antdv-next/dist/reset.css';
+import './assets/styles/global.css';
+import './assets/styles/variables.css';
+import './assets/styles/animations.css';
 
 const app = createApp(App);
 
@@ -25,4 +25,4 @@ registerDefaultComponentProps(app);
 // Register custom directives
 setupDirectives(app);
 
-app.mount("#app");
+app.mount('#app');

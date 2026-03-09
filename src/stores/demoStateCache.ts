@@ -1,7 +1,7 @@
-import { defineStore } from "pinia";
-import { ref, watch } from "vue";
+import { defineStore } from 'pinia';
+import { ref, watch } from 'vue';
 
-const STORAGE_KEY = "demo-state-cache";
+const STORAGE_KEY = 'demo-state-cache';
 
 type PersistedState = {
   keyword: string;
@@ -15,31 +15,31 @@ const loadPersistedState = (): PersistedState => {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return {
-        keyword: "",
+        keyword: '',
         counter: 0,
-        notes: "",
-        updatedAt: "-",
+        notes: '',
+        updatedAt: '-',
       };
     }
 
     const parsed = JSON.parse(raw) as PersistedState;
     return {
-      keyword: parsed.keyword || "",
+      keyword: parsed.keyword || '',
       counter: Number(parsed.counter || 0),
-      notes: parsed.notes || "",
-      updatedAt: parsed.updatedAt || "-",
+      notes: parsed.notes || '',
+      updatedAt: parsed.updatedAt || '-',
     };
   } catch {
     return {
-      keyword: "",
+      keyword: '',
       counter: 0,
-      notes: "",
-      updatedAt: "-",
+      notes: '',
+      updatedAt: '-',
     };
   }
 };
 
-export const useDemoStateCacheStore = defineStore("demoStateCache", () => {
+export const useDemoStateCacheStore = defineStore('demoStateCache', () => {
   const initial = loadPersistedState();
 
   const keyword = ref(initial.keyword);
@@ -61,9 +61,9 @@ export const useDemoStateCacheStore = defineStore("demoStateCache", () => {
   watch([keyword, counter, notes], persist, { deep: true });
 
   const reset = () => {
-    keyword.value = "";
+    keyword.value = '';
     counter.value = 0;
-    notes.value = "";
+    notes.value = '';
     persist();
   };
 

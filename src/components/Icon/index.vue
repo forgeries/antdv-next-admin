@@ -19,13 +19,14 @@
 </template>
 
 <script setup lang="ts">
-import type { StyleValue } from "vue";
-import { computed } from "vue";
-import { Icon as IconifyIcon } from "@iconify/vue";
-import * as AntdvIcons from "@antdv-next/icons";
+import type { StyleValue } from 'vue';
 
-type NormalizedIconKind = "iconify" | "antdv-next" | "svg";
-type IconKind = NormalizedIconKind | "antdvNext" | "antd";
+import * as AntdvIcons from '@antdv-next/icons';
+import { Icon as IconifyIcon } from '@iconify/vue';
+import { computed } from 'vue';
+
+type NormalizedIconKind = 'iconify' | 'antdv-next' | 'svg';
+type IconKind = NormalizedIconKind | 'antdvNext' | 'antd';
 
 interface Props {
   icon: string;
@@ -46,8 +47,8 @@ const normalizeKind = (kind?: IconKind): NormalizedIconKind | undefined => {
   if (!kind) {
     return undefined;
   }
-  if (kind === "antdvNext" || kind === "antd") {
-    return "antdv-next";
+  if (kind === 'antdvNext' || kind === 'antd') {
+    return 'antdv-next';
   }
   return kind;
 };
@@ -60,19 +61,19 @@ const resolvedKind = computed<NormalizedIconKind>(() => {
     return forcedKind;
   }
 
-  if (iconText.value.startsWith("antdv-next:") || iconText.value.startsWith("antd:")) {
-    return "antdv-next";
+  if (iconText.value.startsWith('antdv-next:') || iconText.value.startsWith('antd:')) {
+    return 'antdv-next';
   }
 
-  if (iconText.value.startsWith("svg:")) {
-    return "svg";
+  if (iconText.value.startsWith('svg:')) {
+    return 'svg';
   }
 
-  return "iconify";
+  return 'iconify';
 });
 
 const antdvKey = computed(() => {
-  return stripPrefix(stripPrefix(iconText.value, "antdv-next:"), "antd:");
+  return stripPrefix(stripPrefix(iconText.value, 'antdv-next:'), 'antd:');
 });
 
 const antdvComp = computed(() => {
@@ -80,21 +81,21 @@ const antdvComp = computed(() => {
   return icons[antdvKey.value] || icons.QuestionOutlined;
 });
 
-const svgId = computed(() => stripPrefix(iconText.value, "svg:"));
+const svgId = computed(() => stripPrefix(iconText.value, 'svg:'));
 
-const iconifyIcon = computed(() => stripPrefix(iconText.value, "iconify:"));
+const iconifyIcon = computed(() => stripPrefix(iconText.value, 'iconify:'));
 
 const sizeCss = computed(() => {
-  return typeof props.size === "number" ? `${props.size}px` : props.size;
+  return typeof props.size === 'number' ? `${props.size}px` : props.size;
 });
 
 const baseStyle = computed(() => ({
   width: sizeCss.value,
   height: sizeCss.value,
   lineHeight: sizeCss.value,
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 </script>
 

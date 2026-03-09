@@ -25,15 +25,15 @@
     </div>
     <div class="point-toolbar">
       <div class="point-tip">
-        {{ $t("captcha.clickInOrder") }}<span class="highlight">{{ checkPoints.join(",") }}</span>
+        {{ $t('captcha.clickInOrder') }}<span class="highlight">{{ checkPoints.join(',') }}</span>
       </div>
-      <a-button size="small" @click="reset">{{ $t("captcha.refresh") }}</a-button>
+      <a-button size="small" @click="reset">{{ $t('captcha.refresh') }}</a-button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 interface Props {
   width?: number | string;
@@ -42,12 +42,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  width: "100%",
+  width: '100%',
   height: 160,
-  src: "https://picsum.photos/320/160",
+  src: 'https://picsum.photos/320/160',
 });
 
-const emit = defineEmits(["success", "fail"]);
+const emit = defineEmits(['success', 'fail']);
 
 const containerRef = ref<HTMLElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
@@ -74,7 +74,7 @@ const init = () => {
   isSuccess.value = false;
 
   if (!canvasRef.value) return;
-  const ctx = canvasRef.value.getContext("2d");
+  const ctx = canvasRef.value.getContext('2d');
   if (!ctx) return;
 
   // Calculate dimensions based on container width
@@ -83,7 +83,7 @@ const init = () => {
     const w = containerRef.value.clientWidth;
     if (w > 0) {
       currentWidth.value = w;
-      if (typeof props.height === "number") {
+      if (typeof props.height === 'number') {
         currentHeight.value = props.height;
       } else {
         currentHeight.value = Math.floor(w * ratio);
@@ -92,12 +92,12 @@ const init = () => {
   }
 
   const img = new Image();
-  img.crossOrigin = "Anonymous";
-  img.src = props.src + "?t=" + new Date().getTime();
+  img.crossOrigin = 'Anonymous';
+  img.src = props.src + '?t=' + new Date().getTime();
   img.onload = () => {
     ctx.drawImage(img, 0, 0, currentWidth.value, currentHeight.value);
 
-    const pool = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const pool = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     for (let i = 0; i < 4; i++) {
       const text = pool[randomNum(0, pool.length)];
       const fontSize = randomNum(20, 30);
@@ -168,9 +168,9 @@ const verify = () => {
 
   if (isCorrect) {
     isSuccess.value = true;
-    emit("success");
+    emit('success');
   } else {
-    emit("fail");
+    emit('fail');
     setTimeout(() => {
       clicks.value = [];
     }, 1000);

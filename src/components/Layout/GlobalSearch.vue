@@ -60,7 +60,7 @@
                 <div class="empty-icon">
                   <SearchOutlined />
                 </div>
-                <p>{{ $t("layout.noSearchResults") }}</p>
+                <p>{{ $t('layout.noSearchResults') }}</p>
               </div>
             </div>
 
@@ -68,9 +68,9 @@
             <div v-else-if="menuHistory.length > 0" class="search-results">
               <div class="search-group-header">
                 <ClockCircleOutlined class="header-icon" />
-                <span class="header-title">{{ $t("layout.recentMenus") || "最近访问" }}</span>
+                <span class="header-title">{{ $t('layout.recentMenus') || '最近访问' }}</span>
                 <a-button type="link" size="small" class="clear-btn" @click="clearHistory">
-                  {{ $t("common.clear") || "清空" }}
+                  {{ $t('common.clear') || '清空' }}
                 </a-button>
               </div>
               <div
@@ -109,7 +109,7 @@
               <div class="empty-icon">
                 <SearchOutlined />
               </div>
-              <p>{{ $t("layout.searchPlaceholder") }}</p>
+              <p>{{ $t('layout.searchPlaceholder') }}</p>
             </div>
           </div>
 
@@ -121,17 +121,17 @@
               <span class="key-badge">
                 <ArrowDownOutlined />
               </span>
-              <span class="footer-text">{{ $t("common.navigate") || "Navigate" }}</span>
+              <span class="footer-text">{{ $t('common.navigate') || 'Navigate' }}</span>
             </div>
             <div class="footer-item">
               <span class="key-badge">
                 <EnterOutlined />
               </span>
-              <span class="footer-text">{{ $t("common.select") || "Select" }}</span>
+              <span class="footer-text">{{ $t('common.select') || 'Select' }}</span>
             </div>
             <div class="footer-item">
               <span class="key-badge">ESC</span>
-              <span class="footer-text">{{ $t("common.close") || "Close" }}</span>
+              <span class="footer-text">{{ $t('common.close') || 'Close' }}</span>
             </div>
           </div>
         </div>
@@ -141,8 +141,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
-import { useRouter } from "vue-router";
+import type { MenuItem } from '@/types/router';
+
 import {
   SearchOutlined,
   FileOutlined,
@@ -153,17 +153,19 @@ import {
   CloseOutlined,
   StarOutlined,
   StarFilled,
-} from "@antdv-next/icons";
-import { basicRoutes } from "@/router/routes";
-import { routesToMenuTree } from "@/router/utils";
-import { usePermissionStore } from "@/stores/permission";
-import { useTabsStore } from "@/stores/tabs";
-import type { MenuItem } from "@/types/router";
-import { resolveLocaleText } from "@/utils/i18n";
-import { resolveIcon } from "@/utils/icon";
-import { match as pinyinMatch } from "pinyin-pro";
+} from '@antdv-next/icons';
+import { match as pinyinMatch } from 'pinyin-pro';
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
 
-const MENU_HISTORY_KEY = "app-menu-history";
+import { basicRoutes } from '@/router/routes';
+import { routesToMenuTree } from '@/router/utils';
+import { usePermissionStore } from '@/stores/permission';
+import { useTabsStore } from '@/stores/tabs';
+import { resolveLocaleText } from '@/utils/i18n';
+import { resolveIcon } from '@/utils/icon';
+
+const MENU_HISTORY_KEY = 'app-menu-history';
 const MAX_HISTORY_ITEMS = 10;
 
 interface SearchItem {
@@ -184,7 +186,7 @@ const router = useRouter();
 const permissionStore = usePermissionStore();
 const tabsStore = useTabsStore();
 const visible = ref(false);
-const searchQuery = ref("");
+const searchQuery = ref('');
 const searchResults = ref<SearchItem[]>([]);
 const activeIndex = ref(0);
 const searchInputRef = ref<HTMLInputElement | null>(null);
@@ -217,7 +219,7 @@ const searchSource = computed<SearchItem[]>(() => {
         // Leaf node: show full parent path
         items.push({
           path: menu.path,
-          title: currentLabels.join(" > "),
+          title: currentLabels.join(' > '),
           icon: menu.icon,
           rawTitle: menu.label,
         });
@@ -240,15 +242,15 @@ const searchSource = computed<SearchItem[]>(() => {
 const getIconComponent = (icon?: string) => resolveIcon(icon);
 
 const formatPath = (path: string) => {
-  return path.split("/").filter(Boolean).join(" > ");
+  return path.split('/').filter(Boolean).join(' > ');
 };
 
 const highlightText = (text: string, query: string): string => {
   if (!query) return text;
 
   // 1. Try direct text match
-  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`(${escaped})`, "gi");
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`(${escaped})`, 'gi');
   if (regex.test(text)) {
     return text.replace(regex, '<span class="highlight">$1</span>');
   }
@@ -259,7 +261,7 @@ const highlightText = (text: string, query: string): string => {
     const indexSet = new Set(matched);
     return Array.from(text)
       .map((char, i) => (indexSet.has(i) ? `<span class="highlight">${char}</span>` : char))
-      .join("");
+      .join('');
   }
 
   return text;
@@ -298,7 +300,7 @@ const toggleFavorite = (path: string) => {
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
-  if (e.key === "Escape") {
+  if (e.key === 'Escape') {
     e.preventDefault();
     close();
     return;
@@ -308,17 +310,17 @@ const handleKeydown = (e: KeyboardEvent) => {
   if (items.length === 0) return;
 
   switch (e.key) {
-    case "ArrowUp":
+    case 'ArrowUp':
       e.preventDefault();
       activeIndex.value = activeIndex.value > 0 ? activeIndex.value - 1 : items.length - 1;
       scrollActiveIntoView();
       break;
-    case "ArrowDown":
+    case 'ArrowDown':
       e.preventDefault();
       activeIndex.value = activeIndex.value < items.length - 1 ? activeIndex.value + 1 : 0;
       scrollActiveIntoView();
       break;
-    case "Enter":
+    case 'Enter':
       e.preventDefault();
       if (searchQuery.value) {
         handleResultClick(searchResults.value[activeIndex.value]);
@@ -331,9 +333,9 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 const scrollActiveIntoView = () => {
   nextTick(() => {
-    const activeEl = document.querySelector(".search-item.active");
+    const activeEl = document.querySelector('.search-item.active');
     if (activeEl) {
-      activeEl.scrollIntoView({ block: "nearest" });
+      activeEl.scrollIntoView({ block: 'nearest' });
     }
   });
 };
@@ -363,23 +365,23 @@ const clearHistory = () => {
 
 const open = () => {
   visible.value = true;
-  searchQuery.value = "";
+  searchQuery.value = '';
   searchResults.value = [];
   activeIndex.value = 0;
   loadMenuHistory();
   nextTick(() => {
     searchInputRef.value?.focus();
   });
-  window.addEventListener("keydown", handleGlobalKeydown);
+  window.addEventListener('keydown', handleGlobalKeydown);
 };
 
 const close = () => {
   visible.value = false;
-  window.removeEventListener("keydown", handleGlobalKeydown);
+  window.removeEventListener('keydown', handleGlobalKeydown);
 };
 
 const handleGlobalKeydown = (e: KeyboardEvent) => {
-  if (e.key === "Escape") {
+  if (e.key === 'Escape') {
     close();
   }
 };
@@ -389,7 +391,7 @@ watch(searchQuery, () => {
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleGlobalKeydown);
+  window.removeEventListener('keydown', handleGlobalKeydown);
 });
 
 defineExpose({ open, close });

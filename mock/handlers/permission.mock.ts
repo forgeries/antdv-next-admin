@@ -1,7 +1,9 @@
-import { defineMock } from "vite-plugin-mock-dev-server";
-import { mockPermissions } from "../data/permissions.data";
-import { faker } from "@faker-js/faker";
-import type { Permission } from "@/types/auth";
+import type { Permission } from '@/types/auth';
+
+import { faker } from '@faker-js/faker';
+import { defineMock } from 'vite-plugin-mock-dev-server';
+
+import { mockPermissions } from '../data/permissions.data';
 
 const permissionStore: Permission[] = JSON.parse(JSON.stringify(mockPermissions));
 
@@ -86,13 +88,13 @@ function filterPermissionTree(
     const matchedKeyword =
       !normalizedKeyword ||
       permission.name.toLowerCase().includes(normalizedKeyword) ||
-      String(permission.code || "")
+      String(permission.code || '')
         .toLowerCase()
         .includes(normalizedKeyword) ||
-      (permission.path || "").toLowerCase().includes(normalizedKeyword);
+      (permission.path || '').toLowerCase().includes(normalizedKeyword);
 
     const matchedType = !type || permission.type === type;
-    const matchedStatus = !status || (permission.status || "active") === status;
+    const matchedStatus = !status || (permission.status || 'active') === status;
     const matchedSelf = matchedKeyword && matchedType && matchedStatus;
 
     if (matchedSelf || children.length > 0) {
@@ -111,7 +113,7 @@ function normalizeQueryValue(value: unknown): string | undefined {
     return normalizeQueryValue(value[0]);
   }
 
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     return undefined;
   }
 
@@ -122,8 +124,8 @@ function normalizeQueryValue(value: unknown): string | undefined {
 export default defineMock([
   // Get permission list (tree structure)
   {
-    url: "/api/permissions",
-    method: "GET",
+    url: '/api/permissions',
+    method: 'GET',
     body: (req) => {
       const query = req.query || {};
       const keyword = normalizeQueryValue(query.keyword);
@@ -133,7 +135,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Success",
+        message: 'Success',
         data: deepClone(filtered),
         success: true,
       };
@@ -142,12 +144,12 @@ export default defineMock([
 
   // Get permission tree (for menu)
   {
-    url: "/api/permissions/tree",
-    method: "GET",
+    url: '/api/permissions/tree',
+    method: 'GET',
     body: () => {
       return {
         code: 200,
-        message: "Success",
+        message: 'Success',
         data: deepClone(permissionStore),
         success: true,
       };
@@ -156,8 +158,8 @@ export default defineMock([
 
   // Get permission by ID
   {
-    url: "/api/permissions/:id",
-    method: "GET",
+    url: '/api/permissions/:id',
+    method: 'GET',
     body: (req) => {
       const { id } = req.params;
       const { permission } = findPermissionById(permissionStore, id);
@@ -165,7 +167,7 @@ export default defineMock([
       if (!permission) {
         return {
           code: 404,
-          message: "Permission not found",
+          message: 'Permission not found',
           data: null,
           success: false,
         };
@@ -173,7 +175,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Success",
+        message: 'Success',
         data: deepClone(permission),
         success: true,
       };
@@ -182,24 +184,24 @@ export default defineMock([
 
   // Create permission
   {
-    url: "/api/permissions",
-    method: "POST",
+    url: '/api/permissions',
+    method: 'POST',
     body: (req) => {
       const payload = req.body || {};
       const permission: Permission = {
         id: faker.string.uuid(),
         name: payload.name,
         code: payload.code,
-        description: payload.description || "",
+        description: payload.description || '',
         resource: payload.resource || payload.path || payload.code,
-        action: payload.action || (payload.type === "menu" ? "view" : "*"),
-        type: payload.type || "menu",
+        action: payload.action || (payload.type === 'menu' ? 'view' : '*'),
+        type: payload.type || 'menu',
         parentId: payload.parentId,
         path: payload.path,
         component: payload.component,
         icon: payload.icon,
         sort: payload.sort ?? 0,
-        status: payload.status || "active",
+        status: payload.status || 'active',
         visible: payload.visible ?? true,
         children: payload.children && payload.children.length > 0 ? payload.children : undefined,
       };
@@ -208,7 +210,7 @@ export default defineMock([
       if (!appended) {
         return {
           code: 400,
-          message: "Parent permission not found",
+          message: 'Parent permission not found',
           data: null,
           success: false,
         };
@@ -216,7 +218,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Permission created successfully",
+        message: 'Permission created successfully',
         data: deepClone(permission),
         success: true,
       };
@@ -225,8 +227,8 @@ export default defineMock([
 
   // Update permission
   {
-    url: "/api/permissions/:id",
-    method: "PUT",
+    url: '/api/permissions/:id',
+    method: 'PUT',
     body: (req) => {
       const { id } = req.params;
       const payload = req.body || {};
@@ -235,7 +237,7 @@ export default defineMock([
       if (!permission) {
         return {
           code: 404,
-          message: "Permission not found",
+          message: 'Permission not found',
           data: null,
           success: false,
         };
@@ -251,7 +253,7 @@ export default defineMock([
           appendPermission(permissionStore, movedPermission, parent?.id);
           return {
             code: 400,
-            message: "Parent permission not found",
+            message: 'Parent permission not found',
             data: null,
             success: false,
           };
@@ -262,7 +264,7 @@ export default defineMock([
       if (!nextPermission) {
         return {
           code: 404,
-          message: "Permission not found",
+          message: 'Permission not found',
           data: null,
           success: false,
         };
@@ -273,7 +275,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Permission updated successfully",
+        message: 'Permission updated successfully',
         data: deepClone(nextPermission),
         success: true,
       };
@@ -282,8 +284,8 @@ export default defineMock([
 
   // Delete permission
   {
-    url: "/api/permissions/:id",
-    method: "DELETE",
+    url: '/api/permissions/:id',
+    method: 'DELETE',
     body: (req) => {
       const { id } = req.params;
       const removed = removePermissionById(permissionStore, id);
@@ -291,7 +293,7 @@ export default defineMock([
       if (!removed) {
         return {
           code: 404,
-          message: "Permission not found",
+          message: 'Permission not found',
           data: null,
           success: false,
         };
@@ -299,7 +301,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Permission deleted successfully",
+        message: 'Permission deleted successfully',
         data: null,
         success: true,
       };
@@ -308,19 +310,19 @@ export default defineMock([
 
   // Get user permissions
   {
-    url: "/api/permissions/user",
-    method: "GET",
+    url: '/api/permissions/user',
+    method: 'GET',
     body: (req) => {
       // In a real app, this would be based on the user's roles
       // For now, return all permissions for admin
-      const token = req.headers.authorization?.replace("Bearer ", "");
-      const userId = token?.split("-")[2];
+      const token = req.headers.authorization?.replace('Bearer ', '');
+      const userId = token?.split('-')[2];
 
-      if (userId === "1") {
+      if (userId === '1') {
         // Admin - all permissions
         return {
           code: 200,
-          message: "Success",
+          message: 'Success',
           data: deepClone(permissionStore),
           success: true,
         };
@@ -328,9 +330,9 @@ export default defineMock([
         // Regular user - limited permissions
         return {
           code: 200,
-          message: "Success",
+          message: 'Success',
           data: deepClone(
-            permissionStore.filter((permission) => permission.code === "dashboard.view"),
+            permissionStore.filter((permission) => permission.code === 'dashboard.view'),
           ),
           success: true,
         };

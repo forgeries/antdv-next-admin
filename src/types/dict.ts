@@ -6,7 +6,7 @@ export interface DictType {
   name: string;
   code: string;
   description?: string;
-  status: "enabled" | "disabled";
+  status: 'enabled' | 'disabled';
   createTime: string;
   updateTime: string;
 }
@@ -20,7 +20,7 @@ export interface DictData {
   label: string;
   value: string;
   sort: number;
-  status: "enabled" | "disabled";
+  status: 'enabled' | 'disabled';
   remark?: string;
   createTime: string;
   updateTime: string;
@@ -40,7 +40,7 @@ export interface DictQueryParams {
   typeCode?: string;
   label?: string;
   value?: string;
-  status?: "enabled" | "disabled";
+  status?: 'enabled' | 'disabled';
   page?: number;
   pageSize?: number;
 }
@@ -51,7 +51,7 @@ export interface DictQueryParams {
 export interface DictTypeQueryParams {
   name?: string;
   code?: string;
-  status?: "enabled" | "disabled";
+  status?: 'enabled' | 'disabled';
   page?: number;
   pageSize?: number;
 }

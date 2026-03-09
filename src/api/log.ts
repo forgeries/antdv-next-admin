@@ -1,15 +1,16 @@
-import { request } from "@/utils/request";
-import type { ApiResponse } from "@/types/api";
+import type { ApiResponse } from '@/types/api';
 import type {
   OperationLog,
   LoginLog,
   OperationLogQueryParams,
   LoginLogQueryParams,
-} from "@/types/log";
+} from '@/types/log';
 
-const isMock = import.meta.env.VITE_USE_MOCK === "true";
+import { request } from '@/utils/request';
 
-const ok = <T>(data: T, message = "success"): ApiResponse<T> => ({
+const isMock = import.meta.env.VITE_USE_MOCK === 'true';
+
+const ok = <T>(data: T, message = 'success'): ApiResponse<T> => ({
   code: 200,
   message,
   data,
@@ -27,9 +28,9 @@ export async function getOperationLogList(params: OperationLogQueryParams): Prom
     pageSize: number;
   }>
 > {
-  if (!isMock) return request.get("/log/operation/list", { params });
+  if (!isMock) return request.get('/log/operation/list', { params });
 
-  const { operationLogs } = await import("../../mock/data/log.data");
+  const { operationLogs } = await import('../../mock/data/log.data');
   const { page = 1, pageSize = 10, username, module, action, status } = params;
   let filtered = [...operationLogs];
 
@@ -55,9 +56,9 @@ export async function getLoginLogList(params: LoginLogQueryParams): Promise<
     pageSize: number;
   }>
 > {
-  if (!isMock) return request.get("/log/login/list", { params });
+  if (!isMock) return request.get('/log/login/list', { params });
 
-  const { loginLogs } = await import("../../mock/data/log.data");
+  const { loginLogs } = await import('../../mock/data/log.data');
   const { page = 1, pageSize = 10, username, status } = params;
   let filtered = [...loginLogs];
 
@@ -74,20 +75,20 @@ export async function getLoginLogList(params: LoginLogQueryParams): Promise<
  * 清空操作日志
  */
 export async function clearOperationLog(): Promise<ApiResponse<void>> {
-  if (!isMock) return request.delete("/log/operation/clear");
+  if (!isMock) return request.delete('/log/operation/clear');
 
-  const { operationLogs } = await import("../../mock/data/log.data");
+  const { operationLogs } = await import('../../mock/data/log.data');
   operationLogs.splice(0, operationLogs.length);
-  return ok(undefined as any, "清空成功");
+  return ok(undefined as any, '清空成功');
 }
 
 /**
  * 清空登录日志
  */
 export async function clearLoginLog(): Promise<ApiResponse<void>> {
-  if (!isMock) return request.delete("/log/login/clear");
+  if (!isMock) return request.delete('/log/login/clear');
 
-  const { loginLogs } = await import("../../mock/data/log.data");
+  const { loginLogs } = await import('../../mock/data/log.data');
   loginLogs.splice(0, loginLogs.length);
-  return ok(undefined as any, "清空成功");
+  return ok(undefined as any, '清空成功');
 }

@@ -74,7 +74,7 @@
           <div class="header-left">
             <div class="logo">
               <img :src="logoImg" alt="Logo" />
-              <span class="logo-title">{{ $t("common.appName") || "Antdv Next Admin" }}</span>
+              <span class="logo-title">{{ $t('common.appName') || 'Antdv Next Admin' }}</span>
             </div>
 
             <div ref="menuAreaRef" class="horizontal-menu-area">
@@ -165,27 +165,30 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import type { MenuProps } from "antdv-next";
-import { DownOutlined, EllipsisOutlined } from "@antdv-next/icons";
-import { useLayoutStore } from "@/stores/layout";
-import { useSettingsStore } from "@/stores/settings";
-import { useTabsStore } from "@/stores/tabs";
-import { usePermissionStore } from "@/stores/permission";
-import { useWatermarkStore } from "@/stores/watermark";
-import { basicRoutes } from "@/router/routes";
-import { routesToMenuTree } from "@/router/utils";
-import type { MenuItem as MenuItemType } from "@/types/router";
-import { resolveLocaleText } from "@/utils/i18n";
-import { resolveIcon } from "@/utils/icon";
-import logoImg from "@/assets/images/logo.png";
-import Sidebar from "./Sidebar.vue";
-import Header from "./Header.vue";
-import TabBar from "./TabBar.vue";
-import AICollabPanel from "./AICollabPanel.vue";
+import type { MenuItem as MenuItemType } from '@/types/router';
+import type { MenuProps } from 'antdv-next';
 
-type HorizontalMenuItems = NonNullable<MenuProps["items"]>;
+import { DownOutlined, EllipsisOutlined } from '@antdv-next/icons';
+import { computed, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+
+import logoImg from '@/assets/images/logo.png';
+import { basicRoutes } from '@/router/routes';
+import { routesToMenuTree } from '@/router/utils';
+import { useLayoutStore } from '@/stores/layout';
+import { usePermissionStore } from '@/stores/permission';
+import { useSettingsStore } from '@/stores/settings';
+import { useTabsStore } from '@/stores/tabs';
+import { useWatermarkStore } from '@/stores/watermark';
+import { resolveLocaleText } from '@/utils/i18n';
+import { resolveIcon } from '@/utils/icon';
+
+import AICollabPanel from './AICollabPanel.vue';
+import Header from './Header.vue';
+import Sidebar from './Sidebar.vue';
+import TabBar from './TabBar.vue';
+
+type HorizontalMenuItems = NonNullable<MenuProps['items']>;
 
 const route = useRoute();
 const router = useRouter();
@@ -215,7 +218,7 @@ const cachedTabs = computed(() => tabsStore.cachedTabs);
 const pageViewKey = computed(() => route.path);
 
 const isIframePage = computed(() => {
-  return route.path.includes("/iframe/");
+  return route.path.includes('/iframe/');
 });
 
 const isAICollabActive = computed(() => {
@@ -259,9 +262,9 @@ const convertHorizontalMenus = (
       const hasChildren = childMenus.length > 0;
       const label =
         hasChildren && showCustomSubmenuArrow
-          ? h("span", { class: "horizontal-submenu-label" }, [
-              h("span", { class: "horizontal-submenu-text" }, text),
-              h(DownOutlined, { class: "horizontal-submenu-arrow" }),
+          ? h('span', { class: 'horizontal-submenu-label' }, [
+              h('span', { class: 'horizontal-submenu-text' }, text),
+              h(DownOutlined, { class: 'horizontal-submenu-arrow' }),
             ])
           : text;
 
@@ -295,7 +298,7 @@ const dropdownOverflowMenuItems = computed<HorizontalMenuItems>(() => {
 });
 
 function isExternalLinkPath(path: string): boolean {
-  return path.startsWith("http://") || path.startsWith("https://");
+  return path.startsWith('http://') || path.startsWith('https://');
 }
 
 function findMenuByPath(menus: MenuItemType[], targetPath: string): MenuItemType | null {
@@ -338,25 +341,25 @@ const overflowHorizontalMenuItems = computed<HorizontalMenuItems>(() => {
 });
 
 const handleHorizontalMenuClick = ({ key }: { key: string | number }) => {
-  if (typeof key !== "string") return;
+  if (typeof key !== 'string') return;
 
   // External links: open in a new tab
   // No need to change selectedKeys as horizontalSelectedKeys is a computed property
   // based on route.path, which won't change when opening external links
-  if (key.startsWith("http://") || key.startsWith("https://")) {
-    window.open(key, "_blank", "noopener,noreferrer");
+  if (key.startsWith('http://') || key.startsWith('https://')) {
+    window.open(key, '_blank', 'noopener,noreferrer');
     return;
   }
 
   // Internal routes
-  if (key.startsWith("/")) {
+  if (key.startsWith('/')) {
     router.push(key);
   }
 };
 
 const overflowMenuProps = computed(() => ({
   items: overflowHorizontalMenuItems.value,
-  triggerSubMenuAction: "hover" as const,
+  triggerSubMenuAction: 'hover' as const,
   onClick: handleHorizontalMenuClick,
 }));
 
@@ -383,7 +386,7 @@ const stopAiResize = () => {
     return;
   }
   isAiResizing.value = false;
-  document.body.classList.remove("is-ai-panel-resizing");
+  document.body.classList.remove('is-ai-panel-resizing');
 };
 
 const handleAiResizeMove = (event: MouseEvent) => {
@@ -404,7 +407,7 @@ const startAiResize = (event: MouseEvent) => {
 
   event.preventDefault();
   isAiResizing.value = true;
-  document.body.classList.add("is-ai-panel-resizing");
+  document.body.classList.add('is-ai-panel-resizing');
 };
 
 const measureHorizontalMenuItemWidths = () => {
@@ -415,7 +418,7 @@ const measureHorizontalMenuItemWidths = () => {
   }
 
   const itemElements = wrap.querySelectorAll(
-    ".ant-menu-root > .ant-menu-item, .ant-menu-root > .ant-menu-submenu",
+    '.ant-menu-root > .ant-menu-item, .ant-menu-root > .ant-menu-submenu',
   );
   measuredTopMenuWidths.value = Array.from(itemElements).map((element) => {
     return Math.ceil((element as HTMLElement).getBoundingClientRect().width);
@@ -480,10 +483,10 @@ onMounted(() => {
   scheduleMenuLayout();
   updateWorkspaceWidth();
   syncAiPanelWidth();
-  window.addEventListener("mousemove", handleAiResizeMove);
-  window.addEventListener("mouseup", stopAiResize);
+  window.addEventListener('mousemove', handleAiResizeMove);
+  window.addEventListener('mouseup', stopAiResize);
 
-  if (typeof ResizeObserver !== "undefined") {
+  if (typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(() => {
       scheduleMenuLayout();
     });
@@ -504,8 +507,8 @@ onBeforeUnmount(() => {
     rafId = 0;
   }
   stopAiResize();
-  window.removeEventListener("mousemove", handleAiResizeMove);
-  window.removeEventListener("mouseup", stopAiResize);
+  window.removeEventListener('mousemove', handleAiResizeMove);
+  window.removeEventListener('mouseup', stopAiResize);
   resizeObserver?.disconnect();
   resizeObserver = null;
   workspaceResizeObserver?.disconnect();
@@ -833,7 +836,7 @@ watch(
     flex-shrink: 0;
 
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       left: 50%;
       top: 50%;

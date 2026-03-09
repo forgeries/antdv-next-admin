@@ -8,7 +8,7 @@ export interface OperationLog {
   /** 操作模块 */
   module: string;
   /** 操作类型 */
-  action: "login" | "logout" | "create" | "update" | "delete" | "export" | "import" | "other";
+  action: 'login' | 'logout' | 'create' | 'update' | 'delete' | 'export' | 'import' | 'other';
   /** 操作描述 */
   description: string;
   /** 请求方法 */
@@ -22,7 +22,7 @@ export interface OperationLog {
   /** 操作系统 */
   os: string;
   /** 操作状态 */
-  status: "success" | "fail";
+  status: 'success' | 'fail';
   /** 错误信息 */
   errorMsg?: string;
   /** 耗时(ms) */
@@ -40,7 +40,7 @@ export interface LoginLog {
   ip: string;
   browser: string;
   os: string;
-  status: "success" | "fail";
+  status: 'success' | 'fail';
   message: string;
   createTime: string;
 }

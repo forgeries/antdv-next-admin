@@ -29,11 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import type { MenuItem as MenuItemType } from "@/types/router";
-import { resolveIcon } from "@/utils/icon";
-import { resolveLocaleText } from "@/utils/i18n";
+import type { MenuItem as MenuItemType } from '@/types/router';
+
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+
+import { resolveLocaleText } from '@/utils/i18n';
+import { resolveIcon } from '@/utils/icon';
 
 interface Props {
   item: MenuItemType;

@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 interface Props {
   width?: number | string;
@@ -34,12 +34,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  width: "100%",
-  src: "https://picsum.photos/300/300",
+  width: '100%',
+  src: 'https://picsum.photos/300/300',
   tolerance: 10,
 });
 
-const emit = defineEmits(["success", "fail"]);
+const emit = defineEmits(['success', 'fail']);
 
 const currentAngle = ref(0);
 const sliderPercent = ref(0);
@@ -84,8 +84,8 @@ const handleMouseDown = (e: MouseEvent) => {
 
   const handleMouseUp = () => {
     isMoving.value = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
 
     // Check if angle is close to 0 (360 multiples)
     let normalizedAngle = currentAngle.value % 360;
@@ -94,14 +94,14 @@ const handleMouseDown = (e: MouseEvent) => {
 
     if (Math.abs(normalizedAngle) <= props.tolerance) {
       isSuccess.value = true;
-      emit("success");
+      emit('success');
     } else {
-      emit("fail");
+      emit('fail');
     }
   };
 
-  document.addEventListener("mousemove", handleMouseMove);
-  document.addEventListener("mouseup", handleMouseUp);
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
 };
 
 const reset = () => {
@@ -180,7 +180,7 @@ defineExpose({ reset });
   justify-content: center;
 }
 .slider-handle::after {
-  content: "";
+  content: '';
   width: 12px;
   height: 12px;
   border-radius: 50%;

@@ -10,7 +10,7 @@ export interface SysConfig {
   /** 配置值 */
   value: string;
   /** 值类型 */
-  valueType: "string" | "number" | "boolean" | "json";
+  valueType: 'string' | 'number' | 'boolean' | 'json';
   /** 分组 */
   group: string;
   /** 描述 */

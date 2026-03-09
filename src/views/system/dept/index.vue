@@ -4,10 +4,10 @@
       <template #side>
         <!-- dept tree -->
         <div class="dept-tree-header">
-          <h3>{{ t("dept.organizationStructure") }}</h3>
+          <h3>{{ t('dept.organizationStructure') }}</h3>
           <a-button type="primary" size="small" @click="handleAdd(null)">
             <template #icon><PlusOutlined /></template>
-            {{ t("common.add") }}
+            {{ t('common.add') }}
           </a-button>
         </div>
         <div class="dept-tree-search">
@@ -32,7 +32,7 @@
               <div class="tree-node">
                 <span class="tree-node-name">{{ name }}</span>
                 <span v-if="status === 'disabled'" class="tree-node-badge">{{
-                  t("dept.disabled")
+                  t('dept.disabled')
                 }}</span>
               </div>
             </template>
@@ -52,15 +52,15 @@
             <a-space>
               <a-button type="primary" size="small" @click="handleAdd(selectedDept.id)">
                 <template #icon><PlusOutlined /></template>
-                {{ t("dept.addChildDept") }}
+                {{ t('dept.addChildDept') }}
               </a-button>
               <a-button size="small" @click="handleEdit(selectedDept)">
                 <template #icon><EditOutlined /></template>
-                {{ t("common.edit") }}
+                {{ t('common.edit') }}
               </a-button>
               <a-button size="small" danger @click="handleDelete(selectedDept)">
                 <template #icon><DeleteOutlined /></template>
-                {{ t("common.delete") }}
+                {{ t('common.delete') }}
               </a-button>
             </a-space>
           </div>
@@ -92,10 +92,10 @@
                 <template v-if="column.key === 'action'">
                   <a-space :size="4">
                     <a-button type="link" size="small" @click="selectDept(record.id)">{{
-                      t("common.view")
+                      t('common.view')
                     }}</a-button>
                     <a-button type="link" size="small" @click="handleEdit(record)">{{
-                      t("common.edit")
+                      t('common.edit')
                     }}</a-button>
                   </a-space>
                 </template>
@@ -139,8 +139,8 @@
         </a-form-item>
         <a-form-item :label="t('dept.status')">
           <a-radio-group v-model:value="form.status">
-            <a-radio value="enabled">{{ t("dept.enabled") }}</a-radio>
-            <a-radio value="disabled">{{ t("dept.disabled") }}</a-radio>
+            <a-radio value="enabled">{{ t('dept.enabled') }}</a-radio>
+            <a-radio value="disabled">{{ t('dept.disabled') }}</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item :label="t('dept.remark')">
@@ -156,26 +156,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { message, Modal } from "antdv-next";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@antdv-next/icons";
-import { useI18n } from "vue-i18n";
-import ProTable from "@/components/Pro/ProTable/index.vue";
-import ProDescriptions from "@/components/Pro/ProDescriptions/index.vue";
-import ProStatus from "@/components/Pro/ProStatus/index.vue";
-import ProSplitLayout from "@/components/Pro/ProSplitLayout/index.vue";
-import type { ProTableColumn, ProDescriptionItem, ProStatusMap } from "@/types/pro";
-import type { Department } from "@/types/dept";
-import { getDeptTree, getDeptList, createDept, updateDept, deleteDept } from "@/api/dept";
+import type { Department } from '@/types/dept';
+import type { ProTableColumn, ProDescriptionItem, ProStatusMap } from '@/types/pro';
+
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@antdv-next/icons';
+import { message, Modal } from 'antdv-next';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { getDeptTree, getDeptList, createDept, updateDept, deleteDept } from '@/api/dept';
+import ProDescriptions from '@/components/Pro/ProDescriptions/index.vue';
+import ProSplitLayout from '@/components/Pro/ProSplitLayout/index.vue';
+import ProStatus from '@/components/Pro/ProStatus/index.vue';
+import ProTable from '@/components/Pro/ProTable/index.vue';
 
 const { t } = useI18n();
 
 const deptStatusMap = computed<ProStatusMap>(() => ({
-  enabled: { text: t("dept.enabled"), color: "#52c41a" },
-  disabled: { text: t("dept.disabled"), color: "#bfbfbf" },
+  enabled: { text: t('dept.enabled'), color: '#52c41a' },
+  disabled: { text: t('dept.disabled'), color: '#bfbfbf' },
 }));
 
-const searchText = ref("");
+const searchText = ref('');
 const treeData = ref<Department[]>([]);
 const flatList = ref<Department[]>([]);
 const selectedKeys = ref<string[]>([]);
@@ -194,49 +196,49 @@ const childDepts = computed(() => {
 
 const parentTreeData = computed(() => {
   const root: Department = {
-    id: "",
-    name: t("dept.noneTopLevelDept"),
+    id: '',
+    name: t('dept.noneTopLevelDept'),
     parentId: null,
     sort: 0,
-    status: "enabled",
-    createTime: "",
-    updateTime: "",
+    status: 'enabled',
+    createTime: '',
+    updateTime: '',
   };
   return [{ ...root, children: treeData.value }];
 });
 
 // modal
 const modalVisible = ref(false);
-const modalTitle = computed(() => (form.value.id ? t("dept.editDept") : t("dept.createDept")));
+const modalTitle = computed(() => (form.value.id ? t('dept.editDept') : t('dept.createDept')));
 const form = ref<Partial<Department>>({
-  name: "",
+  name: '',
   parentId: null,
-  leader: "",
-  phone: "",
-  email: "",
+  leader: '',
+  phone: '',
+  email: '',
   sort: 0,
-  status: "enabled",
-  remark: "",
+  status: 'enabled',
+  remark: '',
 });
 
 const childColumns = computed<ProTableColumn[]>(() => [
-  { title: t("dept.deptName"), dataIndex: "name", key: "name" },
-  { title: t("dept.leader"), dataIndex: "leader", key: "leader", width: 100 },
-  { title: t("dept.sort"), dataIndex: "sort", key: "sort", width: 70 },
-  { title: t("dept.status"), dataIndex: "status", key: "status", width: 80 },
-  { title: t("common.actions"), key: "action", width: 120 },
+  { title: t('dept.deptName'), dataIndex: 'name', key: 'name' },
+  { title: t('dept.leader'), dataIndex: 'leader', key: 'leader', width: 100 },
+  { title: t('dept.sort'), dataIndex: 'sort', key: 'sort', width: 70 },
+  { title: t('dept.status'), dataIndex: 'status', key: 'status', width: 80 },
+  { title: t('common.actions'), key: 'action', width: 120 },
 ]);
 
 const deptDescColumns = computed<ProDescriptionItem[]>(() => [
-  { label: t("dept.deptName"), dataIndex: "name" },
-  { label: t("dept.parentDept"), dataIndex: "parentName" },
-  { label: t("dept.leader"), dataIndex: "leader" },
-  { label: t("dept.phone"), dataIndex: "phone" },
-  { label: t("dept.email"), dataIndex: "email" },
-  { label: t("dept.sort"), dataIndex: "sort" },
-  { label: t("dept.createTime"), dataIndex: "createTime" },
-  { label: t("dept.updateTime"), dataIndex: "updateTime" },
-  { label: t("dept.remark"), dataIndex: "remark", span: 2 },
+  { label: t('dept.deptName'), dataIndex: 'name' },
+  { label: t('dept.parentDept'), dataIndex: 'parentName' },
+  { label: t('dept.leader'), dataIndex: 'leader' },
+  { label: t('dept.phone'), dataIndex: 'phone' },
+  { label: t('dept.email'), dataIndex: 'email' },
+  { label: t('dept.sort'), dataIndex: 'sort' },
+  { label: t('dept.createTime'), dataIndex: 'createTime' },
+  { label: t('dept.updateTime'), dataIndex: 'updateTime' },
+  { label: t('dept.remark'), dataIndex: 'remark', span: 2 },
 ]);
 
 const deptDescData = computed(() => {
@@ -248,8 +250,8 @@ const deptDescData = computed(() => {
 });
 
 const getParentName = (parentId: string | null) => {
-  if (!parentId) return t("dept.noneTopLevel");
-  return flatList.value.find((d) => d.id === parentId)?.name || "-";
+  if (!parentId) return t('dept.noneTopLevel');
+  return flatList.value.find((d) => d.id === parentId)?.name || '-';
 };
 
 const selectDept = (id: string) => {
@@ -279,7 +281,7 @@ const loadDeptTree = async () => {
       selectedKeys.value = [treeData.value[0].id];
     }
   } catch (error) {
-    console.error(t("dept.loadDataFailed"), error);
+    console.error(t('dept.loadDataFailed'), error);
   }
 };
 
@@ -289,14 +291,14 @@ const handleTreeSelect = (keys: string[]) => {
 
 const handleAdd = (parentId: string | null) => {
   form.value = {
-    name: "",
+    name: '',
     parentId,
-    leader: "",
-    phone: "",
-    email: "",
+    leader: '',
+    phone: '',
+    email: '',
     sort: 0,
-    status: "enabled",
-    remark: "",
+    status: 'enabled',
+    remark: '',
   };
   modalVisible.value = true;
 };
@@ -309,24 +311,24 @@ const handleEdit = (dept: Department) => {
 const handleDelete = (dept: Department) => {
   const hasChildren = flatList.value.some((d) => d.parentId === dept.id);
   if (hasChildren) {
-    message.warning(t("dept.hasChildrenWarning"));
+    message.warning(t('dept.hasChildrenWarning'));
     return;
   }
   Modal.confirm({
-    title: t("dept.confirmDelete"),
-    content: t("dept.confirmDeleteContent", { name: dept.name }),
+    title: t('dept.confirmDelete'),
+    content: t('dept.confirmDeleteContent', { name: dept.name }),
     onOk: async () => {
       try {
         const response = (await deleteDept(dept.id)) as any;
         if (response.code === 200) {
-          message.success(t("dept.deleteSuccess"));
+          message.success(t('dept.deleteSuccess'));
           selectedKeys.value = [];
           loadDeptTree();
         } else {
-          message.error(response.message || t("dept.deleteFailed"));
+          message.error(response.message || t('dept.deleteFailed'));
         }
       } catch (error) {
-        message.error(t("dept.deleteFailed"));
+        message.error(t('dept.deleteFailed'));
       }
     },
   });
@@ -334,27 +336,27 @@ const handleDelete = (dept: Department) => {
 
 const handleSubmit = async () => {
   if (!form.value.name) {
-    message.warning(t("dept.pleaseEnterDeptName"));
+    message.warning(t('dept.pleaseEnterDeptName'));
     return;
   }
   try {
     if (form.value.id) {
       const response = (await updateDept(form.value.id, form.value)) as any;
       if (response.code === 200) {
-        message.success(t("dept.updateSuccess"));
+        message.success(t('dept.updateSuccess'));
         modalVisible.value = false;
         loadDeptTree();
       }
     } else {
       const response = (await createDept(form.value)) as any;
       if (response.code === 200) {
-        message.success(t("dept.createSuccess"));
+        message.success(t('dept.createSuccess'));
         modalVisible.value = false;
         loadDeptTree();
       }
     }
   } catch (error) {
-    message.error(t("dept.operateFailed"));
+    message.error(t('dept.operateFailed'));
   }
 };
 

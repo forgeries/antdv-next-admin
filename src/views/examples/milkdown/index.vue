@@ -83,11 +83,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { CheckCircleOutlined } from "@antdv-next/icons";
-import MilkdownEditor from "@/components/Milkdown/index.vue";
+import { CheckCircleOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const content1 = ref("");
+import MilkdownEditor from '@/components/Milkdown/index.vue';
+
+const content1 = ref('');
 
 const content2 = ref(`# Milkdown 编辑器
 
@@ -187,7 +188,7 @@ const content3 = ref(`# 只读模式示例
     background: var(--color-bg-layout);
     padding: 16px;
     border-radius: var(--radius-base);
-    font-family: "Courier New", monospace;
+    font-family: 'Courier New', monospace;
     font-size: 13px;
     overflow-x: auto;
     white-space: pre-wrap;

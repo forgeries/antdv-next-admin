@@ -1,8 +1,8 @@
 <template>
   <div class="page-container">
     <div class="card mb-md">
-      <h2 class="text-xl font-bold mb-sm">{{ $t("exampleSpin.title") }}</h2>
-      <p class="text-secondary">{{ $t("exampleSpin.description") }}</p>
+      <h2 class="text-xl font-bold mb-sm">{{ $t('exampleSpin.title') }}</h2>
+      <p class="text-secondary">{{ $t('exampleSpin.description') }}</p>
     </div>
 
     <a-row :gutter="[16, 16]">
@@ -46,7 +46,7 @@
               />
             </a-spin>
             <a-flex align="center" gap="small">
-              <span>{{ $t("exampleSpin.loadingState") }}</span>
+              <span>{{ $t('exampleSpin.loadingState') }}</span>
               <a-switch v-model:checked="nestedLoading" />
             </a-flex>
           </a-flex>
@@ -68,7 +68,7 @@
               />
             </a-spin>
             <a-flex align="center" gap="small">
-              <span>{{ $t("exampleSpin.loadingState") }}</span>
+              <span>{{ $t('exampleSpin.loadingState') }}</span>
               <a-switch v-model:checked="delayLoading" />
             </a-flex>
           </a-flex>
@@ -142,7 +142,7 @@
       <a-col :span="24" :lg="12">
         <a-card :title="$t('exampleSpin.fullscreen')" :bordered="false">
           <a-button type="primary" @click="showFullscreen">
-            {{ $t("exampleSpin.showFullscreen") }}
+            {{ $t('exampleSpin.showFullscreen') }}
           </a-button>
           <a-spin :spinning="fullscreenSpinning" :percent="fullscreenPercent" fullscreen />
         </a-card>
@@ -152,8 +152,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from "vue";
-import { LoadingOutlined } from "@antdv-next/icons";
+import { LoadingOutlined } from '@antdv-next/icons';
+import { computed, onUnmounted, ref, watch } from 'vue';
 
 // Nested loading
 const nestedLoading = ref(false);
@@ -166,7 +166,7 @@ const autoPercent = ref(false);
 const percent = ref(-50);
 let percentTimer: ReturnType<typeof setTimeout> | null = null;
 
-const mergedPercent = computed(() => (autoPercent.value ? "auto" : percent.value));
+const mergedPercent = computed(() => (autoPercent.value ? 'auto' : percent.value));
 
 function updatePercent() {
   percentTimer = setTimeout(() => {

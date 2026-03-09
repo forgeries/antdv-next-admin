@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 interface Props {
   width?: number | string;
@@ -36,13 +36,13 @@ interface Props {
 }
 
 withDefaults(defineProps<Props>(), {
-  width: "100%",
+  width: '100%',
   height: 40,
-  text: "Slide to verify",
-  successText: "Success",
+  text: 'Slide to verify',
+  successText: 'Success',
 });
 
-const emit = defineEmits(["success", "fail"]);
+const emit = defineEmits(['success', 'fail']);
 
 const isMoving = ref(false);
 const isSuccess = ref(false);
@@ -56,14 +56,14 @@ const handleMouseDown = (e: MouseEvent) => {
   startX.value = e.clientX;
 
   // Get container width
-  const container = (e.target as HTMLElement).closest(".slider-bg");
-  const handle = (e.target as HTMLElement).closest(".slider-handle");
+  const container = (e.target as HTMLElement).closest('.slider-bg');
+  const handle = (e.target as HTMLElement).closest('.slider-handle');
   if (container && handle) {
     containerWidth = container.clientWidth - handle.clientWidth;
   }
 
-  document.addEventListener("mousemove", handleMouseMove);
-  document.addEventListener("mouseup", handleMouseUp);
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
 };
 
 const handleMouseMove = (e: MouseEvent) => {
@@ -81,8 +81,8 @@ const handleMouseMove = (e: MouseEvent) => {
 
 const handleMouseUp = () => {
   isMoving.value = false;
-  document.removeEventListener("mousemove", handleMouseMove);
-  document.removeEventListener("mouseup", handleMouseUp);
+  document.removeEventListener('mousemove', handleMouseMove);
+  document.removeEventListener('mouseup', handleMouseUp);
   finishDrag();
 };
 
@@ -91,14 +91,14 @@ const handleTouchStart = (e: TouchEvent) => {
   isMoving.value = true;
   startX.value = e.touches[0].clientX;
 
-  const container = (e.target as HTMLElement).closest(".slider-bg");
-  const handle = (e.target as HTMLElement).closest(".slider-handle");
+  const container = (e.target as HTMLElement).closest('.slider-bg');
+  const handle = (e.target as HTMLElement).closest('.slider-handle');
   if (container && handle) {
     containerWidth = container.clientWidth - handle.clientWidth;
   }
 
-  document.addEventListener("touchmove", handleTouchMove, { passive: false });
-  document.addEventListener("touchend", handleTouchEnd);
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  document.addEventListener('touchend', handleTouchEnd);
 };
 
 const handleTouchMove = (e: TouchEvent) => {
@@ -117,8 +117,8 @@ const handleTouchMove = (e: TouchEvent) => {
 
 const handleTouchEnd = () => {
   isMoving.value = false;
-  document.removeEventListener("touchmove", handleTouchMove);
-  document.removeEventListener("touchend", handleTouchEnd);
+  document.removeEventListener('touchmove', handleTouchMove);
+  document.removeEventListener('touchend', handleTouchEnd);
   finishDrag();
 };
 
@@ -126,7 +126,7 @@ const finishDrag = () => {
   if (sliderLeft.value >= containerWidth) {
     isSuccess.value = true;
     sliderLeft.value = containerWidth;
-    emit("success");
+    emit('success');
   } else {
     // Reset animation
     const animate = () => {
@@ -134,7 +134,7 @@ const finishDrag = () => {
         sliderLeft.value = Math.max(0, sliderLeft.value - 10);
         requestAnimationFrame(animate);
       } else {
-        emit("fail");
+        emit('fail');
       }
     };
     animate();

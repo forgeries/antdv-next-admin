@@ -7,12 +7,12 @@
 
     <!-- Date -->
     <span v-else-if="type === 'date'">
-      {{ formatDate(value, valueTypeProps.format || "YYYY-MM-DD") }}
+      {{ formatDate(value, valueTypeProps.format || 'YYYY-MM-DD') }}
     </span>
 
     <!-- DateTime -->
     <span v-else-if="type === 'dateTime'">
-      {{ formatDate(value, valueTypeProps.format || "YYYY-MM-DD HH:mm:ss") }}
+      {{ formatDate(value, valueTypeProps.format || 'YYYY-MM-DD HH:mm:ss') }}
     </span>
 
     <!-- Tag -->
@@ -29,7 +29,7 @@
 
     <!-- Money -->
     <span v-else-if="type === 'money'" class="money">
-      {{ valueTypeProps.symbol ?? "¥" }}{{ formatMoney(value, valueTypeProps.precision) }}
+      {{ valueTypeProps.symbol ?? '¥' }}{{ formatMoney(value, valueTypeProps.precision) }}
     </span>
 
     <!-- Percent -->
@@ -62,11 +62,13 @@
 </template>
 
 <script setup lang="ts">
-import { message } from "antdv-next";
-import dayjs from "dayjs";
-import type { ValueType } from "@/types/pro";
-import { copyToClipboard } from "@/utils/helpers";
-import { $t } from "@/locales";
+import type { ValueType } from '@/types/pro';
+
+import { message } from 'antdv-next';
+import dayjs from 'dayjs';
+
+import { $t } from '@/locales';
+import { copyToClipboard } from '@/utils/helpers';
 
 interface Props {
   value: any;
@@ -78,7 +80,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: "text",
+  type: 'text',
   copyable: false,
   valueTypeProps: () => ({}),
 });
@@ -88,20 +90,20 @@ const getEnumConfig = (value: any) => {
 };
 
 const formatDate = (value: any, format: string) => {
-  if (!value) return "-";
+  if (!value) return '-';
   return dayjs(value).format(format);
 };
 
 const formatMoney = (value: any, precision?: number) => {
-  if (value === null || value === undefined) return "0.00";
+  if (value === null || value === undefined) return '0.00';
   const p = precision ?? 2;
   return Number(value)
     .toFixed(p)
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
 const formatPercent = (value: any, precision?: number) => {
-  if (value === null || value === undefined) return "0";
+  if (value === null || value === undefined) return '0';
   const p = precision ?? 2;
   return Number(value).toFixed(p);
 };
@@ -110,9 +112,9 @@ const handleCopy = async () => {
   if (props.copyable && props.value) {
     const success = await copyToClipboard(String(props.value));
     if (success) {
-      message.success($t("common.copySuccess"));
+      message.success($t('common.copySuccess'));
     } else {
-      message.error($t("common.copyFailed"));
+      message.error($t('common.copyFailed'));
     }
   }
 };

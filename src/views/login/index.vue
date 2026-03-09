@@ -16,7 +16,7 @@
           <img :src="logoImg" alt="Logo" class="logo" />
         </div>
         <p class="eyebrow">Antdv Next Admin</p>
-        <h1 class="title">{{ $t("login.title") }}</h1>
+        <h1 class="title">{{ $t('login.title') }}</h1>
         <p class="subtitle">Secure workspace entrance</p>
       </div>
 
@@ -58,7 +58,7 @@
 
         <a-form-item>
           <a-checkbox v-model:checked="formState.remember">
-            {{ $t("login.remember") }}
+            {{ $t('login.remember') }}
           </a-checkbox>
         </a-form-item>
 
@@ -71,18 +71,18 @@
             :loading="loading"
             :disabled="!captchaVerified"
           >
-            {{ $t("login.login") }}
+            {{ $t('login.login') }}
           </a-button>
         </a-form-item>
       </a-form>
 
       <div class="login-tips">
         <p>
-          <span>{{ $t("login.username") }}</span>
+          <span>{{ $t('login.username') }}</span>
           <code>admin / user</code>
         </p>
         <p>
-          <span>{{ $t("login.password") }}</span>
+          <span>{{ $t('login.password') }}</span>
           <code>123456</code>
         </p>
       </div>
@@ -91,16 +91,17 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { UserOutlined, LockOutlined } from "@antdv-next/icons";
-import { useAuthStore } from "@/stores/auth";
-import { message } from "antdv-next";
-import { $t } from "@/locales";
-import ThemeToggle from "@/components/Layout/ThemeToggle.vue";
-import LanguageSwitch from "@/components/Layout/LanguageSwitch.vue";
-import { SliderCaptcha } from "@/components/Captcha";
-import logoImg from "@/assets/images/logo.png";
+import { UserOutlined, LockOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+import logoImg from '@/assets/images/logo.png';
+import { SliderCaptcha } from '@/components/Captcha';
+import LanguageSwitch from '@/components/Layout/LanguageSwitch.vue';
+import ThemeToggle from '@/components/Layout/ThemeToggle.vue';
+import { $t } from '@/locales';
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -109,14 +110,14 @@ const loading = ref(false);
 const captchaVerified = ref(false);
 const captchaRef = ref<InstanceType<typeof SliderCaptcha>>();
 const formState = reactive({
-  username: "admin",
-  password: "123456",
+  username: 'admin',
+  password: '123456',
   remember: false,
 });
 
 const rules = {
-  username: [{ required: true, message: $t("login.usernameRequired") }],
-  password: [{ required: true, message: $t("login.passwordRequired") }],
+  username: [{ required: true, message: $t('login.usernameRequired') }],
+  password: [{ required: true, message: $t('login.passwordRequired') }],
 };
 
 const onCaptchaSuccess = () => {
@@ -131,10 +132,10 @@ const handleSubmit = async () => {
   loading.value = true;
   try {
     await authStore.login(formState.username, formState.password);
-    message.success($t("login.loginSuccess"));
-    router.push("/");
+    message.success($t('login.loginSuccess'));
+    router.push('/');
   } catch (error: any) {
-    message.error(error.message || $t("login.loginFailed"));
+    message.error(error.message || $t('login.loginFailed'));
     captchaVerified.value = false;
     captchaRef.value?.reset();
   } finally {
@@ -145,7 +146,7 @@ const handleSubmit = async () => {
 
 <style scoped lang="scss">
 .login-shell {
-  --login-font-family: "Outfit", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --login-font-family: 'Outfit', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --login-bg:
     radial-gradient(circle at 10% 20%, rgba(67, 160, 255, 0.35), transparent 46%),
     radial-gradient(circle at 92% 15%, rgba(122, 214, 255, 0.36), transparent 44%),

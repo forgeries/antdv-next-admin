@@ -1,14 +1,14 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
-const SIDEBAR_COLLAPSED_KEY = "sidebar-collapsed";
-const AI_COLLAB_ENABLED_KEY = "layout-ai-collab-enabled";
-const AI_ENTRY_VISIBLE_KEY = "layout-ai-entry-visible";
-const AI_PANEL_WIDTH_KEY = "layout-ai-panel-width";
+const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
+const AI_COLLAB_ENABLED_KEY = 'layout-ai-collab-enabled';
+const AI_ENTRY_VISIBLE_KEY = 'layout-ai-entry-visible';
+const AI_PANEL_WIDTH_KEY = 'layout-ai-panel-width';
 const AI_PANEL_MIN_WIDTH = 320;
 const AI_PANEL_MAX_WIDTH = 560;
 
-export const useLayoutStore = defineStore("layout", () => {
+export const useLayoutStore = defineStore('layout', () => {
   // State
   const collapsed = ref(false);
   const sidebarWidth = ref(240);
@@ -78,17 +78,17 @@ export const useLayoutStore = defineStore("layout", () => {
   const initLayout = () => {
     const savedCollapsed = localStorage.getItem(SIDEBAR_COLLAPSED_KEY);
     if (savedCollapsed !== null) {
-      collapsed.value = savedCollapsed === "true";
+      collapsed.value = savedCollapsed === 'true';
     }
 
     const savedAiCollabEnabled = localStorage.getItem(AI_COLLAB_ENABLED_KEY);
     if (savedAiCollabEnabled !== null) {
-      aiCollabEnabled.value = savedAiCollabEnabled === "true";
+      aiCollabEnabled.value = savedAiCollabEnabled === 'true';
     }
 
     const savedAiEntryVisible = localStorage.getItem(AI_ENTRY_VISIBLE_KEY);
     if (savedAiEntryVisible !== null) {
-      aiEntryVisible.value = savedAiEntryVisible === "true";
+      aiEntryVisible.value = savedAiEntryVisible === 'true';
     }
 
     const savedAiPanelWidth = localStorage.getItem(AI_PANEL_WIDTH_KEY);
@@ -104,7 +104,7 @@ export const useLayoutStore = defineStore("layout", () => {
       setIsMobile(window.innerWidth < 768);
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
   };
 
   return {

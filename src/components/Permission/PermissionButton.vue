@@ -3,8 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { usePermission } from "@/composables/usePermission";
+import { computed } from 'vue';
+
+import { usePermission } from '@/composables/usePermission';
 
 interface Props {
   permission?: string | string[];

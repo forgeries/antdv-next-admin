@@ -2,32 +2,32 @@
 
 // ProTable Types
 export type ValueType =
-  | "text"
-  | "date"
-  | "dateTime"
-  | "dateRange"
-  | "time"
-  | "tag"
-  | "badge"
-  | "money"
-  | "percent"
-  | "avatar"
-  | "image"
-  | "link"
-  | "progress";
+  | 'text'
+  | 'date'
+  | 'dateTime'
+  | 'dateRange'
+  | 'time'
+  | 'tag'
+  | 'badge'
+  | 'money'
+  | 'percent'
+  | 'avatar'
+  | 'image'
+  | 'link'
+  | 'progress';
 
 export type SearchType =
-  | "input"
-  | "select"
-  | "dateRange"
-  | "datePicker"
-  | "number"
-  | "checkbox"
-  | "radio";
+  | 'input'
+  | 'select'
+  | 'dateRange'
+  | 'datePicker'
+  | 'number'
+  | 'checkbox'
+  | 'radio';
 
-export type HeaderFilterMode = "client" | "server" | "hybrid";
+export type HeaderFilterMode = 'client' | 'server' | 'hybrid';
 
-export type ProTableHeaderFilterType = "keyword" | "select";
+export type ProTableHeaderFilterType = 'keyword' | 'select';
 
 export interface ProTableHeaderFilterOption {
   label: string;
@@ -37,7 +37,7 @@ export interface ProTableHeaderFilterOption {
 export interface ProTableHeaderFilter {
   type: ProTableHeaderFilterType;
   mode?: HeaderFilterMode;
-  icon?: "search" | "filter";
+  icon?: 'search' | 'filter';
   paramKey?: string;
   placeholder?: string;
   multiple?: boolean;
@@ -50,7 +50,7 @@ export interface ProTableHeaderFilter {
 
 export interface ProTableHeaderFilterConfig {
   defaultMode?: HeaderFilterMode;
-  requestPayload?: "flat" | "nested";
+  requestPayload?: 'flat' | 'nested';
   nestedKey?: string;
   resetPageOnFilterChange?: boolean;
 }
@@ -61,8 +61,8 @@ export interface ProTableColumn {
   key?: string;
   width?: number | string;
   minWidth?: number | string;
-  fixed?: "left" | "right";
-  align?: "left" | "center" | "right";
+  fixed?: 'left' | 'right';
+  align?: 'left' | 'center' | 'right';
   ellipsis?: boolean;
   resizable?: boolean;
   hideInTable?: boolean;
@@ -93,7 +93,7 @@ export interface ProTableColumn {
 
   // Sorting
   sorter?: boolean | ((a: any, b: any) => number);
-  defaultSortOrder?: "ascend" | "descend";
+  defaultSortOrder?: 'ascend' | 'descend';
 
   // Native table filter compatibility
   filterDropdown?: any;
@@ -103,7 +103,7 @@ export interface ProTableColumn {
   filterMultiple?: boolean;
   filteredValue?: any[] | null;
   onFilter?: (value: any, record: any) => boolean;
-  sortDirections?: Array<"ascend" | "descend">;
+  sortDirections?: Array<'ascend' | 'descend'>;
   customFilterDropdown?: boolean;
 
   // Actions column
@@ -115,7 +115,7 @@ export interface ProTableColumn {
 
 export interface ProTableAction {
   label: string;
-  type?: "link" | "button" | "dropdown";
+  type?: 'link' | 'button' | 'dropdown';
   icon?: any;
   permission?: string;
   danger?: boolean;
@@ -129,7 +129,7 @@ export interface ProTableAction {
 export interface ProTableToolbar {
   title?: string;
   subTitle?: string;
-  actions?: Array<"!refresh" | "!density" | "!columnSetting">;
+  actions?: Array<'!refresh' | '!density' | '!columnSetting'>;
 }
 
 export interface ProTableSearch {
@@ -159,27 +159,27 @@ export interface ProTableRequest {
 
 // ProForm Types
 export type FormItemType =
-  | "input"
-  | "password"
-  | "textarea"
-  | "number"
-  | "select"
-  | "radio"
-  | "checkbox"
-  | "switch"
-  | "datePicker"
-  | "timePicker"
-  | "dateRange"
-  | "timeRange"
-  | "upload"
-  | "imageUpload"
-  | "avatarUpload"
-  | "slider"
-  | "rate"
-  | "colorPicker"
-  | "cascader"
-  | "treeSelect"
-  | "custom";
+  | 'input'
+  | 'password'
+  | 'textarea'
+  | 'number'
+  | 'select'
+  | 'radio'
+  | 'checkbox'
+  | 'switch'
+  | 'datePicker'
+  | 'timePicker'
+  | 'dateRange'
+  | 'timeRange'
+  | 'upload'
+  | 'imageUpload'
+  | 'avatarUpload'
+  | 'slider'
+  | 'rate'
+  | 'colorPicker'
+  | 'cascader'
+  | 'treeSelect'
+  | 'custom';
 
 export interface ProFormItem {
   name: string;
@@ -217,7 +217,7 @@ export interface ProFormItem {
 export interface ProFormLayout {
   labelCol?: { span: number };
   wrapperCol?: { span: number };
-  layout?: "horizontal" | "vertical" | "inline";
+  layout?: 'horizontal' | 'vertical' | 'inline';
 }
 
 export interface ProFormGrid {
@@ -238,7 +238,7 @@ export interface ProDescriptionItem {
 }
 
 // ProStatus Types
-export type ProStatusMode = "dot" | "tag" | "badge";
+export type ProStatusMode = 'dot' | 'tag' | 'badge';
 
 export interface ProStatusMap {
   [key: string]: {
@@ -249,7 +249,7 @@ export interface ProStatusMap {
 }
 
 // ProChart Types
-export type ProChartType = "line" | "bar" | "pie" | "donut" | "area" | "radar";
+export type ProChartType = 'line' | 'bar' | 'pie' | 'donut' | 'area' | 'radar';
 
 export interface ProChartProps {
   type: ProChartType;
@@ -262,16 +262,16 @@ export interface ProChartProps {
 }
 
 // ProUpload Types
-export type ProUploadMode = "button" | "dragger" | "image" | "avatar";
+export type ProUploadMode = 'button' | 'dragger' | 'image' | 'avatar';
 
 // ProStatCard Types
-export type ProStatCardTone = "blue" | "green" | "orange" | "purple" | "red" | "cyan";
+export type ProStatCardTone = 'blue' | 'green' | 'orange' | 'purple' | 'red' | 'cyan';
 
 export interface ProStatCardProps {
   label: string;
   value: string | number;
   trend?: string;
-  trendDirection?: "up" | "down";
+  trendDirection?: 'up' | 'down';
   icon?: any;
   tone?: ProStatCardTone;
 }
@@ -286,7 +286,7 @@ export interface ProStepFormStep {
 // ProSplitLayout Types
 export interface ProSplitLayoutProps {
   sideWidth?: number | string;
-  sidePosition?: "left" | "right";
+  sidePosition?: 'left' | 'right';
   gap?: number | string;
 }
 

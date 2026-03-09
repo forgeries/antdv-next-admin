@@ -7,16 +7,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { GlobalOutlined } from "@antdv-next/icons";
-import i18n, { setLocale, LOCALE_NATIVE_LABELS } from "@/locales";
+import { GlobalOutlined } from '@antdv-next/icons';
+import { computed } from 'vue';
+
+import i18n, { setLocale, LOCALE_NATIVE_LABELS } from '@/locales';
 
 const currentLocale = computed(() => String(i18n.global.locale.value));
 const localeOptions = computed(() => [
-  { label: LOCALE_NATIVE_LABELS["zh-CN"], value: "zh-CN" },
-  { label: LOCALE_NATIVE_LABELS["en-US"], value: "en-US" },
-  { label: LOCALE_NATIVE_LABELS["ja-JP"], value: "ja-JP" },
-  { label: LOCALE_NATIVE_LABELS["ko-KR"], value: "ko-KR" },
+  { label: LOCALE_NATIVE_LABELS['zh-CN'], value: 'zh-CN' },
+  { label: LOCALE_NATIVE_LABELS['en-US'], value: 'en-US' },
+  { label: LOCALE_NATIVE_LABELS['ja-JP'], value: 'ja-JP' },
+  { label: LOCALE_NATIVE_LABELS['ko-KR'], value: 'ko-KR' },
 ]);
 
 const handleLanguageChange = ({ key }: { key: string | number }) => {

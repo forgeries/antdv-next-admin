@@ -50,17 +50,17 @@
             <a-form-item :wrapper-col="{ span: 24 }" class="search-actions-item">
               <a-space wrap :size="[8, 8]" class="search-actions-space">
                 <a-button type="primary" @click="handleSearch">
-                  <SearchOutlined /> {{ $t("common.search") }}
+                  <SearchOutlined /> {{ $t('common.search') }}
                 </a-button>
                 <a-button @click="handleReset">
-                  <ReloadOutlined /> {{ $t("common.reset") }}
+                  <ReloadOutlined /> {{ $t('common.reset') }}
                 </a-button>
                 <a-button
                   v-if="showSearchCollapseToggle"
                   type="link"
                   @click="searchCollapsed = !searchCollapsed"
                 >
-                  {{ searchCollapsed ? $t("common.expand") : $t("common.collapse") }}
+                  {{ searchCollapsed ? $t('common.expand') : $t('common.collapse') }}
                   <DownOutlined :class="{ 'rotate-180': !searchCollapsed }" />
                 </a-button>
               </a-space>
@@ -127,7 +127,7 @@
                     <div class="column-setting-dropdown" @click.stop>
                       <div class="setting-actions">
                         <a-button size="small" type="link" @click.stop="handleToggleAllColumns">
-                          {{ $t("proTable.checkAll") }}
+                          {{ $t('proTable.checkAll') }}
                         </a-button>
                         <a-button
                           size="small"
@@ -135,7 +135,7 @@
                           class="reset-btn"
                           @click.stop="handleResetColumns"
                         >
-                          {{ $t("common.reset") }}
+                          {{ $t('common.reset') }}
                         </a-button>
                       </div>
 
@@ -146,7 +146,7 @@
                               >::</span
                             >
                             <a-checkbox :checked="showIndexColumn" @change="toggleIndexColumn">
-                              {{ $t("proTable.indexColumn") }}
+                              {{ $t('proTable.indexColumn') }}
                             </a-checkbox>
                           </div>
                         </div>
@@ -240,7 +240,7 @@
                   class="pro-table-keyword-filter-btn"
                   @click="handleBuiltInKeywordSearch(slotProps.confirm)"
                 >
-                  {{ $t("common.search") }}
+                  {{ $t('common.search') }}
                 </a-button>
                 <a-button
                   class="pro-table-keyword-filter-btn"
@@ -252,7 +252,7 @@
                     )
                   "
                 >
-                  {{ $t("common.reset") }}
+                  {{ $t('common.reset') }}
                 </a-button>
               </div>
             </div>
@@ -321,33 +321,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  ref,
-  computed,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-  nextTick,
-  h,
-  defineComponent,
-} from "vue";
-import type { PropType } from "vue";
-import {
-  ReloadOutlined,
-  SettingOutlined,
-  SearchOutlined,
-  FilterFilled,
-  DownOutlined,
-  ColumnHeightOutlined,
-  VerticalLeftOutlined,
-  VerticalRightOutlined,
-} from "@antdv-next/icons";
-import { message, Modal } from "antdv-next";
-import ValueTypeRender from "./ValueTypeRender.vue";
-import ProModal from "../ProModal/index.vue";
-import ProForm from "../ProForm/index.vue";
-import { appDefaultSettings } from "@/settings";
-import { $t } from "@/locales";
+import type { ProTableDensity, ProTableHeight } from '@/settings';
 import type {
   ProTableColumn,
   ProTableToolbar,
@@ -362,8 +336,37 @@ import type {
   ProFormItem,
   ProFormLayout,
   ProFormGrid,
-} from "@/types/pro";
-import type { ProTableDensity, ProTableHeight } from "@/settings";
+} from '@/types/pro';
+import type { PropType } from 'vue';
+
+import {
+  ReloadOutlined,
+  SettingOutlined,
+  SearchOutlined,
+  FilterFilled,
+  DownOutlined,
+  ColumnHeightOutlined,
+  VerticalLeftOutlined,
+  VerticalRightOutlined,
+} from '@antdv-next/icons';
+import { message, Modal } from 'antdv-next';
+import {
+  ref,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+  watch,
+  nextTick,
+  h,
+  defineComponent,
+} from 'vue';
+
+import { $t } from '@/locales';
+import { appDefaultSettings } from '@/settings';
+
+import ProForm from '../ProForm/index.vue';
+import ProModal from '../ProModal/index.vue';
+import ValueTypeRender from './ValueTypeRender.vue';
 
 interface Props {
   columns: ProTableColumn[];
@@ -393,9 +396,9 @@ interface ColumnState {
   key: string;
   title: string;
   checked: boolean;
-  fixed?: "left" | "right";
+  fixed?: 'left' | 'right';
   defaultChecked: boolean;
-  defaultFixed?: "left" | "right";
+  defaultFixed?: 'left' | 'right';
   column: ProTableColumn;
 }
 
@@ -413,19 +416,19 @@ interface ResizableTitleProps {
   onResize?: (event: MouseEvent, info: ResizeInfo) => void;
 }
 
-type TableSize = "large" | "middle" | "small";
+type TableSize = 'large' | 'middle' | 'small';
 
 const MIN_COLUMN_WIDTH = 40;
 
 const ResizableTitle = defineComponent({
-  name: "ResizableTitle",
+  name: 'ResizableTitle',
   inheritAttrs: false,
   props: {
     width: Number,
     resizable: Boolean,
-    onResizeStart: Function as PropType<ResizableTitleProps["onResizeStart"]>,
-    onResizeEnd: Function as PropType<ResizableTitleProps["onResizeEnd"]>,
-    onResize: Function as PropType<ResizableTitleProps["onResize"]>,
+    onResizeStart: Function as PropType<ResizableTitleProps['onResizeStart']>,
+    onResizeEnd: Function as PropType<ResizableTitleProps['onResizeEnd']>,
+    onResize: Function as PropType<ResizableTitleProps['onResize']>,
   },
   setup(props, { slots, attrs }) {
     const dragging = ref(false);
@@ -445,8 +448,8 @@ const ResizableTitle = defineComponent({
         props.onResizeEnd?.(event);
       }
       dragging.value = false;
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
     const onMouseDown = (event: MouseEvent) => {
@@ -462,19 +465,19 @@ const ResizableTitle = defineComponent({
       props.onResizeStart?.(event, startWidth);
       dragging.value = true;
       startX = event.clientX;
-      document.addEventListener("mousemove", onMouseMove);
-      document.addEventListener("mouseup", onMouseUp);
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     };
 
     onBeforeUnmount(() => {
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
     });
 
     return () => {
       const width = props.width;
       if (!props.resizable || !props.onResize) {
-        return h("th", attrs, slots.default?.());
+        return h('th', attrs, slots.default?.());
       }
 
       const style =
@@ -483,16 +486,16 @@ const ResizableTitle = defineComponent({
           : { ...(attrs.style as Record<string, any>), width: `${width}px` };
 
       return h(
-        "th",
+        'th',
         {
           ...attrs,
-          class: ["pro-table-resizable-title", attrs.class],
+          class: ['pro-table-resizable-title', attrs.class],
           style,
         },
         [
           slots.default?.(),
-          h("span", {
-            class: "pro-table-resizable-handle",
+          h('span', {
+            class: 'pro-table-resizable-handle',
             onMousedown: onMouseDown,
           }),
         ],
@@ -502,7 +505,7 @@ const ResizableTitle = defineComponent({
 });
 
 const props = withDefaults(defineProps<Props>(), {
-  rowKey: "id",
+  rowKey: 'id',
   size: appDefaultSettings.proTable.size,
   height: appDefaultSettings.proTable.height,
   resizable: appDefaultSettings.proTable.resizable,
@@ -513,18 +516,18 @@ const props = withDefaults(defineProps<Props>(), {
   pagination: () => ({
     showSizeChanger: true,
     showQuickJumper: true,
-    showTotal: (value: number) => $t("proTable.total", { total: value }),
+    showTotal: (value: number) => $t('proTable.total', { total: value }),
   }),
   formModalWidth: 640,
 });
 
-const emit = defineEmits(["refresh", "form-submit"]);
+const emit = defineEmits(['refresh', 'form-submit']);
 
 const normalizeDensity = (size: ProTableDensity | undefined): TableSize => {
-  if (size === "large" || size === "middle" || size === "small") {
+  if (size === 'large' || size === 'middle' || size === 'small') {
     return size;
   }
-  return "small";
+  return 'small';
 };
 
 const cloneColumnState = (state: ColumnState): ColumnState => ({
@@ -556,7 +559,7 @@ const tableSize = ref<TableSize>(normalizeDensity(props.size));
 const tableScrollY = ref<number>();
 const shouldUseVerticalScroll = ref(false);
 const tableViewportWidth = ref(0);
-const viewportWidth = ref(typeof window !== "undefined" ? window.innerWidth : 1200);
+const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
 const tableFilters = ref<Record<string, any[] | null>>({});
 const tableSorter = ref<any>(null);
 
@@ -564,7 +567,7 @@ const showIndexColumn = ref(true);
 const defaultShowIndexColumn = ref(true);
 const columnStates = ref<ColumnState[]>([]);
 const defaultColumnStates = ref<ColumnState[]>([]);
-const draggingColumnKey = ref("");
+const draggingColumnKey = ref('');
 const isResizingColumn = ref(false);
 const resizingColumnKey = ref<string | null>(null);
 const widthsPreparedForCurrentDrag = ref(false);
@@ -581,22 +584,22 @@ const tableComponents = computed(() => {
 });
 
 const normalizeHeaderFilterMode = (mode: HeaderFilterMode | undefined): HeaderFilterMode => {
-  return mode ?? props.headerFilter?.defaultMode ?? "server";
+  return mode ?? props.headerFilter?.defaultMode ?? 'server';
 };
 
 const isClientHeaderFilterMode = (mode: HeaderFilterMode) => {
-  return mode === "client" || mode === "hybrid";
+  return mode === 'client' || mode === 'hybrid';
 };
 
 const isServerHeaderFilterMode = (mode: HeaderFilterMode) => {
-  return mode === "server" || mode === "hybrid";
+  return mode === 'server' || mode === 'hybrid';
 };
 
 const normalizeSelectedFilterValues = (value: unknown): any[] => {
   if (Array.isArray(value)) {
-    return value.filter((item) => item !== undefined && item !== null && item !== "");
+    return value.filter((item) => item !== undefined && item !== null && item !== '');
   }
-  if (value === undefined || value === null || value === "") {
+  if (value === undefined || value === null || value === '') {
     return [];
   }
   return [value];
@@ -604,7 +607,7 @@ const normalizeSelectedFilterValues = (value: unknown): any[] => {
 
 const normalizeTableFilters = (filters: Record<string, any> | undefined) => {
   const normalized: Record<string, any[] | null> = {};
-  if (!filters || typeof filters !== "object") {
+  if (!filters || typeof filters !== 'object') {
     return normalized;
   }
 
@@ -633,17 +636,17 @@ const toolbarActions = computed(() => props.toolbar?.actions || []);
 
 const showRefreshAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes("!refresh");
+  return !toolbarActions.value.includes('!refresh');
 });
 
 const showColumnSettingAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes("!columnSetting");
+  return !toolbarActions.value.includes('!columnSetting');
 });
 
 const showDensityAction = computed(() => {
   if (!props.toolbar) return true;
-  return !toolbarActions.value.includes("!density");
+  return !toolbarActions.value.includes('!density');
 });
 
 const headerFilterEntries = computed(() => {
@@ -682,7 +685,7 @@ const hasBuiltInHeaderFilter = computed(() => {
 
 const hasBuiltInKeywordHeaderFilter = computed(() => {
   return Array.from(headerFilterEntries.value.values()).some(
-    (entry) => entry.headerFilter.type === "keyword",
+    (entry) => entry.headerFilter.type === 'keyword',
   );
 });
 
@@ -711,7 +714,7 @@ const effectiveHeight = computed(() => {
 });
 
 const isAutoHeight = computed(() => {
-  return String(effectiveHeight.value) === "auto";
+  return String(effectiveHeight.value) === 'auto';
 });
 
 const isFillMode = computed(() => {
@@ -720,11 +723,11 @@ const isFillMode = computed(() => {
 
 const tableRootStyle = computed<Record<string, string> | undefined>(() => {
   if (isAutoHeight.value) {
-    return { height: "100%" };
+    return { height: '100%' };
   }
 
   const height =
-    typeof effectiveHeight.value === "number"
+    typeof effectiveHeight.value === 'number'
       ? `${effectiveHeight.value}px`
       : String(effectiveHeight.value);
 
@@ -798,7 +801,7 @@ const paginationConfig = computed(() => {
   return {
     showSizeChanger: true,
     showQuickJumper: true,
-    showTotal: (value: number) => $t("proTable.total", { total: value }),
+    showTotal: (value: number) => $t('proTable.total', { total: value }),
     ...pagination,
     current: currentPage.value,
     pageSize: pageSize.value,
@@ -823,12 +826,12 @@ const displayColumns = computed<ProTableColumn[]>(() => {
 
   return [
     {
-      title: "#",
-      dataIndex: "__index",
-      key: "__index",
+      title: '#',
+      dataIndex: '__index',
+      key: '__index',
       width: 64,
-      align: "center",
-      fixed: "left",
+      align: 'center',
+      fixed: 'left',
       ellipsis: false,
       resizable: false,
     },
@@ -841,11 +844,11 @@ const hasFixedColumns = computed(() => {
 });
 
 const parseColumnWidth = (width: unknown): number | null => {
-  if (typeof width === "number" && Number.isFinite(width)) {
+  if (typeof width === 'number' && Number.isFinite(width)) {
     return width;
   }
 
-  if (typeof width !== "string") {
+  if (typeof width !== 'string') {
     return null;
   }
 
@@ -858,7 +861,7 @@ const parseColumnWidth = (width: unknown): number | null => {
     return Number.parseFloat(value);
   }
 
-  if (value.endsWith("px")) {
+  if (value.endsWith('px')) {
     const parsed = Number.parseFloat(value);
     return Number.isFinite(parsed) ? parsed : null;
   }
@@ -874,11 +877,11 @@ const collectVisibleHeaderWidths = () => {
   }
 
   const headerCells = section.querySelectorAll(
-    ".ant-table-header thead th[data-pro-table-col-key]",
+    '.ant-table-header thead th[data-pro-table-col-key]',
   ) as NodeListOf<HTMLElement>;
 
   headerCells.forEach((cell) => {
-    const key = cell.getAttribute("data-pro-table-col-key");
+    const key = cell.getAttribute('data-pro-table-col-key');
     if (!key) {
       return;
     }
@@ -1011,16 +1014,16 @@ const applyKeywordClientFilter = (
   column: ProTableColumn,
   headerFilter: ProTableHeaderFilter,
 ) => {
-  if (typeof headerFilter.clientFilter === "function") {
+  if (typeof headerFilter.clientFilter === 'function') {
     return headerFilter.clientFilter(value, record, column);
   }
 
-  const keyword = String(value ?? "").trim();
+  const keyword = String(value ?? '').trim();
   if (!keyword) {
     return true;
   }
 
-  const rawText = String(getColumnCellValue(record, column) ?? "");
+  const rawText = String(getColumnCellValue(record, column) ?? '');
   const caseSensitive = Boolean(headerFilter.caseSensitive);
   const normalizedText = caseSensitive ? rawText : rawText.toLowerCase();
   const terms = splitKeywordTerms(keyword).map((item) =>
@@ -1045,7 +1048,7 @@ const applySelectClientFilter = (
   column: ProTableColumn,
   headerFilter: ProTableHeaderFilter,
 ) => {
-  if (typeof headerFilter.clientFilter === "function") {
+  if (typeof headerFilter.clientFilter === 'function') {
     return headerFilter.clientFilter(value, record, column);
   }
 
@@ -1054,7 +1057,7 @@ const applySelectClientFilter = (
     return cellValue.map((item) => String(item)).includes(String(value));
   }
 
-  return String(cellValue ?? "") === String(value ?? "");
+  return String(cellValue ?? '') === String(value ?? '');
 };
 
 const tableColumns = computed(() => {
@@ -1079,7 +1082,7 @@ const tableColumns = computed(() => {
         (column.key ? tableFilters.value[String(column.key)] : undefined),
     );
     const currentFilterIconType =
-      headerFilter?.icon ?? (headerFilter?.type === "keyword" ? "search" : "filter");
+      headerFilter?.icon ?? (headerFilter?.type === 'keyword' ? 'search' : 'filter');
 
     const enhancedColumn: Record<string, any> = {
       ...column,
@@ -1092,25 +1095,25 @@ const tableColumns = computed(() => {
       enhancedColumn.filterIcon =
         enhancedColumn.filterIcon ??
         ((filtered: boolean) => {
-          const IconComp = currentFilterIconType === "search" ? SearchOutlined : FilterFilled;
-          return h(IconComp, { style: { color: filtered ? "#1677ff" : undefined } });
+          const IconComp = currentFilterIconType === 'search' ? SearchOutlined : FilterFilled;
+          return h(IconComp, { style: { color: filtered ? '#1677ff' : undefined } });
         });
 
-      if (headerFilter.type === "keyword") {
+      if (headerFilter.type === 'keyword') {
         enhancedColumn.filterDropdown = enhancedColumn.filterDropdown ?? (() => null);
         if (!enhancedColumn.customFilterDropdown) {
           enhancedColumn.customFilterDropdown = true;
         }
         if (
           isClientHeaderFilterMode(headerFilterMode) &&
-          typeof enhancedColumn.onFilter !== "function"
+          typeof enhancedColumn.onFilter !== 'function'
         ) {
           enhancedColumn.onFilter = (value: any, record: any) =>
             applyKeywordClientFilter(value, record, column, headerFilter);
         }
       }
 
-      if (headerFilter.type === "select") {
+      if (headerFilter.type === 'select') {
         if (!Array.isArray(enhancedColumn.filters) || enhancedColumn.filters.length === 0) {
           enhancedColumn.filters = (headerFilter.options ?? []).map((item) => ({
             text: item.label,
@@ -1122,7 +1125,7 @@ const tableColumns = computed(() => {
         }
         if (
           isClientHeaderFilterMode(headerFilterMode) &&
-          typeof enhancedColumn.onFilter !== "function"
+          typeof enhancedColumn.onFilter !== 'function'
         ) {
           enhancedColumn.onFilter = (value: any, record: any) =>
             applySelectClientFilter(value, record, column, headerFilter);
@@ -1136,12 +1139,12 @@ const tableColumns = computed(() => {
       ...enhancedColumn,
       onHeaderCell: (headerColumn: any) => {
         const originalCell =
-          typeof originalOnHeaderCell === "function"
+          typeof originalOnHeaderCell === 'function'
             ? (originalOnHeaderCell(headerColumn) ?? {})
             : {};
         const mergedCell: Record<string, any> = {
           ...originalCell,
-          "data-pro-table-col-key": key,
+          'data-pro-table-col-key': key,
         };
 
         if (width != null) {
@@ -1168,7 +1171,7 @@ const tableScroll = computed(() => {
     if (canMeasureColumnWidth.value && tableViewportWidth.value > 0) {
       scroll.x = Math.max(columnTotalWidth.value, tableViewportWidth.value);
     } else {
-      scroll.x = "max-content";
+      scroll.x = 'max-content';
     }
   }
 
@@ -1182,16 +1185,16 @@ const tableScroll = computed(() => {
 const densityMenuProps = computed(() => ({
   items: [
     {
-      key: "large",
-      label: $t("proTable.densityLarge"),
+      key: 'large',
+      label: $t('proTable.densityLarge'),
     },
     {
-      key: "middle",
-      label: $t("proTable.densityMiddle"),
+      key: 'middle',
+      label: $t('proTable.densityMiddle'),
     },
     {
-      key: "small",
-      label: $t("proTable.densitySmall"),
+      key: 'small',
+      label: $t('proTable.densitySmall'),
     },
   ],
   selectedKeys: [tableSize.value],
@@ -1280,7 +1283,7 @@ const handleColumnCheckedChange = (key: string, event: any) => {
   toggleColumnChecked(key, Boolean(event?.target?.checked));
 };
 
-const toggleColumnFixed = (key: string, position: "left" | "right") => {
+const toggleColumnFixed = (key: string, position: 'left' | 'right') => {
   const item = columnStates.value.find((state) => state.key === key);
   if (!item) return;
 
@@ -1319,7 +1322,7 @@ const handleDragStart = (key: string) => {
 };
 
 const handleDragEnd = () => {
-  draggingColumnKey.value = "";
+  draggingColumnKey.value = '';
 };
 
 const handleDrop = (targetKey: string) => {
@@ -1334,34 +1337,34 @@ const handleDrop = (targetKey: string) => {
   const [dragItem] = list.splice(sourceIndex, 1);
   list.splice(targetIndex, 0, dragItem);
   columnStates.value = list;
-  draggingColumnKey.value = "";
+  draggingColumnKey.value = '';
   scheduleMeasureTable();
 };
 
 const normalizeFieldLabel = (label: unknown) => {
-  return String(label ?? "");
+  return String(label ?? '');
 };
 
 const buildEnterPlaceholder = (label: unknown) => {
-  return $t("proForm.enterPlaceholder", { label: normalizeFieldLabel(label) });
+  return $t('proForm.enterPlaceholder', { label: normalizeFieldLabel(label) });
 };
 
 const buildSelectPlaceholder = (label: unknown) => {
-  return $t("proForm.selectPlaceholder", { label: normalizeFieldLabel(label) });
+  return $t('proForm.selectPlaceholder', { label: normalizeFieldLabel(label) });
 };
 
 const resolveSearchType = (col: ProTableColumn): SearchType => {
   if (col.searchType) return col.searchType;
   if (col.options || col.searchOptions || col.valueEnum) {
     const vt = col.valueType;
-    if (vt === "tag" || vt === "badge") return "select";
+    if (vt === 'tag' || vt === 'badge') return 'select';
   }
   const vt = col.valueType;
-  if (vt === "tag" || vt === "badge") return "select";
-  if (vt === "date" || vt === "dateTime" || vt === "time") return "datePicker";
-  if (vt === "dateRange") return "dateRange";
-  if (vt === "money" || vt === "percent" || vt === "progress") return "number";
-  return "input";
+  if (vt === 'tag' || vt === 'badge') return 'select';
+  if (vt === 'date' || vt === 'dateTime' || vt === 'time') return 'datePicker';
+  if (vt === 'dateRange') return 'dateRange';
+  if (vt === 'money' || vt === 'percent' || vt === 'progress') return 'number';
+  return 'input';
 };
 
 const resolveSearchOptions = (col: ProTableColumn) => {
@@ -1397,7 +1400,7 @@ const getHeaderFilterEntry = (column: any) => {
   const directKey = column.__proHeaderFilterKey as string | undefined;
   if (directHeaderFilter) {
     return {
-      key: String(directKey || column.key || column.dataIndex || ""),
+      key: String(directKey || column.key || column.dataIndex || ''),
       headerFilter: directHeaderFilter,
     };
   }
@@ -1424,14 +1427,14 @@ const shouldRenderBuiltInFilterIcon = (column: any) => {
 const getBuiltInFilterIconType = (column: any) => {
   const entry = getHeaderFilterEntry(column);
   if (!entry) {
-    return "filter";
+    return 'filter';
   }
-  return entry.headerFilter.icon ?? (entry.headerFilter.type === "keyword" ? "search" : "filter");
+  return entry.headerFilter.icon ?? (entry.headerFilter.type === 'keyword' ? 'search' : 'filter');
 };
 
 const isBuiltInKeywordFilterColumn = (column: any) => {
   const entry = getHeaderFilterEntry(column);
-  return entry?.headerFilter.type === "keyword";
+  return entry?.headerFilter.type === 'keyword';
 };
 
 const getBuiltInKeywordFilterPlaceholder = (column: any) => {
@@ -1444,7 +1447,7 @@ const getBuiltInKeywordFilterPlaceholder = (column: any) => {
 
 const getBuiltInKeywordFilterValue = (selectedKeys: unknown) => {
   const values = normalizeSelectedFilterValues(selectedKeys);
-  return String(values[0] ?? "");
+  return String(values[0] ?? '');
 };
 
 const handleBuiltInKeywordInput = (value: string, setSelectedKeys?: (values: string[]) => void) => {
@@ -1467,8 +1470,8 @@ const handleBuiltInKeywordReset = (
 };
 
 const buildHeaderFilterRequestParams = () => {
-  const payloadMode = props.headerFilter?.requestPayload ?? "flat";
-  const nestedKey = props.headerFilter?.nestedKey || "filters";
+  const payloadMode = props.headerFilter?.requestPayload ?? 'flat';
+  const nestedKey = props.headerFilter?.nestedKey || 'filters';
   const flatParams: Record<string, any> = {};
   const nestedParams: Record<string, any> = {};
 
@@ -1492,26 +1495,26 @@ const buildHeaderFilterRequestParams = () => {
     const isMultiple = Boolean(entry.headerFilter.multiple);
     let requestValue: any;
 
-    if (entry.headerFilter.type === "keyword") {
-      requestValue = String(selectedValues[0] ?? "");
+    if (entry.headerFilter.type === 'keyword') {
+      requestValue = String(selectedValues[0] ?? '');
     } else {
       requestValue = isMultiple ? selectedValues : selectedValues[0];
     }
 
-    if (typeof entry.headerFilter.transformRequestValue === "function") {
+    if (typeof entry.headerFilter.transformRequestValue === 'function') {
       requestValue = entry.headerFilter.transformRequestValue(requestValue, selectedValues);
     }
 
     if (
       requestValue === undefined ||
       requestValue === null ||
-      requestValue === "" ||
+      requestValue === '' ||
       (Array.isArray(requestValue) && requestValue.length === 0)
     ) {
       return;
     }
 
-    if (payloadMode === "nested") {
+    if (payloadMode === 'nested') {
       nestedParams[paramKey] = requestValue;
       return;
     }
@@ -1519,7 +1522,7 @@ const buildHeaderFilterRequestParams = () => {
     flatParams[paramKey] = requestValue;
   });
 
-  if (payloadMode === "nested") {
+  if (payloadMode === 'nested') {
     if (Object.keys(nestedParams).length === 0) {
       return {};
     }
@@ -1584,7 +1587,7 @@ const loadData = async () => {
       scheduleMeasureTable();
     }
   } catch (error: any) {
-    message.error(error.message || $t("proTable.loadDataFailed"));
+    message.error(error.message || $t('proTable.loadDataFailed'));
   } finally {
     loading.value = false;
   }
@@ -1605,7 +1608,7 @@ const handleReset = () => {
 
 const handleRefresh = () => {
   loadData();
-  emit("refresh");
+  emit('refresh');
 };
 
 const handleTableChange = (
@@ -1624,7 +1627,7 @@ const handleTableChange = (
   tableFilters.value = normalizeTableFilters(filters);
   tableSorter.value = sorter;
 
-  if (extra?.action === "filter" && (props.headerFilter?.resetPageOnFilterChange ?? true)) {
+  if (extra?.action === 'filter' && (props.headerFilter?.resetPageOnFilterChange ?? true)) {
     currentPage.value = 1;
   }
 
@@ -1634,7 +1637,7 @@ const handleTableChange = (
 const handleAction = async (action: ProTableAction, record: any) => {
   if (action.confirm) {
     Modal.confirm({
-      title: $t("common.confirm"),
+      title: $t('common.confirm'),
       content: action.confirm,
       onOk: async () => {
         await action.onClick?.(record);
@@ -1653,14 +1656,14 @@ const getOuterHeight = (el: HTMLElement) => {
   const style = window.getComputedStyle(el);
   return (
     rect.height +
-    Number.parseFloat(style.marginTop || "0") +
-    Number.parseFloat(style.marginBottom || "0")
+    Number.parseFloat(style.marginTop || '0') +
+    Number.parseFloat(style.marginBottom || '0')
   );
 };
 
 const getHeaderFallbackHeight = () => {
-  if (tableSize.value === "large") return 54;
-  if (tableSize.value === "small") return 40;
+  if (tableSize.value === 'large') return 54;
+  if (tableSize.value === 'small') return 40;
   return 48;
 };
 
@@ -1687,19 +1690,19 @@ const measureTableScroll = () => {
   const sectionHeight = section.clientHeight;
   if (!sectionHeight) return;
 
-  const tableWrapperEl = section.querySelector(".ant-table-wrapper") as HTMLElement | null;
+  const tableWrapperEl = section.querySelector('.ant-table-wrapper') as HTMLElement | null;
   tableViewportWidth.value = Math.floor(tableWrapperEl?.clientWidth || section.clientWidth || 0);
 
-  const paginationEl = section.querySelector(".ant-pagination") as HTMLElement | null;
+  const paginationEl = section.querySelector('.ant-pagination') as HTMLElement | null;
   const paginationHeight = paginationEl
     ? getOuterHeight(paginationEl)
     : getPaginationFallbackHeight();
 
-  const titleEl = section.querySelector(".ant-table-title") as HTMLElement | null;
+  const titleEl = section.querySelector('.ant-table-title') as HTMLElement | null;
   const titleHeight = titleEl ? getOuterHeight(titleEl) : getTitleFallbackHeight();
 
-  const headerEl = section.querySelector(".ant-table-header") as HTMLElement | null;
-  const theadEl = section.querySelector(".ant-table-thead") as HTMLElement | null;
+  const headerEl = section.querySelector('.ant-table-header') as HTMLElement | null;
+  const theadEl = section.querySelector('.ant-table-thead') as HTMLElement | null;
   const headerHeight = headerEl
     ? headerEl.getBoundingClientRect().height
     : theadEl?.getBoundingClientRect().height || getHeaderFallbackHeight();
@@ -1710,7 +1713,7 @@ const measureTableScroll = () => {
   );
 
   const bodyTableEl = section.querySelector(
-    ".ant-table-body table, .ant-table-content table",
+    '.ant-table-body table, .ant-table-content table',
   ) as HTMLElement | null;
   const bodyContentHeight = bodyTableEl ? bodyTableEl.getBoundingClientRect().height : 0;
   shouldUseVerticalScroll.value = bodyContentHeight > nextY + 1;
@@ -1741,13 +1744,13 @@ const scheduleMeasureTable = () => {
 // Lifecycle
 onMounted(() => {
   handleWindowResize();
-  window.addEventListener("resize", handleWindowResize);
+  window.addEventListener('resize', handleWindowResize);
 
   initializeColumnStates();
   measureTableScroll();
   loadData();
 
-  if (typeof ResizeObserver !== "undefined") {
+  if (typeof ResizeObserver !== 'undefined') {
     resizeObserver = new ResizeObserver(() => {
       scheduleMeasureTable();
     });
@@ -1762,7 +1765,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("resize", handleWindowResize);
+  window.removeEventListener('resize', handleWindowResize);
 
   if (rafId) {
     cancelAnimationFrame(rafId);
@@ -1848,9 +1851,9 @@ const editingRecord = ref<any>(null);
 
 const crudModalTitle = computed(() => {
   if (editingRecord.value) {
-    return props.formEditTitle || $t("common.edit");
+    return props.formEditTitle || $t('common.edit');
   }
-  return props.formCreateTitle || $t("common.add");
+  return props.formCreateTitle || $t('common.add');
 });
 
 const openCreateModal = (initialValues?: Record<string, any>) => {
@@ -1870,7 +1873,7 @@ const handleCrudSubmit = async () => {
   const valid = await crudFormRef.value.validate();
   if (!valid) return;
   const values = crudFormRef.value.getFieldsValue();
-  emit("form-submit", {
+  emit('form-submit', {
     values,
     record: editingRecord.value,
     isEdit: Boolean(editingRecord.value),

@@ -1,5 +1,6 @@
-import { useDictStore } from "@/stores/dict";
-import type { DictData } from "@/types/dict";
+import type { DictData } from '@/types/dict';
+
+import { useDictStore } from '@/stores/dict';
 
 /**
  * 字典工具类

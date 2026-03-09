@@ -1,12 +1,13 @@
-import { defineMock } from "vite-plugin-mock-dev-server";
-import { mockRoles } from "../data/roles.data";
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
+import { defineMock } from 'vite-plugin-mock-dev-server';
+
+import { mockRoles } from '../data/roles.data';
 
 export default defineMock([
   // Get role list
   {
-    url: "/api/roles",
-    method: "GET",
+    url: '/api/roles',
+    method: 'GET',
     body: (req) => {
       const { current = 1, pageSize = 10, name, code } = req.query;
 
@@ -32,7 +33,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Success",
+        message: 'Success',
         data: {
           list,
           total: filteredRoles.length,
@@ -46,8 +47,8 @@ export default defineMock([
 
   // Get role by ID
   {
-    url: "/api/roles/:id",
-    method: "GET",
+    url: '/api/roles/:id',
+    method: 'GET',
     body: (req) => {
       const { id } = req.params;
       const role = mockRoles.find((r) => r.id === id);
@@ -55,14 +56,14 @@ export default defineMock([
       if (role) {
         return {
           code: 200,
-          message: "Success",
+          message: 'Success',
           data: role,
           success: true,
         };
       } else {
         return {
           code: 404,
-          message: "Role not found",
+          message: 'Role not found',
           data: null,
           success: false,
         };
@@ -72,8 +73,8 @@ export default defineMock([
 
   // Create role
   {
-    url: "/api/roles",
-    method: "POST",
+    url: '/api/roles',
+    method: 'POST',
     body: (req) => {
       const roleData = req.body;
 
@@ -81,7 +82,7 @@ export default defineMock([
         id: faker.string.uuid(),
         name: roleData.name,
         code: roleData.code,
-        description: roleData.description || "",
+        description: roleData.description || '',
         permissions: roleData.permissions || [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -91,7 +92,7 @@ export default defineMock([
 
       return {
         code: 200,
-        message: "Role created successfully",
+        message: 'Role created successfully',
         data: newRole,
         success: true,
       };
@@ -100,8 +101,8 @@ export default defineMock([
 
   // Update role
   {
-    url: "/api/roles/:id",
-    method: "PUT",
+    url: '/api/roles/:id',
+    method: 'PUT',
     body: (req) => {
       const { id } = req.params;
       const roleData = req.body;
@@ -117,14 +118,14 @@ export default defineMock([
 
         return {
           code: 200,
-          message: "Role updated successfully",
+          message: 'Role updated successfully',
           data: mockRoles[index],
           success: true,
         };
       } else {
         return {
           code: 404,
-          message: "Role not found",
+          message: 'Role not found',
           data: null,
           success: false,
         };
@@ -134,8 +135,8 @@ export default defineMock([
 
   // Delete role
   {
-    url: "/api/roles/:id",
-    method: "DELETE",
+    url: '/api/roles/:id',
+    method: 'DELETE',
     body: (req) => {
       const { id } = req.params;
       const index = mockRoles.findIndex((r) => r.id === id);
@@ -145,14 +146,14 @@ export default defineMock([
 
         return {
           code: 200,
-          message: "Role deleted successfully",
+          message: 'Role deleted successfully',
           data: null,
           success: true,
         };
       } else {
         return {
           code: 404,
-          message: "Role not found",
+          message: 'Role not found',
           data: null,
           success: false,
         };

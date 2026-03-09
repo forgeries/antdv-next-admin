@@ -12,7 +12,7 @@
           >
             <template #toolbar-actions>
               <a-button danger @click="handleClearOperationLog">
-                <DeleteOutlined /> {{ t("log.clearLog") }}
+                <DeleteOutlined /> {{ t('log.clearLog') }}
               </a-button>
             </template>
             <template #bodyCell="{ column, record }">
@@ -52,7 +52,7 @@
           >
             <template #toolbar-actions>
               <a-button danger @click="handleClearLoginLog">
-                <DeleteOutlined /> {{ t("log.clearLog") }}
+                <DeleteOutlined /> {{ t('log.clearLog') }}
               </a-button>
             </template>
             <template #bodyCell="{ column, record }">
@@ -68,120 +68,122 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { message, Modal } from "antdv-next";
-import { DeleteOutlined } from "@antdv-next/icons";
-import ProTable from "@/components/Pro/ProTable/index.vue";
-import ProStatus from "@/components/Pro/ProStatus/index.vue";
-import type { ProTableColumn, ProStatusMap } from "@/types/pro";
-import { getOperationLogList, getLoginLogList, clearOperationLog, clearLoginLog } from "@/api/log";
+import type { ProTableColumn, ProStatusMap } from '@/types/pro';
+
+import { DeleteOutlined } from '@antdv-next/icons';
+import { message, Modal } from 'antdv-next';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { getOperationLogList, getLoginLogList, clearOperationLog, clearLoginLog } from '@/api/log';
+import ProStatus from '@/components/Pro/ProStatus/index.vue';
+import ProTable from '@/components/Pro/ProTable/index.vue';
 
 const { t } = useI18n();
 
 const logStatusMap = computed<ProStatusMap>(() => ({
-  success: { text: t("log.success"), color: "#52c41a" },
-  fail: { text: t("log.fail"), color: "#ff4d4f" },
+  success: { text: t('log.success'), color: '#52c41a' },
+  fail: { text: t('log.fail'), color: '#ff4d4f' },
 }));
 
-const activeTab = ref("operation");
+const activeTab = ref('operation');
 const operationRefreshKey = ref(0);
 const loginRefreshKey = ref(0);
 
 const actionColorMap: Record<string, string> = {
-  login: "blue",
-  logout: "default",
-  create: "green",
-  update: "orange",
-  delete: "red",
-  export: "purple",
-  import: "cyan",
-  other: "default",
+  login: 'blue',
+  logout: 'default',
+  create: 'green',
+  update: 'orange',
+  delete: 'red',
+  export: 'purple',
+  import: 'cyan',
+  other: 'default',
 };
 
 // operation log columns
 const operationColumns = computed<ProTableColumn[]>(() => [
   {
-    title: t("log.operationUser"),
-    dataIndex: "username",
-    key: "username",
+    title: t('log.operationUser'),
+    dataIndex: 'username',
+    key: 'username',
     width: 100,
     search: true,
-    searchType: "input",
+    searchType: 'input',
   },
   {
-    title: t("log.operationModule"),
-    dataIndex: "module",
-    key: "module",
+    title: t('log.operationModule'),
+    dataIndex: 'module',
+    key: 'module',
     width: 110,
     search: true,
-    searchType: "select",
+    searchType: 'select',
     searchOptions: [
-      { label: t("log.modules.userManagement"), value: "userManagement" },
-      { label: t("log.modules.roleManagement"), value: "roleManagement" },
-      { label: t("log.modules.menuManagement"), value: "menuManagement" },
-      { label: t("log.modules.dictionary"), value: "dictionary" },
-      { label: t("log.modules.systemLogin"), value: "systemLogin" },
-      { label: t("log.modules.profile"), value: "profile" },
-      { label: t("log.modules.dashboard"), value: "dashboard" },
+      { label: t('log.modules.userManagement'), value: 'userManagement' },
+      { label: t('log.modules.roleManagement'), value: 'roleManagement' },
+      { label: t('log.modules.menuManagement'), value: 'menuManagement' },
+      { label: t('log.modules.dictionary'), value: 'dictionary' },
+      { label: t('log.modules.systemLogin'), value: 'systemLogin' },
+      { label: t('log.modules.profile'), value: 'profile' },
+      { label: t('log.modules.dashboard'), value: 'dashboard' },
     ],
   },
   {
-    title: t("log.operationType"),
-    dataIndex: "action",
-    key: "action",
+    title: t('log.operationType'),
+    dataIndex: 'action',
+    key: 'action',
     width: 90,
     search: true,
-    searchType: "select",
+    searchType: 'select',
     searchOptions: [
-      { label: t("log.actionTypes.login"), value: "login" },
-      { label: t("log.actionTypes.logout"), value: "logout" },
-      { label: t("log.actionTypes.create"), value: "create" },
-      { label: t("log.actionTypes.update"), value: "update" },
-      { label: t("log.actionTypes.delete"), value: "delete" },
-      { label: t("log.actionTypes.export"), value: "export" },
+      { label: t('log.actionTypes.login'), value: 'login' },
+      { label: t('log.actionTypes.logout'), value: 'logout' },
+      { label: t('log.actionTypes.create'), value: 'create' },
+      { label: t('log.actionTypes.update'), value: 'update' },
+      { label: t('log.actionTypes.delete'), value: 'delete' },
+      { label: t('log.actionTypes.export'), value: 'export' },
     ],
   },
   {
-    title: t("log.operationDescription"),
-    dataIndex: "description",
-    key: "description",
+    title: t('log.operationDescription'),
+    dataIndex: 'description',
+    key: 'description',
     ellipsis: true,
   },
   {
-    title: t("log.requestMethod"),
-    dataIndex: "method",
-    key: "method",
+    title: t('log.requestMethod'),
+    dataIndex: 'method',
+    key: 'method',
     width: 90,
   },
   {
-    title: t("log.ipAddress"),
-    dataIndex: "ip",
-    key: "ip",
+    title: t('log.ipAddress'),
+    dataIndex: 'ip',
+    key: 'ip',
     width: 130,
   },
   {
-    title: t("common.status"),
-    dataIndex: "status",
-    key: "status",
+    title: t('common.status'),
+    dataIndex: 'status',
+    key: 'status',
     width: 80,
     search: true,
-    searchType: "select",
+    searchType: 'select',
     searchOptions: [
-      { label: t("log.success"), value: "success" },
-      { label: t("log.fail"), value: "fail" },
+      { label: t('log.success'), value: 'success' },
+      { label: t('log.fail'), value: 'fail' },
     ],
   },
   {
-    title: t("log.duration"),
-    dataIndex: "duration",
-    key: "duration",
+    title: t('log.duration'),
+    dataIndex: 'duration',
+    key: 'duration',
     width: 80,
   },
   {
-    title: t("log.operationTime"),
-    dataIndex: "createTime",
-    key: "createTime",
+    title: t('log.operationTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
     width: 170,
   },
 ]);
@@ -189,55 +191,55 @@ const operationColumns = computed<ProTableColumn[]>(() => [
 // login log columns
 const loginColumns = computed<ProTableColumn[]>(() => [
   {
-    title: t("log.username"),
-    dataIndex: "username",
-    key: "username",
+    title: t('log.username'),
+    dataIndex: 'username',
+    key: 'username',
     width: 120,
     search: true,
-    searchType: "input",
+    searchType: 'input',
   },
   {
-    title: t("log.ipAddress"),
-    dataIndex: "ip",
-    key: "ip",
+    title: t('log.ipAddress'),
+    dataIndex: 'ip',
+    key: 'ip',
     width: 140,
     search: true,
-    searchType: "input",
+    searchType: 'input',
   },
   {
-    title: t("log.browser"),
-    dataIndex: "browser",
-    key: "browser",
+    title: t('log.browser'),
+    dataIndex: 'browser',
+    key: 'browser',
     width: 130,
   },
   {
-    title: t("log.os"),
-    dataIndex: "os",
-    key: "os",
+    title: t('log.os'),
+    dataIndex: 'os',
+    key: 'os',
     width: 130,
   },
   {
-    title: t("common.status"),
-    dataIndex: "status",
-    key: "status",
+    title: t('common.status'),
+    dataIndex: 'status',
+    key: 'status',
     width: 80,
     search: true,
-    searchType: "select",
+    searchType: 'select',
     searchOptions: [
-      { label: t("log.success"), value: "success" },
-      { label: t("log.fail"), value: "fail" },
+      { label: t('log.success'), value: 'success' },
+      { label: t('log.fail'), value: 'fail' },
     ],
   },
   {
-    title: t("log.message"),
-    dataIndex: "message",
-    key: "message",
+    title: t('log.message'),
+    dataIndex: 'message',
+    key: 'message',
     ellipsis: true,
   },
   {
-    title: t("log.loginTime"),
-    dataIndex: "createTime",
-    key: "createTime",
+    title: t('log.loginTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
     width: 170,
   },
 ]);
@@ -258,7 +260,7 @@ const loadOperationLogs = async (params: any) => {
       return { data: response.data.list, total: response.data.total, success: true };
     }
   } catch (error) {
-    console.error(t("log.loadOperationLogFailed"), error);
+    console.error(t('log.loadOperationLogFailed'), error);
   }
   return { data: [], total: 0, success: false };
 };
@@ -276,25 +278,25 @@ const loadLoginLogs = async (params: any) => {
       return { data: response.data.list, total: response.data.total, success: true };
     }
   } catch (error) {
-    console.error(t("log.loadLoginLogFailed"), error);
+    console.error(t('log.loadLoginLogFailed'), error);
   }
   return { data: [], total: 0, success: false };
 };
 
 const handleClearOperationLog = () => {
   Modal.confirm({
-    title: t("log.confirmClear"),
-    content: t("log.confirmClearOperation"),
-    okType: "danger",
+    title: t('log.confirmClear'),
+    content: t('log.confirmClearOperation'),
+    okType: 'danger',
     onOk: async () => {
       try {
         const response = (await clearOperationLog()) as any;
         if (response.code === 200) {
-          message.success(t("log.clearSuccess"));
+          message.success(t('log.clearSuccess'));
           operationRefreshKey.value++;
         }
       } catch (error) {
-        message.error(t("log.clearFailed"));
+        message.error(t('log.clearFailed'));
       }
     },
   });
@@ -302,18 +304,18 @@ const handleClearOperationLog = () => {
 
 const handleClearLoginLog = () => {
   Modal.confirm({
-    title: t("log.confirmClear"),
-    content: t("log.confirmClearLogin"),
-    okType: "danger",
+    title: t('log.confirmClear'),
+    content: t('log.confirmClearLogin'),
+    okType: 'danger',
     onOk: async () => {
       try {
         const response = (await clearLoginLog()) as any;
         if (response.code === 200) {
-          message.success(t("log.clearSuccess"));
+          message.success(t('log.clearSuccess'));
           loginRefreshKey.value++;
         }
       } catch (error) {
-        message.error(t("log.clearFailed"));
+        message.error(t('log.clearFailed'));
       }
     },
   });

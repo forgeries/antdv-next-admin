@@ -20,7 +20,7 @@
           <img :src="logoImg" alt="Logo" class="hero-logo" />
         </div>
         <h1 class="hero-title">Antdv Next Admin</h1>
-        <p class="hero-desc">{{ $t("about.description") }}</p>
+        <p class="hero-desc">{{ $t('about.description') }}</p>
         <div class="hero-badges">
           <span
             class="hero-badge"
@@ -41,34 +41,34 @@
           <template #title>
             <div class="card-title-row">
               <span class="card-icon-wrap"><ProfileOutlined class="card-icon" /></span>
-              <span>{{ $t("about.projectInfo") }}</span>
+              <span>{{ $t('about.projectInfo') }}</span>
             </div>
           </template>
           <div class="info-list">
             <div class="info-row">
-              <span class="info-label">{{ $t("about.projectName") }}</span>
+              <span class="info-label">{{ $t('about.projectName') }}</span>
               <span class="info-value fw-medium">Antdv Next Admin</span>
             </div>
             <div class="info-row">
-              <span class="info-label">{{ $t("about.version") }}</span>
+              <span class="info-label">{{ $t('about.version') }}</span>
               <span class="info-value">
                 <a-tag color="blue" class="version-tag">v{{ version }}</a-tag>
               </span>
             </div>
             <div class="info-row">
-              <span class="info-label">{{ $t("about.license") }}</span>
+              <span class="info-label">{{ $t('about.license') }}</span>
               <span class="info-value">
                 <a-tag color="green" class="version-tag">MIT License</a-tag>
               </span>
             </div>
             <div class="info-row">
-              <span class="info-label">{{ $t("about.author") }}</span>
+              <span class="info-label">{{ $t('about.author') }}</span>
               <span class="info-value fw-medium">yelog</span>
             </div>
             <div class="info-row">
               <span class="info-label">
                 <MailOutlined class="row-icon" />
-                {{ $t("about.email") }}
+                {{ $t('about.email') }}
               </span>
               <span class="info-value">
                 <a href="mailto:yelogeek@gmail.com" class="link">yelogeek@gmail.com</a>
@@ -94,7 +94,7 @@
             <div class="info-row">
               <span class="info-label">
                 <BookOutlined class="row-icon" />
-                {{ $t("about.documentation") }}
+                {{ $t('about.documentation') }}
               </span>
               <span class="info-value">
                 <a
@@ -118,7 +118,7 @@
           <template #title>
             <div class="card-title-row">
               <span class="card-icon-wrap"><CodeOutlined class="card-icon" /></span>
-              <span>{{ $t("about.techStack") }}</span>
+              <span>{{ $t('about.techStack') }}</span>
             </div>
           </template>
           <div class="tech-grid">
@@ -147,7 +147,7 @@
           <template #title>
             <div class="card-title-row">
               <span class="card-icon-wrap"><BulbOutlined class="card-icon" /></span>
-              <span>{{ $t("about.features") }}</span>
+              <span>{{ $t('about.features') }}</span>
             </div>
           </template>
           <a-row :gutter="[16, 16]">
@@ -185,82 +185,83 @@ import {
   BgColorsOutlined,
   TableOutlined,
   CloudOutlined,
-} from "@antdv-next/icons";
-import { $t } from "@/locales";
-import logoImg from "@/assets/images/logo.png";
+} from '@antdv-next/icons';
+
+import logoImg from '@/assets/images/logo.png';
+import { $t } from '@/locales';
 
 const version = __APP_VERSION__;
 
 const heroBadges = [
-  { label: "Vue 3", bg: "rgba(66, 184, 131, 0.25)" },
-  { label: "TypeScript", bg: "rgba(49, 120, 198, 0.25)" },
-  { label: "Vite", bg: "rgba(100, 108, 255, 0.25)" },
-  { label: "Ant Design Vue", bg: "rgba(255, 255, 255, 0.15)" },
+  { label: 'Vue 3', bg: 'rgba(66, 184, 131, 0.25)' },
+  { label: 'TypeScript', bg: 'rgba(49, 120, 198, 0.25)' },
+  { label: 'Vite', bg: 'rgba(100, 108, 255, 0.25)' },
+  { label: 'Ant Design Vue', bg: 'rgba(255, 255, 255, 0.15)' },
 ];
 
 const techList = [
-  { name: "Vue", version: "3.4", color: "#42b883", url: "https://vuejs.org" },
-  { name: "TypeScript", version: "5.3", color: "#3178c6", url: "https://www.typescriptlang.org" },
-  { name: "Vite", version: "5.0", color: "#646cff", url: "https://vite.dev" },
-  { name: "Ant Design Vue", version: "Next", color: "#1677ff", url: "https://antdv-next.com" },
-  { name: "Pinia", version: "2.1", color: "#ffd859", url: "https://pinia.vuejs.org" },
-  { name: "Vue Router", version: "4.2", color: "#42b883", url: "https://router.vuejs.org" },
-  { name: "Vue I18n", version: "11.0", color: "#42b883", url: "https://vue-i18n.intlify.dev" },
-  { name: "Axios", version: "1.6", color: "#5a29e4", url: "https://axios-http.com" },
-  { name: "ECharts", version: "5.4", color: "#e43961", url: "https://echarts.apache.org" },
-  { name: "Iconify", version: "5.0", color: "#1769aa", url: "https://iconify.design" },
-  { name: "Tiptap", version: "3.19", color: "#68cef8", url: "https://tiptap.dev" },
-  { name: "Day.js", version: "1.11", color: "#ff6f61", url: "https://day.js.org" },
+  { name: 'Vue', version: '3.4', color: '#42b883', url: 'https://vuejs.org' },
+  { name: 'TypeScript', version: '5.3', color: '#3178c6', url: 'https://www.typescriptlang.org' },
+  { name: 'Vite', version: '5.0', color: '#646cff', url: 'https://vite.dev' },
+  { name: 'Ant Design Vue', version: 'Next', color: '#1677ff', url: 'https://antdv-next.com' },
+  { name: 'Pinia', version: '2.1', color: '#ffd859', url: 'https://pinia.vuejs.org' },
+  { name: 'Vue Router', version: '4.2', color: '#42b883', url: 'https://router.vuejs.org' },
+  { name: 'Vue I18n', version: '11.0', color: '#42b883', url: 'https://vue-i18n.intlify.dev' },
+  { name: 'Axios', version: '1.6', color: '#5a29e4', url: 'https://axios-http.com' },
+  { name: 'ECharts', version: '5.4', color: '#e43961', url: 'https://echarts.apache.org' },
+  { name: 'Iconify', version: '5.0', color: '#1769aa', url: 'https://iconify.design' },
+  { name: 'Tiptap', version: '3.19', color: '#68cef8', url: 'https://tiptap.dev' },
+  { name: 'Day.js', version: '1.11', color: '#ff6f61', url: 'https://day.js.org' },
 ];
 
 const features = [
   {
-    title: $t("about.feature1"),
-    desc: $t("about.feature1Desc"),
+    title: $t('about.feature1'),
+    desc: $t('about.feature1Desc'),
     icon: ApiOutlined,
-    color: "#42b883",
+    color: '#42b883',
   },
   {
-    title: $t("about.feature2"),
-    desc: $t("about.feature2Desc"),
+    title: $t('about.feature2'),
+    desc: $t('about.feature2Desc'),
     icon: SafetyOutlined,
-    color: "#3178c6",
+    color: '#3178c6',
   },
   {
-    title: $t("about.feature3"),
-    desc: $t("about.feature3Desc"),
+    title: $t('about.feature3'),
+    desc: $t('about.feature3Desc'),
     icon: SafetyOutlined,
-    color: "#e43961",
+    color: '#e43961',
   },
   {
-    title: $t("about.feature4"),
-    desc: $t("about.feature4Desc"),
+    title: $t('about.feature4'),
+    desc: $t('about.feature4Desc'),
     icon: ApartmentOutlined,
-    color: "#646cff",
+    color: '#646cff',
   },
   {
-    title: $t("about.feature5"),
-    desc: $t("about.feature5Desc"),
+    title: $t('about.feature5'),
+    desc: $t('about.feature5Desc'),
     icon: GlobalOutlined,
-    color: "#1677ff",
+    color: '#1677ff',
   },
   {
-    title: $t("about.feature6"),
-    desc: $t("about.feature6Desc"),
+    title: $t('about.feature6'),
+    desc: $t('about.feature6Desc'),
     icon: BgColorsOutlined,
-    color: "#fa8c16",
+    color: '#fa8c16',
   },
   {
-    title: $t("about.feature7"),
-    desc: $t("about.feature7Desc"),
+    title: $t('about.feature7'),
+    desc: $t('about.feature7Desc'),
     icon: TableOutlined,
-    color: "#13c2c2",
+    color: '#13c2c2',
   },
   {
-    title: $t("about.feature8"),
-    desc: $t("about.feature8Desc"),
+    title: $t('about.feature8'),
+    desc: $t('about.feature8Desc'),
     icon: CloudOutlined,
-    color: "#722ed1",
+    color: '#722ed1',
   },
 ];
 </script>

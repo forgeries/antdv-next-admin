@@ -1,32 +1,33 @@
-import { createI18n } from "vue-i18n";
-import zhCN from "./zh-CN";
-import enUS from "./en-US";
-import jaJP from "./ja-JP";
-import koKR from "./ko-KR";
+import { createI18n } from 'vue-i18n';
+
+import enUS from './en-US';
+import jaJP from './ja-JP';
+import koKR from './ko-KR';
+import zhCN from './zh-CN';
 
 export const LOCALE_MESSAGES = {
-  "zh-CN": zhCN,
-  "en-US": enUS,
-  "ja-JP": jaJP,
-  "ko-KR": koKR,
+  'zh-CN': zhCN,
+  'en-US': enUS,
+  'ja-JP': jaJP,
+  'ko-KR': koKR,
 };
 
 export const SUPPORTED_LOCALES = Object.keys(LOCALE_MESSAGES) as string[];
 
 export const LOCALE_NATIVE_LABELS: Record<string, string> = {
-  "zh-CN": "简体中文",
-  "en-US": "English",
-  "ja-JP": "日本語",
-  "ko-KR": "한국어",
+  'zh-CN': '简体中文',
+  'en-US': 'English',
+  'ja-JP': '日本語',
+  'ko-KR': '한국어',
 };
 
 // Get saved locale or use default
-const savedLocale = localStorage.getItem("app-locale") || "zh-CN";
+const savedLocale = localStorage.getItem('app-locale') || 'zh-CN';
 
 const i18n = createI18n({
   legacy: false,
   locale: savedLocale,
-  fallbackLocale: "zh-CN",
+  fallbackLocale: 'zh-CN',
   messages: LOCALE_MESSAGES,
   globalInjection: true,
 });
@@ -44,7 +45,7 @@ type TranslateLike = (key: string, ...args: any[]) => unknown;
 export function $t(key: string, ...args: any[]): string {
   const translate = i18n.global.t as unknown as TranslateLike;
   const result = translate(key, ...args);
-  return typeof result === "string" ? result : String(result);
+  return typeof result === 'string' ? result : String(result);
 }
 
 export default i18n;
@@ -52,7 +53,7 @@ export default i18n;
 // Helper function to change locale
 export function setLocale(locale: string) {
   i18n.global.locale.value = locale as any;
-  localStorage.setItem("app-locale", locale);
+  localStorage.setItem('app-locale', locale);
 
   // Update HTML lang attribute
   document.documentElement.lang = locale;

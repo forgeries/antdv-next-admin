@@ -46,7 +46,7 @@
                 <div class="object-field-wrapper">
                   <span class="object-summary">{{ api.getObjectSummaryByPath(path, key) }}</span>
                   <a-button type="link" size="small" @click="toggleFieldExpand(key)">
-                    {{ isFieldExpanded(key) ? "收起" : "展开" }}
+                    {{ isFieldExpanded(key) ? '收起' : '展开' }}
                   </a-button>
                 </div>
               </template>
@@ -73,8 +73,8 @@
                   <span class="switch-label">
                     {{
                       currentObject[key]
-                        ? api.getFieldConfigByPath(path, key)?.activeLabel || "已启用"
-                        : api.getFieldConfigByPath(path, key)?.inactiveLabel || "已禁用"
+                        ? api.getFieldConfigByPath(path, key)?.activeLabel || '已启用'
+                        : api.getFieldConfigByPath(path, key)?.inactiveLabel || '已禁用'
                     }}
                   </span>
                 </div>
@@ -181,21 +181,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type PropType } from "vue";
 import {
   HolderOutlined,
   DeleteOutlined,
   PlusOutlined,
   CaretDownOutlined,
   CaretRightOutlined,
-} from "@antdv-next/icons";
-import draggable from "vuedraggable";
+} from '@antdv-next/icons';
+import { computed, type PropType } from 'vue';
+import draggable from 'vuedraggable';
 
 defineOptions({
-  name: "JsonFieldTreeList",
+  name: 'JsonFieldTreeList',
 });
 
-export type FieldType = "string" | "number" | "boolean" | "tags" | "array" | "object";
+export type FieldType = 'string' | 'number' | 'boolean' | 'tags' | 'array' | 'object';
 
 export interface JsonObject {
   [key: string]: unknown;
@@ -203,7 +203,7 @@ export interface JsonObject {
 
 export interface FieldConfig {
   type?: FieldType;
-  component?: "input" | "textarea";
+  component?: 'input' | 'textarea';
   label?: string;
   min?: number;
   max?: number;
@@ -266,11 +266,11 @@ const props = defineProps({
   },
   hoveredPathKey: {
     type: String,
-    default: "",
+    default: '',
   },
   draggingPathKey: {
     type: String,
-    default: "",
+    default: '',
   },
   api: {
     type: Object as PropType<JsonTreeEditorApi>,
@@ -279,11 +279,11 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
-  (e: "hover-change", pathKey: string): void;
-  (e: "request-add-field", path: string[]): void;
-  (e: "remove-field", payload: RemoveFieldPayload): void;
-  (e: "drag-start", payload: DragStartPayload): void;
-  (e: "drag-end"): void;
+  (e: 'hover-change', pathKey: string): void;
+  (e: 'request-add-field', path: string[]): void;
+  (e: 'remove-field', payload: RemoveFieldPayload): void;
+  (e: 'drag-start', payload: DragStartPayload): void;
+  (e: 'drag-end'): void;
 }>();
 
 const currentObject = computed<JsonObject | null>(() => props.api.getObjectByPath(props.path));
@@ -306,7 +306,7 @@ function getFieldPathKey(key: string): string {
 }
 
 function isObjectField(key: string): boolean {
-  return props.api.getFieldTypeByPath(props.path, key) === "object";
+  return props.api.getFieldTypeByPath(props.path, key) === 'object';
 }
 
 function isFieldExpanded(key: string): boolean {
@@ -318,29 +318,29 @@ function toggleFieldExpand(key: string) {
 }
 
 function removeField(key: string) {
-  emit("remove-field", {
+  emit('remove-field', {
     path: [...props.path],
     key,
   });
 }
 
 function requestAddField() {
-  emit("request-add-field", [...props.path]);
+  emit('request-add-field', [...props.path]);
 }
 
 function handleHover(pathKey: string) {
-  emit("hover-change", pathKey);
+  emit('hover-change', pathKey);
 }
 
 function handleDragStart(event: { oldIndex?: number }) {
-  emit("drag-start", {
+  emit('drag-start', {
     path: [...props.path],
     oldIndex: event.oldIndex,
   });
 }
 
 function handleDragEnd() {
-  emit("drag-end");
+  emit('drag-end');
 }
 </script>
 

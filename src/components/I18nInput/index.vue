@@ -12,9 +12,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, type PropType } from "vue";
-import JsonInput from "@/components/JsonInput/index.vue";
-import { getLocale, SUPPORTED_LOCALES } from "@/locales";
+import { ref, computed, watch, type PropType } from 'vue';
+
+import JsonInput from '@/components/JsonInput/index.vue';
+import { getLocale, SUPPORTED_LOCALES } from '@/locales';
 
 const props = defineProps({
   value: {
@@ -27,11 +28,11 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: "",
+    default: '',
   },
   modalTitle: {
     type: String,
-    default: "",
+    default: '',
   },
   strictLocales: {
     type: Boolean,
@@ -39,7 +40,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:value", "change"]);
+const emit = defineEmits(['update:value', 'change']);
 
 interface LocaleMeta {
   display: string;
@@ -47,10 +48,10 @@ interface LocaleMeta {
 }
 
 const localeMetaMap: Record<string, LocaleMeta> = {
-  "zh-CN": { display: "简体中文", flag: "🇨🇳" },
-  "en-US": { display: "English", flag: "🇺🇸" },
-  "ja-JP": { display: "日本語", flag: "🇯🇵" },
-  "ko-KR": { display: "한국어", flag: "🇰🇷" },
+  'zh-CN': { display: '简体中文', flag: '🇨🇳' },
+  'en-US': { display: 'English', flag: '🇺🇸' },
+  'ja-JP': { display: '日本語', flag: '🇯🇵' },
+  'ko-KR': { display: '한국어', flag: '🇰🇷' },
 };
 
 const availableLocales = computed(() =>
@@ -59,7 +60,7 @@ const availableLocales = computed(() =>
     return {
       locale,
       display: meta?.display || locale,
-      flag: meta?.flag || "🌐",
+      flag: meta?.flag || '🌐',
     };
   }),
 );
@@ -86,14 +87,14 @@ const localeLabelMap = computed(() => {
 });
 
 const innerValue = ref<Record<string, string>>({});
-const valueType = ref<"string" | "object">("object");
+const valueType = ref<'string' | 'object'>('object');
 const syncingFromProps = ref(false);
 
 // Initialize default value with all locales
 function getDefaultValue(): Record<string, string> {
   const defaultValue: Record<string, string> = {};
   availableLocales.value.forEach((item) => {
-    defaultValue[item.locale] = "";
+    defaultValue[item.locale] = '';
   });
   return defaultValue;
 }
@@ -117,23 +118,23 @@ function normalizeValue(
 
   if (!value) {
     parsed = getDefaultValue();
-  } else if (typeof value === "string") {
+  } else if (typeof value === 'string') {
     try {
       parsed = JSON.parse(value);
-      if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+      if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed)) {
         parsed = getDefaultValue();
       }
     } catch {
       parsed = getDefaultValue();
     }
-  } else if (typeof value === "object") {
+  } else if (typeof value === 'object') {
     parsed = { ...value };
   }
 
   // Fill missing locales with empty string
   availableLocales.value.forEach((item) => {
     if (!parsed[item.locale]) {
-      parsed[item.locale] = "";
+      parsed[item.locale] = '';
     }
   });
 
@@ -153,7 +154,7 @@ function normalizeValue(
 watch(
   () => props.value,
   (newValue) => {
-    valueType.value = typeof newValue === "string" ? "string" : "object";
+    valueType.value = typeof newValue === 'string' ? 'string' : 'object';
     const normalized = normalizeValue(newValue);
 
     if (isRecordEqual(normalized, innerValue.value)) {
@@ -179,9 +180,9 @@ watch(
       return;
     }
 
-    const returnValue = valueType.value === "string" ? JSON.stringify(newValue) : newValue;
-    emit("update:value", returnValue);
-    emit("change", returnValue);
+    const returnValue = valueType.value === 'string' ? JSON.stringify(newValue) : newValue;
+    emit('update:value', returnValue);
+    emit('change', returnValue);
   },
   { deep: true },
 );

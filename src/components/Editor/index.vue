@@ -145,12 +145,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount, computed } from "vue";
-import { useEditor, EditorContent } from "@tiptap/vue-3";
-import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
+import type { UploadProps } from 'antdv-next';
+
 import {
   BoldOutlined,
   ItalicOutlined,
@@ -163,10 +159,16 @@ import {
   LinkOutlined,
   UndoOutlined,
   RedoOutlined,
-} from "@antdv-next/icons";
-import { message } from "antdv-next";
-import type { UploadProps } from "antdv-next";
-import { $t } from "@/locales";
+} from '@antdv-next/icons';
+import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
+import Placeholder from '@tiptap/extension-placeholder';
+import StarterKit from '@tiptap/starter-kit';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
+import { message } from 'antdv-next';
+import { ref, watch, onBeforeUnmount, computed } from 'vue';
+
+import { $t } from '@/locales';
 
 interface Props {
   modelValue?: string;
@@ -176,23 +178,23 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: "",
-  placeholder: "",
+  modelValue: '',
+  placeholder: '',
   disabled: false,
   height: 400,
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: string];
+  'update:modelValue': [value: string];
   change: [value: string];
 }>();
 
-const resolvedPlaceholder = computed(() => props.placeholder || $t("editor.defaultPlaceholder"));
+const resolvedPlaceholder = computed(() => props.placeholder || $t('editor.defaultPlaceholder'));
 
 // 链接弹窗
 const linkModalVisible = ref(false);
-const linkUrl = ref("");
-const linkText = ref("");
+const linkUrl = ref('');
+const linkText = ref('');
 
 // 初始化编辑器
 const editor = useEditor({
@@ -207,8 +209,8 @@ const editor = useEditor({
     Link.configure({
       openOnClick: false,
       HTMLAttributes: {
-        target: "_blank",
-        rel: "noopener noreferrer",
+        target: '_blank',
+        rel: 'noopener noreferrer',
       },
     }),
     Placeholder.configure({
@@ -217,8 +219,8 @@ const editor = useEditor({
   ],
   onUpdate: ({ editor }) => {
     const html = editor.getHTML();
-    emit("update:modelValue", html);
-    emit("change", html);
+    emit('update:modelValue', html);
+    emit('change', html);
   },
 });
 
@@ -243,18 +245,18 @@ watch(
 );
 
 // 图片上传
-const handleImageUpload: UploadProps["beforeUpload"] = async (file) => {
+const handleImageUpload: UploadProps['beforeUpload'] = async (file) => {
   if (!editor.value) return false;
 
   // 检查文件类型
-  if (!file.type.startsWith("image/")) {
-    message.error($t("editor.imageOnly"));
+  if (!file.type.startsWith('image/')) {
+    message.error($t('editor.imageOnly'));
     return false;
   }
 
   // 检查文件大小（5MB）
   if (file.size > 5 * 1024 * 1024) {
-    message.error($t("editor.imageSizeLimit"));
+    message.error($t('editor.imageSizeLimit'));
     return false;
   }
 
@@ -277,10 +279,10 @@ const handleImageUpload: UploadProps["beforeUpload"] = async (file) => {
     // const data = await response.json()
     // editor.value?.chain().focus().setImage({ src: data.url }).run()
 
-    message.success($t("editor.imageInsertSuccess"));
+    message.success($t('editor.imageInsertSuccess'));
   } catch (error) {
-    console.error("Image upload failed:", error);
-    message.error($t("editor.imageUploadFailed"));
+    console.error('Image upload failed:', error);
+    message.error($t('editor.imageUploadFailed'));
   }
 
   return false; // 阻止默认上传行为
@@ -288,20 +290,20 @@ const handleImageUpload: UploadProps["beforeUpload"] = async (file) => {
 
 // 显示链接弹窗
 const showLinkModal = () => {
-  const { href } = editor.value?.getAttributes("link") || {};
-  linkUrl.value = href || "";
+  const { href } = editor.value?.getAttributes('link') || {};
+  linkUrl.value = href || '';
   linkText.value =
     editor.value?.state.doc.textBetween(
       editor.value.state.selection.from,
       editor.value.state.selection.to,
-    ) || "";
+    ) || '';
   linkModalVisible.value = true;
 };
 
 // 插入链接
 const insertLink = () => {
   if (!linkUrl.value) {
-    message.warning($t("editor.enterLinkUrl"));
+    message.warning($t('editor.enterLinkUrl'));
     return;
   }
 
@@ -321,8 +323,8 @@ const insertLink = () => {
   }
 
   linkModalVisible.value = false;
-  linkUrl.value = "";
-  linkText.value = "";
+  linkUrl.value = '';
+  linkText.value = '';
 };
 
 // 组件销毁时销毁编辑器
@@ -361,7 +363,7 @@ onBeforeUnmount(() => {
 }
 
 .editor-content {
-  height: v-bind(height + "px");
+  height: v-bind(height + 'px');
   overflow-y: auto;
 
   :deep(.ProseMirror) {
@@ -423,7 +425,7 @@ onBeforeUnmount(() => {
       padding: 0.2em 0.4em;
       border-radius: 3px;
       font-size: 0.9em;
-      font-family: "Courier New", monospace;
+      font-family: 'Courier New', monospace;
     }
 
     pre {

@@ -19,10 +19,10 @@ export interface User {
   realName: string;
   avatar: string;
   phone: string;
-  gender?: "male" | "female";
+  gender?: 'male' | 'female';
   birthDate?: string;
   bio?: string;
-  status: "active" | "inactive";
+  status: 'active' | 'inactive';
   createdAt: string;
   updatedAt: string;
   roles: Role[];
@@ -46,13 +46,13 @@ export interface Permission {
   description: string;
   resource: string;
   action: string;
-  type: "menu" | "button" | "api";
+  type: 'menu' | 'button' | 'api';
   parentId?: string;
   path?: string;
   component?: string;
   icon?: string;
   sort?: number;
-  status?: "active" | "inactive";
+  status?: 'active' | 'inactive';
   visible?: boolean;
   children?: Permission[];
 }

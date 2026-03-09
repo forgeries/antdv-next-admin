@@ -1,11 +1,13 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { RouteRecordRaw } from "vue-router";
-import type { AppRouteRecordRaw, MenuItem } from "@/types/router";
-import type { Permission } from "@/types/auth";
-import { basicRoutes, asyncRoutes } from "@/router/routes";
-import { getUserPermissions } from "@/api/permission";
-import { filterRoutesByPermission, filterRoutesByRole, routesToMenuTree } from "@/router/utils";
+import type { Permission } from '@/types/auth';
+import type { AppRouteRecordRaw, MenuItem } from '@/types/router';
+import type { RouteRecordRaw } from 'vue-router';
+
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+
+import { getUserPermissions } from '@/api/permission';
+import { basicRoutes, asyncRoutes } from '@/router/routes';
+import { filterRoutesByPermission, filterRoutesByRole, routesToMenuTree } from '@/router/utils';
 
 function cloneRoutes(routes: AppRouteRecordRaw[]): AppRouteRecordRaw[] {
   return routes.map((route) => ({
@@ -33,7 +35,7 @@ function collectPermissionCodes(permissionTree: Permission[]): string[] {
   return Array.from(codes);
 }
 
-export const usePermissionStore = defineStore("permission", () => {
+export const usePermissionStore = defineStore('permission', () => {
   // State
   const routes = ref<RouteRecordRaw[]>([]);
   const menuTree = ref<MenuItem[]>([]);
@@ -53,7 +55,7 @@ export const usePermissionStore = defineStore("permission", () => {
       }
     } catch (error) {
       console.warn(
-        "Failed to load permissions from API, fallback to user info permissions.",
+        'Failed to load permissions from API, fallback to user info permissions.',
         error,
       );
     }
@@ -72,7 +74,7 @@ export const usePermissionStore = defineStore("permission", () => {
   };
 
   const getAccessibleMenus = (permissions: string[]): MenuItem[] => {
-    const hasAllPermission = permissions.includes("*");
+    const hasAllPermission = permissions.includes('*');
 
     // Filter menu tree based on permissions
     const filterMenu = (menus: MenuItem[]): MenuItem[] => {

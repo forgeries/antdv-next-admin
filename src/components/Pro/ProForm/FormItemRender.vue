@@ -190,10 +190,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
-import { $t } from "@/locales";
-import ProUpload from "../ProUpload/index.vue";
-import type { ProFormItem } from "@/types/pro";
+import type { ProFormItem } from '@/types/pro';
+
+import { ref, watch, computed } from 'vue';
+
+import { $t } from '@/locales';
+
+import ProUpload from '../ProUpload/index.vue';
 
 interface Props {
   value?: any;
@@ -204,12 +207,12 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   formData: () => ({}),
 });
-const emit = defineEmits(["update:value", "change"]);
+const emit = defineEmits(['update:value', 'change']);
 
 const modelValue = ref(props.value ?? props.item.initialValue);
 
 const resolvedOptions = computed(() => {
-  if (typeof props.item.options === "function") {
+  if (typeof props.item.options === 'function') {
     return props.item.options(props.formData);
   }
   return props.item.options;
@@ -223,24 +226,24 @@ watch(
 );
 
 watch(modelValue, (val) => {
-  emit("update:value", val);
-  emit("change", val);
+  emit('update:value', val);
+  emit('change', val);
 });
 
 const handleChange = (value: any) => {
-  emit("update:value", value);
-  emit("change", value);
+  emit('update:value', value);
+  emit('change', value);
 };
 
 const resolveLabel = () => {
-  return String(props.item.label ?? "");
+  return String(props.item.label ?? '');
 };
 
 const resolveInputPlaceholder = () => {
-  return props.item.placeholder || $t("proForm.enterPlaceholder", { label: resolveLabel() });
+  return props.item.placeholder || $t('proForm.enterPlaceholder', { label: resolveLabel() });
 };
 
 const resolveSelectPlaceholder = () => {
-  return props.item.placeholder || $t("proForm.selectPlaceholder", { label: resolveLabel() });
+  return props.item.placeholder || $t('proForm.selectPlaceholder', { label: resolveLabel() });
 };
 </script>

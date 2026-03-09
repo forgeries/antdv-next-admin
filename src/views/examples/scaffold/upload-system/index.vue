@@ -1,18 +1,18 @@
 <template>
   <div class="page-container">
     <div class="card">
-      <h2>{{ $t("examples.scaffold.uploadSystem.title") }}</h2>
-      <p class="text-secondary mb-lg">{{ $t("examples.scaffold.uploadSystem.description") }}</p>
+      <h2>{{ $t('examples.scaffold.uploadSystem.title') }}</h2>
+      <p class="text-secondary mb-lg">{{ $t('examples.scaffold.uploadSystem.description') }}</p>
 
       <a-space wrap class="mb-md">
         <a-tag color="processing"
-          >{{ $t("examples.scaffold.uploadSystem.uploading") }} {{ uploadingCount }}</a-tag
+          >{{ $t('examples.scaffold.uploadSystem.uploading') }} {{ uploadingCount }}</a-tag
         >
         <a-tag color="success"
-          >{{ $t("examples.scaffold.uploadSystem.success") }} {{ doneCount }}</a-tag
+          >{{ $t('examples.scaffold.uploadSystem.success') }} {{ doneCount }}</a-tag
         >
         <a-tag color="error"
-          >{{ $t("examples.scaffold.uploadSystem.failed") }} {{ errorCount }}</a-tag
+          >{{ $t('examples.scaffold.uploadSystem.failed') }} {{ errorCount }}</a-tag
         >
       </a-space>
 
@@ -28,21 +28,21 @@
         <p class="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        <p class="ant-upload-text">{{ $t("examples.scaffold.uploadSystem.dragText") }}</p>
-        <p class="ant-upload-hint">{{ $t("examples.scaffold.uploadSystem.dragHint") }}</p>
+        <p class="ant-upload-text">{{ $t('examples.scaffold.uploadSystem.dragText') }}</p>
+        <p class="ant-upload-hint">{{ $t('examples.scaffold.uploadSystem.dragHint') }}</p>
       </a-upload-dragger>
 
       <div class="toolbar">
         <a-space>
           <a-button :disabled="errorCount === 0" @click="retryFailed">{{
-            $t("examples.scaffold.uploadSystem.retryButton")
+            $t('examples.scaffold.uploadSystem.retryButton')
           }}</a-button>
           <a-button danger :disabled="fileList.length === 0" @click="clearAll">{{
-            $t("examples.scaffold.uploadSystem.clearButton")
+            $t('examples.scaffold.uploadSystem.clearButton')
           }}</a-button>
         </a-space>
         <div class="text-secondary">
-          {{ $t("examples.scaffold.uploadSystem.failureRate") }}{{ Math.round(failureRate * 100) }}%
+          {{ $t('examples.scaffold.uploadSystem.failureRate') }}{{ Math.round(failureRate * 100) }}%
         </div>
       </div>
 
@@ -56,15 +56,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { InboxOutlined } from "@antdv-next/icons";
-import { message } from "antdv-next";
-import { $t } from "@/locales";
+import { InboxOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { computed, ref } from 'vue';
+
+import { $t } from '@/locales';
 
 type UploadFileItem = {
   uid: string;
   name: string;
-  status?: "error" | "success" | "done" | "uploading" | "removed";
+  status?: 'error' | 'success' | 'done' | 'uploading' | 'removed';
   percent?: number;
   url?: string;
   thumbUrl?: string;
@@ -75,22 +76,22 @@ const fileList = ref<UploadFileItem[]>([]);
 const failureRate = ref(0.25);
 
 const previewOpen = ref(false);
-const previewSrc = ref("");
-const previewTitle = ref($t("examples.scaffold.uploadSystem.previewTitle"));
+const previewSrc = ref('');
+const previewTitle = ref($t('examples.scaffold.uploadSystem.previewTitle'));
 
 const uploadingCount = computed(
-  () => fileList.value.filter((item) => item.status === "uploading").length,
+  () => fileList.value.filter((item) => item.status === 'uploading').length,
 );
 const doneCount = computed(
-  () => fileList.value.filter((item) => item.status === "done" || item.status === "success").length,
+  () => fileList.value.filter((item) => item.status === 'done' || item.status === 'success').length,
 );
-const errorCount = computed(() => fileList.value.filter((item) => item.status === "error").length);
+const errorCount = computed(() => fileList.value.filter((item) => item.status === 'error').length);
 
 const getBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onload = () => resolve(String(reader.result || ''));
     reader.onerror = reject;
   });
 };
@@ -122,7 +123,7 @@ const runUploadTask = (
     }
 
     markFileState(uid, (item) => {
-      item.status = "uploading";
+      item.status = 'uploading';
       item.percent = percent;
     });
 
@@ -135,10 +136,10 @@ const runUploadTask = (
 
       const failed = Math.random() < failureRate.value;
       if (failed) {
-        const error = new Error($t("examples.scaffold.uploadSystem.uploadFailedError"));
+        const error = new Error($t('examples.scaffold.uploadSystem.uploadFailedError'));
 
         markFileState(uid, (item) => {
-          item.status = "error";
+          item.status = 'error';
           item.percent = 100;
         });
 
@@ -149,7 +150,7 @@ const runUploadTask = (
       const preview = `https://picsum.photos/seed/${uid}/880/560`;
 
       markFileState(uid, (item) => {
-        item.status = "done";
+        item.status = 'done';
         item.percent = 100;
         item.url = item.url || preview;
         item.thumbUrl = item.thumbUrl || preview;
@@ -171,20 +172,20 @@ const customRequest = (options: any) => {
     onSuccess: (response) => {
       options.onSuccess?.(response);
       message.success(
-        $t("examples.scaffold.uploadSystem.uploadSuccessMsg", { name: options.file.name }),
+        $t('examples.scaffold.uploadSystem.uploadSuccessMsg', { name: options.file.name }),
       );
     },
     onError: (error) => {
       options.onError?.(error);
       message.error(
-        $t("examples.scaffold.uploadSystem.uploadFailedMsg", { name: options.file.name }),
+        $t('examples.scaffold.uploadSystem.uploadFailedMsg', { name: options.file.name }),
       );
     },
   });
 };
 
 const retryFailed = () => {
-  const failedFiles = fileList.value.filter((item) => item.status === "error");
+  const failedFiles = fileList.value.filter((item) => item.status === 'error');
   if (failedFiles.length === 0) {
     return;
   }
@@ -193,7 +194,7 @@ const retryFailed = () => {
     runUploadTask(item.uid);
   });
 
-  message.info($t("examples.scaffold.uploadSystem.retryMsg", { count: failedFiles.length }));
+  message.info($t('examples.scaffold.uploadSystem.retryMsg', { count: failedFiles.length }));
 };
 
 const clearAll = () => {
@@ -206,7 +207,7 @@ const handlePreview = async (file: UploadFileItem) => {
   } else if (file.originFileObj) {
     previewSrc.value = await getBase64(file.originFileObj);
   } else {
-    message.warning($t("examples.scaffold.uploadSystem.previewNotSupported"));
+    message.warning($t('examples.scaffold.uploadSystem.previewNotSupported'));
     return;
   }
 

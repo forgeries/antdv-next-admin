@@ -1,4 +1,4 @@
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted } from 'vue';
 
 export interface WatermarkOptions {
   text?: string;
@@ -17,10 +17,10 @@ export interface WatermarkOptions {
  */
 export function useWatermark(options: WatermarkOptions = {}) {
   const {
-    text = "Watermark",
+    text = 'Watermark',
     fontSize = 16,
-    fontFamily = "Arial",
-    color = "rgba(0, 0, 0, 0.15)",
+    fontFamily = 'Arial',
+    color = 'rgba(0, 0, 0, 0.15)',
     opacity = 1,
     rotate = -20,
     width = 300,
@@ -35,19 +35,19 @@ export function useWatermark(options: WatermarkOptions = {}) {
    * Create watermark canvas
    */
   const createWatermarkCanvas = (): string => {
-    const canvas = document.createElement("canvas");
+    const canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return "";
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return '';
 
     ctx.clearRect(0, 0, width, height);
     ctx.globalAlpha = opacity;
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
     // Rotate canvas
     ctx.translate(width / 2, height / 2);
@@ -64,8 +64,8 @@ export function useWatermark(options: WatermarkOptions = {}) {
    * Create watermark element
    */
   const createWatermark = (): HTMLDivElement => {
-    const div = document.createElement("div");
-    div.className = "watermark-container";
+    const div = document.createElement('div');
+    div.className = 'watermark-container';
 
     const base64Url = createWatermarkCanvas();
 
@@ -98,7 +98,7 @@ export function useWatermark(options: WatermarkOptions = {}) {
     // Prevent watermark from being removed
     observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === "childList") {
+        if (mutation.type === 'childList') {
           const removed = Array.from(mutation.removedNodes).some((node) => node === watermarkDiv);
           if (removed) {
             addWatermark();
