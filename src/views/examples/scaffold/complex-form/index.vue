@@ -179,7 +179,8 @@ interface FormState {
 
 const DRAFT_KEY = 'example:complex-form:draft';
 
-const formRef = ref<InstanceType<typeof import('@/components/Pro/ProStepForm/index.vue').default> | null>(null);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const formRef = ref<any>(null);
 const currentStep = ref(0);
 const ruleError = ref('');
 
