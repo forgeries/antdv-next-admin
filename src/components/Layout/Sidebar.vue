@@ -45,7 +45,6 @@ import { routesToMenuTree } from '@/router/utils';
 import { useLayoutStore } from '@/stores/layout';
 import { usePermissionStore } from '@/stores/permission';
 import { useSettingsStore } from '@/stores/settings';
-import { useThemeStore } from '@/stores/theme';
 import { resolveLocaleText } from '@/utils/i18n';
 import { resolveIcon } from '@/utils/icon';
 
@@ -53,14 +52,13 @@ const route = useRoute();
 const router = useRouter();
 const layoutStore = useLayoutStore();
 const settingsStore = useSettingsStore();
-const themeStore = useThemeStore();
 const permissionStore = usePermissionStore();
 
 const selectedKeys = ref<string[]>([]);
 const openKeys = ref<string[]>([]);
 
 const fallbackMenuItems = computed(() => {
-  const basicChildren = basicRoutes.flatMap((route) => route.children || []);
+  const basicChildren = basicRoutes.flatMap((r) => r.children || []);
   return routesToMenuTree(basicChildren);
 });
 

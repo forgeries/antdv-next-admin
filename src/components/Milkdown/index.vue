@@ -60,7 +60,7 @@ onMounted(async () => {
       }));
 
       // 监听内容变化
-      ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
+      ctx.get(listenerCtx).markdownUpdated((_editorCtx, markdown, prevMarkdown) => {
         if (markdown !== prevMarkdown) {
           emit('update:modelValue', markdown);
           emit('change', markdown);
@@ -76,7 +76,7 @@ onMounted(async () => {
     .use(prism)
     .create();
 
-  editorInstance.value = editor;
+  editorInstance.value = editor as Editor;
 });
 
 onUnmounted(() => {
@@ -95,10 +95,13 @@ watch(
         })
     ) {
       editorInstance.value.action((ctx) => {
-        const view = ctx.editorView;
-        const state = view.state;
-        const tr = state.tr.replaceWith(0, state.doc.content.size, state.schema.text(newValue));
-        view.dispatch(tr);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const view = (ctx as any).editorView;
+        if (view) {
+          const state = view.state;
+          const tr = state.tr.replaceWith(0, state.doc.content.size, state.schema.text(newValue));
+          view.dispatch(tr);
+        }
       });
     }
   },

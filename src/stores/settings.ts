@@ -4,7 +4,7 @@ import { generate } from '@ant-design/colors';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
-const PAGE_ANIMATION_VALUES: PageAnimation[] = new Set([
+const PAGE_ANIMATION_VALUES: Set<string> = new Set([
   'fade',
   'slide-left',
   'slide-right',

@@ -58,19 +58,19 @@ const init = () => {
 // Init
 init();
 
-const handleMouseDown = (e: MouseEvent) => {
+const handleMouseDown = (evt: MouseEvent) => {
   if (isSuccess.value) return;
   isMoving.value = true;
-  const startX = e.clientX;
+  const startX = evt.clientX;
   const startPercent = sliderPercent.value;
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = (moveEvt: MouseEvent) => {
     if (!isMoving.value) return;
     const container = sliderRef.value;
     if (!container) return;
 
     const width = container.clientWidth;
-    const deltaX = e.clientX - startX;
+    const deltaX = moveEvt.clientX - startX;
     const deltaPercent = (deltaX / width) * 100;
 
     let newPercent = startPercent + deltaPercent;

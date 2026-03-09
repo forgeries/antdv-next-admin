@@ -135,7 +135,7 @@ const handleEdit = (targetKey: string) => {
 };
 
 const handleChange = (key: string) => {
-  const tab = tabsStore.tabs.find((t) => t.path === key);
+  const tab = tabsStore.tabs.find((item) => item.path === key);
   if (tab) {
     router.push(tab.fullPath);
   }
@@ -163,7 +163,7 @@ const hasClosableTabs = computed(() => {
 
 const getTabMenuItems = (tab: Tab) => {
   // Get the latest tab state from store to ensure reactivity
-  const latestTab = tabsStore.tabs.find((t) => t.path === tab.path) || tab;
+  const latestTab = tabsStore.tabs.find((item) => item.path === tab.path) || tab;
   // Call t() function to get reactive translations
   return [
     {

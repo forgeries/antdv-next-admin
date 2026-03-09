@@ -375,7 +375,7 @@ interface Props {
   search?: ProTableSearch | false;
   headerFilter?: ProTableHeaderFilterConfig;
   pagination?: ProTablePagination | false;
-  rowKey?: string | ((record: any) => string);
+  rowKey?: string | ((record: Record<string, unknown>) => string);
   size?: ProTableDensity;
   height?: ProTableHeight;
   resizable?: boolean;
@@ -483,7 +483,7 @@ const ResizableTitle = defineComponent({
       const style =
         width == null
           ? attrs.style
-          : { ...(attrs.style as Record<string, any>), width: `${width}px` };
+          : { ...(attrs.style as Record<string, unknown>), width: `${width}px` };
 
       return h(
         'th',
@@ -546,9 +546,9 @@ const searchRef = ref<HTMLElement>();
 const tableSectionRef = ref<HTMLElement>();
 
 // State
-const dataSource = ref<any[]>([]);
+const dataSource = ref<Record<string, unknown>[]>([]);
 const loading = ref(false);
-const searchForm = ref<Record<string, any>>({});
+const searchForm = ref<Record<string, unknown>>({});
 const searchCollapsed = ref(
   props.search !== false ? (props.search?.defaultCollapsed ?? true) : true,
 );
@@ -560,8 +560,14 @@ const tableScrollY = ref<number>();
 const shouldUseVerticalScroll = ref(false);
 const tableViewportWidth = ref(0);
 const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
-const tableFilters = ref<Record<string, any[] | null>>({});
-const tableSorter = ref<any>(null);
+const tableFilters = ref<Record<string, (string | number | boolean)[] | null>>({});
+
+interface TableSorterItem {
+  field?: string;
+  order?: 'ascend' | 'descend';
+}
+
+const tableSorter = ref<TableSorterItem | TableSorterItem[] | null>(null);
 
 const showIndexColumn = ref(true);
 const defaultShowIndexColumn = ref(true);

@@ -3,7 +3,7 @@ import type { User } from '@/types/auth';
 import { faker } from '@faker-js/faker';
 
 // Generate mock users
-export const mockUsers: User[] = Array.from({ length: 50 }, (_, index) => ({
+export const mockUsers: User[] = Array.from({ length: 50 }, () => ({
   id: faker.string.uuid(),
   username: faker.internet.userName(),
   email: faker.internet.email(),

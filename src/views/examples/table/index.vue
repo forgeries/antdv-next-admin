@@ -60,8 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ProTableColumn } from '@/types/pro';
-import type { ProFormItem } from '@/types/pro';
+import type { ProTableColumn, ProFormItem } from '@/types/pro';
 
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@antdv-next/icons';
 import { message } from 'antdv-next';

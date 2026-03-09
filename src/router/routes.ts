@@ -65,6 +65,7 @@ export const basicRoutes: AppRouteRecordRaw[] = [
         name: 'Redirect',
         component: () => import('@/views/redirect/index.vue'),
         meta: {
+          title: 'Redirect',
           hidden: true,
         },
       },

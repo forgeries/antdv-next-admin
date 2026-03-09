@@ -18,7 +18,6 @@ const actions: OperationLog['action'][] = [
   'export',
   'other',
 ];
-const methods = ['GET', 'POST', 'PUT', 'DELETE']; // Used for request method simulation
 const browsers = ['Chrome 120', 'Firefox 121', 'Safari 17', 'Edge 120'];
 const osList = ['Windows 11', 'macOS 14', 'Ubuntu 22.04', 'iOS 17'];
 const ips = [

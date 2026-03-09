@@ -10,9 +10,10 @@ export interface RouteMeta {
   keepAlive?: boolean;
   hidden?: boolean;
   order?: number;
-  affix?: boolean; // Pin tab (cannot be closed)
+  affix?: boolean;
   badge?: string | number;
   activeMenu?: string;
+  externalLink?: string;
 }
 
 export interface AppRouteRecordRaw extends Omit<RouteRecordRaw, 'meta' | 'children'> {
@@ -29,6 +30,7 @@ export interface MenuItem {
   badge?: string | number;
   requiredPermissions?: string[];
   requiredRoles?: string[];
+  hidden?: boolean;
   children?: MenuItem[];
   meta?: RouteMeta;
 }

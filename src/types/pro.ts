@@ -44,8 +44,8 @@ export interface ProTableHeaderFilter {
   options?: ProTableHeaderFilterOption[];
   caseSensitive?: boolean;
   matchAllKeywords?: boolean;
-  clientFilter?: (filterValue: any, record: any, column: ProTableColumn) => boolean;
-  transformRequestValue?: (value: any, selectedValues: any[]) => any;
+  clientFilter?: (filterValue: unknown, record: Record<string, unknown>, column: ProTableColumn) => boolean;
+  transformRequestValue?: (value: unknown, selectedValues: unknown[]) => unknown;
 }
 
 export interface ProTableHeaderFilterConfig {
@@ -70,13 +70,13 @@ export interface ProTableColumn {
   // Value rendering
   valueType?: ValueType;
   valueEnum?: Record<string, { text: string; status?: string; color?: string }>;
-  valueTypeProps?: Record<string, any>;
+  valueTypeProps?: Record<string, unknown>;
   copyable?: boolean;
 
   // Unified options: auto-derives searchOptions and valueEnum when set
   options?: Array<{
     label: string;
-    value: any;
+    value: string | number | boolean;
     color?: string;
     status?: string;
     disabled?: boolean;
@@ -85,24 +85,24 @@ export interface ProTableColumn {
   // Search
   search?: boolean;
   searchType?: SearchType;
-  searchOptions?: Array<{ label: string; value: any }>;
-  searchProps?: Record<string, any>;
+  searchOptions?: Array<{ label: string; value: string | number | boolean }>;
+  searchProps?: Record<string, unknown>;
 
   // Header filter
   headerFilter?: ProTableHeaderFilter;
 
   // Sorting
-  sorter?: boolean | ((a: any, b: any) => number);
+  sorter?: boolean | ((a: Record<string, unknown>, b: Record<string, unknown>) => number);
   defaultSortOrder?: 'ascend' | 'descend';
 
   // Native table filter compatibility
-  filterDropdown?: any;
-  filterDropdownProps?: Record<string, any>;
-  filterIcon?: any;
-  filters?: Array<{ text: string; value: any }>;
+  filterDropdown?: unknown;
+  filterDropdownProps?: Record<string, unknown>;
+  filterIcon?: unknown;
+  filters?: Array<{ text: string; value: string | number | boolean }>;
   filterMultiple?: boolean;
-  filteredValue?: any[] | null;
-  onFilter?: (value: any, record: any) => boolean;
+  filteredValue?: (string | number | boolean)[] | null;
+  onFilter?: (value: unknown, record: Record<string, unknown>) => boolean;
   sortDirections?: Array<'ascend' | 'descend'>;
   customFilterDropdown?: boolean;
 
@@ -110,26 +110,26 @@ export interface ProTableColumn {
   actions?: ProTableAction[];
 
   // Custom render
-  render?: (text: any, record: any, index: number) => any;
+  render?: (text: unknown, record: Record<string, unknown>, index: number) => unknown;
 }
 
 export interface ProTableAction {
   label: string;
   type?: 'link' | 'button' | 'dropdown';
-  icon?: any;
+  icon?: unknown;
   permission?: string;
   danger?: boolean;
-  disabled?: (record: any) => boolean;
-  hidden?: (record: any) => boolean;
+  disabled?: (record: Record<string, unknown>) => boolean;
+  hidden?: (record: Record<string, unknown>) => boolean;
   confirm?: string;
-  onClick?: (record: any) => void | Promise<void>;
-  items?: ProTableAction[]; // For dropdown
+  onClick?: (record: Record<string, unknown>) => void | Promise<void>;
+  items?: ProTableAction[];
 }
 
 export interface ProTableToolbar {
   title?: string;
   subTitle?: string;
-  actions?: Array<'!refresh' | '!density' | '!columnSetting'>;
+  actions?: Array<'!refresh' | '!density' | '!columnSetting' | 'refresh' | 'density' | 'columnSetting'>;
 }
 
 export interface ProTableSearch {
@@ -150,7 +150,9 @@ export interface ProTablePagination {
 }
 
 export interface ProTableRequest {
-  (params: Record<string, any>): Promise<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (params: any): Promise<{
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any[];
     total?: number;
     success: boolean;
@@ -186,32 +188,32 @@ export interface ProFormItem {
   label: string;
   type: FormItemType;
   required?: boolean;
-  rules?: any[];
-  initialValue?: any;
+  rules?: unknown[];
+  initialValue?: unknown;
   dependencies?: string[];
   tooltip?: string;
   placeholder?: string;
 
   // Layout
   colSpan?: number;
-  hidden?: boolean | ((values: Record<string, any>) => boolean);
+  hidden?: boolean | ((values: Record<string, unknown>) => boolean);
 
   // Options (for select, radio, checkbox, etc.) — supports function form for dynamic options
   options?:
-    | Array<{ label: string; value: any; disabled?: boolean }>
-    | ((values: Record<string, any>) => Array<{ label: string; value: any; disabled?: boolean }>);
+    | Array<{ label: string; value: string | number | boolean; disabled?: boolean }>
+    | ((values: Record<string, unknown>) => Array<{ label: string; value: string | number | boolean; disabled?: boolean }>);
 
   // Props to pass to the component
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
 
   // Value prop name (for components like Switch that use 'checked')
   valuePropName?: string;
 
   // Custom render
-  render?: (form: any) => any;
+  render?: (form: unknown) => unknown;
 
   // Request for dynamic options
-  request?: () => Promise<Array<{ label: string; value: any }>>;
+  request?: () => Promise<Array<{ label: string; value: string | number | boolean }>>;
 }
 
 export interface ProFormLayout {
@@ -231,9 +233,9 @@ export interface ProDescriptionItem {
   dataIndex: string;
   valueType?: ValueType;
   valueEnum?: Record<string, { text: string; status?: string; color?: string }>;
-  valueTypeProps?: Record<string, any>;
+  valueTypeProps?: Record<string, unknown>;
   span?: number;
-  render?: (value: any, record: any) => any;
+  render?: (value: unknown, record: Record<string, unknown>) => unknown;
   copyable?: boolean;
 }
 
@@ -244,7 +246,7 @@ export interface ProStatusMap {
   [key: string]: {
     text: string;
     color: string;
-    icon?: any;
+    icon?: unknown;
   };
 }
 
@@ -253,12 +255,12 @@ export type ProChartType = 'line' | 'bar' | 'pie' | 'donut' | 'area' | 'radar';
 
 export interface ProChartProps {
   type: ProChartType;
-  data: any[];
+  data: Record<string, unknown>[];
   height?: number | string;
   title?: string;
   subTitle?: string;
   loading?: boolean;
-  option?: Record<string, any>;
+  option?: Record<string, unknown>;
 }
 
 // ProUpload Types
@@ -272,7 +274,7 @@ export interface ProStatCardProps {
   value: string | number;
   trend?: string;
   trendDirection?: 'up' | 'down';
-  icon?: any;
+  icon?: unknown;
   tone?: ProStatCardTone;
 }
 
@@ -280,7 +282,7 @@ export interface ProStatCardProps {
 export interface ProStepFormStep {
   title: string;
   description?: string;
-  icon?: any;
+  icon?: unknown;
 }
 
 // ProSplitLayout Types

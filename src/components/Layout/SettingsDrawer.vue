@@ -109,7 +109,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PageAnimation, PrimaryColor } from '@/types/layout';
+import type { PrimaryColor } from '@/types/layout';
 
 import { CheckOutlined } from '@antdv-next/icons';
 import { Modal } from 'antdv-next';

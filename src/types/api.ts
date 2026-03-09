@@ -1,6 +1,6 @@
 // API Response Types
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   code: number;
   message: string;
   data: T;
@@ -10,7 +10,7 @@ export interface ApiResponse<T = any> {
 export interface PageParams {
   current: number;
   pageSize: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface PageResult<T> {
@@ -25,5 +25,5 @@ export interface ListParams extends PageParams {
   startDate?: string;
   endDate?: string;
   status?: string | number;
-  [key: string]: any;
+  [key: string]: unknown;
 }

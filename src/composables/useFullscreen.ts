@@ -1,5 +1,20 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
+interface FullscreenElement extends HTMLElement {
+  webkitRequestFullscreen?: () => Promise<void>;
+  mozRequestFullScreen?: () => Promise<void>;
+  msRequestFullscreen?: () => Promise<void>;
+}
+
+interface FullscreenDocument extends Document {
+  webkitExitFullscreen?: () => Promise<void>;
+  mozCancelFullScreen?: () => Promise<void>;
+  msExitFullscreen?: () => Promise<void>;
+  webkitFullscreenElement?: Element | null;
+  mozFullScreenElement?: Element | null;
+  msFullscreenElement?: Element | null;
+}
+
 /**
  * Fullscreen composable
  */
@@ -11,16 +26,16 @@ export function useFullscreen() {
    */
   const enter = async (): Promise<void> => {
     try {
-      const element = document.documentElement;
+      const element = document.documentElement as FullscreenElement;
 
       if (element.requestFullscreen) {
         await element.requestFullscreen();
-      } else if ((element as any).webkitRequestFullscreen) {
-        await (element as any).webkitRequestFullscreen();
-      } else if ((element as any).mozRequestFullScreen) {
-        await (element as any).mozRequestFullScreen();
-      } else if ((element as any).msRequestFullscreen) {
-        await (element as any).msRequestFullscreen();
+      } else if (element.webkitRequestFullscreen) {
+        await element.webkitRequestFullscreen();
+      } else if (element.mozRequestFullScreen) {
+        await element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        await element.msRequestFullscreen();
       }
 
       isFullscreen.value = true;
@@ -34,14 +49,15 @@ export function useFullscreen() {
    */
   const exit = async (): Promise<void> => {
     try {
+      const doc = document as FullscreenDocument;
       if (document.exitFullscreen) {
         await document.exitFullscreen();
-      } else if ((document as any).webkitExitFullscreen) {
-        await (document as any).webkitExitFullscreen();
-      } else if ((document as any).mozCancelFullScreen) {
-        await (document as any).mozCancelFullScreen();
-      } else if ((document as any).msExitFullscreen) {
-        await (document as any).msExitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        await doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        await doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        await doc.msExitFullscreen();
       }
 
       isFullscreen.value = false;
@@ -65,11 +81,12 @@ export function useFullscreen() {
    * Handle fullscreen change event
    */
   const handleFullscreenChange = () => {
+    const doc = document as FullscreenDocument;
     isFullscreen.value = !!(
       document.fullscreenElement ||
-      (document as any).webkitFullscreenElement ||
-      (document as any).mozFullScreenElement ||
-      (document as any).msFullscreenElement
+      doc.webkitFullscreenElement ||
+      doc.mozFullScreenElement ||
+      doc.msFullscreenElement
     );
   };
 

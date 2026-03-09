@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 interface Props {
   width?: number | string;
@@ -52,7 +52,6 @@ const emit = defineEmits(['success', 'fail']);
 const containerRef = ref<HTMLElement | null>(null);
 const mainCanvasRef = ref<HTMLCanvasElement | null>(null);
 const moveCanvasRef = ref<HTMLCanvasElement | null>(null);
-const sliderContainerRef = ref<HTMLElement | null>(null);
 const isMoving = ref(false);
 const isSuccess = ref(false);
 const loading = ref(false);
@@ -182,15 +181,15 @@ onBeforeUnmount(() => {
   }
 });
 
-const handleMouseDown = (e: MouseEvent) => {
+const handleMouseDown = (evt: MouseEvent) => {
   if (isSuccess.value || loading.value) return;
   isMoving.value = true;
-  const startX = e.clientX;
+  const startX = evt.clientX;
   const startLeft = sliderLeft.value;
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = (moveEvt: MouseEvent) => {
     if (!isMoving.value) return;
-    const deltaX = e.clientX - startX;
+    const deltaX = moveEvt.clientX - startX;
     let newLeft = startLeft + deltaX;
     // Limit range
     const maxLeft = currentWidth.value - 40; // slider handle width

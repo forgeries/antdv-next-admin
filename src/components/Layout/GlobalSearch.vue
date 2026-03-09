@@ -147,15 +147,14 @@ import {
   SearchOutlined,
   FileOutlined,
   EnterOutlined,
-  ArrowUpOutlined,
+ArrowUpOutlined,
   ArrowDownOutlined,
   ClockCircleOutlined,
-  CloseOutlined,
   StarOutlined,
   StarFilled,
 } from '@antdv-next/icons';
 import { match as pinyinMatch } from 'pinyin-pro';
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from 'vue';
+import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { basicRoutes } from '@/router/routes';
@@ -166,7 +165,6 @@ import { resolveLocaleText } from '@/utils/i18n';
 import { resolveIcon } from '@/utils/icon';
 
 const MENU_HISTORY_KEY = 'app-menu-history';
-const MAX_HISTORY_ITEMS = 10;
 
 interface SearchItem {
   path: string;
