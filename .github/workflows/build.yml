@@ -26,13 +26,10 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        working-directory: antdv-next-admin
         run: pnpm install --frozen-lockfile
 
       - name: Install rolldown native bindings
-        working-directory: antdv-next-admin
         run: pnpm add @rolldown/binding-linux-x64-gnu -D
 
       - name: Build
-        working-directory: antdv-next-admin
         run: pnpm run build
