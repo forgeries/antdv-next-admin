@@ -24,7 +24,7 @@
             @mouseenter="handleHover(getFieldPathKey(key))"
             @mouseleave="handleHover('')"
           >
-            <div class="drag-handle" v-if="allowSort && !isNewField(key)">
+            <div class="drag-handle" v-if="allowSort">
               <HolderOutlined />
             </div>
 
