@@ -6,6 +6,7 @@
         type="editable-card"
         :hide-add="true"
         :items="tabItems"
+        popupClassName="tab-bar-overflow-dropdown"
         @edit="handleEdit"
         @change="handleChange"
       />
@@ -453,6 +454,36 @@ const getTabIcon = (tab: Tab) => {
 <style lang="scss">
 // Global style overrides for dark mode
 // Using non-scoped style to ensure we can target Ant Design internals reliably
+.tab-bar-overflow-dropdown {
+  .tab-label {
+    display: inline-flex;
+    align-items: center;
+    max-width: 180px;
+    gap: 6px;
+  }
+
+  .tab-menu-icon {
+    font-size: 14px;
+    color: inherit;
+  }
+
+  .tab-pin-icon,
+  .tab-favorite-icon {
+    font-size: 12px;
+  }
+
+  .tab-pin-icon,
+  .tab-favorite-icon {
+    color: var(--color-warning);
+  }
+
+  .tab-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 html.dark .tab-bar .ant-tabs-tab.ant-tabs-tab-active {
   background: rgba(22, 119, 255, 0.25) !important;
   border-color: transparent !important;

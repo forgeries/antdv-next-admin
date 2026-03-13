@@ -51,9 +51,15 @@ use([
   RadarComponent,
 ]);
 
+interface ChartItem {
+  name: string;
+  value: number;
+  max?: number;
+}
+
 interface Props {
   type: ProChartType;
-  data: unknown[];
+  data: ChartItem[];
   height?: number | string;
   title?: string;
   subTitle?: string;

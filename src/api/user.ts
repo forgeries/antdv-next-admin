@@ -103,7 +103,7 @@ export async function createUser(
   const now = new Date().toISOString();
   const newUser: User = {
     id: faker.string.uuid(),
-    username: data.username || faker.internet.userName(),
+    username: data.username || faker.internet.username(),
     email: data.email || faker.internet.email(),
     realName: data.realName || faker.person.fullName(),
     avatar: data.avatar || faker.image.avatar(),

@@ -110,7 +110,7 @@ interface UploadFile {
 }
 
 interface Props {
-  value?: UploadFile[];
+  value?: UploadFile[] | unknown;
   mode?: ProUploadMode;
   accept?: string;
   maxSize?: number;
@@ -127,12 +127,14 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits(["update:value", "change"]);
 
-const fileList = ref<UploadFile[]>(props.value ?? []);
+const fileList = ref<UploadFile[]>(
+  (props.value as UploadFile[] | undefined) ?? []
+);
 
 watch(
   () => props.value,
   (val) => {
-    if (val) fileList.value = val;
+    if (val) fileList.value = val as UploadFile[];
   },
 );
 

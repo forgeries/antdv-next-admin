@@ -227,21 +227,6 @@ const themeOptions = [
   { label: "Solarized Dark", value: "solarizedDark" },
 ];
 
-const languageOptions = [
-  { label: "JSON", value: "json" },
-  { label: "JavaScript", value: "javascript" },
-  { label: "TypeScript", value: "typescript" },
-  { label: "HTML", value: "html" },
-  { label: "CSS", value: "css" },
-  { label: "Markdown", value: "markdown" },
-  { label: "SQL", value: "sql" },
-  { label: "YAML", value: "yaml" },
-  { label: "Python", value: "python" },
-  { label: "Java", value: "java" },
-  { label: "Go", value: "go" },
-  { label: "Rust", value: "rust" },
-];
-
 const languageExamples: Record<SupportedLanguage, string> = {
   json: '{\n  "key": "value",\n  "array": [1, 2, 3]\n}',
   javascript: "// JavaScript code\nconst hello = 'world';\nconsole.log(hello);",

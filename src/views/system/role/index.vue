@@ -70,7 +70,7 @@ const tableRef = ref<{
 } | null>(null);
 const formRef = ref<{
   validate: () => Promise<boolean>;
-  getFieldsValue: () => Record<string, unknown>;
+  getFieldsValue: () => RoleFormValues;
 } | null>(null);
 
 const modalVisible = ref(false);
@@ -303,7 +303,9 @@ const handleSubmit = async () => {
     return;
   }
 
-  const values = formRef.value?.getFieldsValue() || {};
+  const values = formRef.value?.getFieldsValue();
+  if (!values) return;
+
   const permissionIds: string[] = values.permissionIds || [];
 
   const selectedPermissions = permissionIds

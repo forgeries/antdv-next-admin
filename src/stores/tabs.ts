@@ -1,4 +1,5 @@
 import type { Tab } from "@/types/layout";
+import type { AppRouteRecordRaw } from "@/types/router";
 import type { RouteLocationNormalized } from "vue-router";
 
 import { defineStore } from "pinia";
@@ -202,26 +203,26 @@ export const useTabsStore = defineStore("tabs", () => {
   };
 
   // Initialize affix tabs
-  const initAffixTabs = (routes: Record<string, unknown>[]) => {
+  const initAffixTabs = (routes: AppRouteRecordRaw[]) => {
     const affixTabs: Tab[] = [];
 
     const findAffixRoutes = (
-      routes: Record<string, unknown>[],
+      routes: AppRouteRecordRaw[],
       basePath = "",
     ) => {
       routes.forEach((route) => {
         const routePath = route.path ? String(route.path) : "";
         const fullPath = resolveRoutePath(routePath, basePath);
-        const meta = route.meta as Record<string, unknown> | undefined;
+        const meta = route.meta;
 
         if (meta?.affix && routePath) {
           const routeName = String(route.name || routePath);
-          const routeTitle = meta?.title ? String(meta.title) : routeName;
+          const routeTitle = meta?.title || routeName;
           affixTabs.push({
             id: fullPath,
             name: routeName,
             title: routeTitle,
-            icon: meta?.icon ? String(meta.icon) : undefined,
+            icon: meta?.icon,
             path: fullPath,
             fullPath,
             closable: false,
@@ -232,7 +233,7 @@ export const useTabsStore = defineStore("tabs", () => {
 
         if (route.children) {
           findAffixRoutes(
-            route.children as Record<string, unknown>[],
+            route.children,
             fullPath,
           );
         }
@@ -259,7 +260,7 @@ export const useTabsStore = defineStore("tabs", () => {
   };
 
   // Restore tabs state from localStorage
-  const restoreTabsState = (routes: Record<string, unknown>[]) => {
+  const restoreTabsState = (routes: AppRouteRecordRaw[]) => {
     const settingsStore = useSettingsStore();
     if (!settingsStore.rememberTabState || isRestored.value) return;
 
@@ -272,7 +273,7 @@ export const useTabsStore = defineStore("tabs", () => {
         // Filter out tabs that no longer exist in routes
         const validPaths = new Set<string>();
         const collectPaths = (
-          routeList: Record<string, unknown>[],
+          routeList: AppRouteRecordRaw[],
           basePath = "",
         ) => {
           routeList.forEach((route) => {
@@ -281,7 +282,7 @@ export const useTabsStore = defineStore("tabs", () => {
             validPaths.add(fullPath);
             if (route.children) {
               collectPaths(
-                route.children as Record<string, unknown>[],
+                route.children,
                 fullPath,
               );
             }

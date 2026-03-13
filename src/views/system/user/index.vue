@@ -91,7 +91,7 @@ const tableRef = ref<{
 } | null>(null);
 const formRef = ref<{
   validate: () => Promise<boolean>;
-  getFieldsValue: () => Record<string, unknown>;
+  getFieldsValue: () => UserFormValues;
 } | null>(null);
 
 const modalVisible = ref(false);
@@ -387,7 +387,9 @@ const handleSubmit = async () => {
     return;
   }
 
-  const values = formRef.value?.getFieldsValue() || {};
+  const values = formRef.value?.getFieldsValue();
+  if (!values) return;
+
   const selectedRoles = roleOptions.value.filter((role) =>
     values.roleIds?.includes(role.id),
   );
@@ -440,20 +442,20 @@ const handleExport = async () => {
         {
           title: $t("user.gender"),
           dataIndex: "gender",
-          render: (v: string) =>
+          render: (v: unknown) =>
             v === "male" ? $t("user.male") : $t("user.female"),
         },
         {
           title: $t("user.status"),
           dataIndex: "status",
-          render: (v: string) =>
+          render: (v: unknown) =>
             v === "active" ? $t("user.active") : $t("user.inactive"),
         },
         {
           title: $t("user.role"),
           dataIndex: "roles",
-          render: (_: unknown, r: Record<string, unknown>) =>
-            ((r.roles as Array<{ name: string }>) || [])
+          render: (_: unknown, r: unknown) =>
+            (((r as Record<string, unknown>).roles as Array<{ name: string }>) || [])
               .map((role) => role.name)
               .join(", "),
         },

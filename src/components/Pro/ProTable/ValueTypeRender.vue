@@ -41,27 +41,27 @@
     <!-- Avatar -->
     <a-avatar
       v-else-if="type === 'avatar'"
-      :src="value"
+      :src="asString(value)"
       :size="valueTypeProps.size || 32"
     />
 
     <!-- Image -->
     <a-image
       v-else-if="type === 'image'"
-      :src="value"
+      :src="asString(value)"
       :width="valueTypeProps.width || 80"
     />
 
     <!-- Link -->
-    <a v-else-if="type === 'link'" :href="value" target="_blank" class="link">
+    <a v-else-if="type === 'link'" :href="asString(value)" target="_blank" class="link">
       {{ value }}
     </a>
 
     <!-- Progress -->
     <a-progress
       v-else-if="type === 'progress'"
-      :percent="value"
-      :status="value >= 100 ? 'success' : 'active'"
+      :percent="asNumber(value)"
+      :status="(asNumber(value) ?? 0) >= 100 ? 'success' : 'active'"
       v-bind="valueTypeProps"
     />
 
@@ -79,13 +79,21 @@ import dayjs from "dayjs";
 import { $t } from "@/locales";
 import { copyToClipboard } from "@/utils/helpers";
 
+interface ValueTypeProps {
+  format?: string;
+  symbol?: string;
+  precision?: number;
+  size?: number;
+  width?: number;
+}
+
 interface Props {
   value: unknown;
   type?: ValueType;
   enum?: Record<string, { text: string; status?: string; color?: string }>;
   record?: Record<string, unknown>;
   copyable?: boolean;
-  valueTypeProps?: Record<string, unknown>;
+  valueTypeProps?: ValueTypeProps;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -94,13 +102,27 @@ const props = withDefaults(defineProps<Props>(), {
   valueTypeProps: () => ({}),
 });
 
-const getEnumConfig = (value: string | number) => {
-  return props.enum?.[value];
+const asString = (val: unknown): string | undefined => {
+  return typeof val === "string" ? val : undefined;
+};
+
+const asNumber = (val: unknown): number | undefined => {
+  return typeof val === "number" ? val : undefined;
+};
+
+const getEnumConfig = (value: unknown) => {
+  if (typeof value === "string" || typeof value === "number") {
+    return props.enum?.[value];
+  }
+  return undefined;
 };
 
 const formatDate = (value: unknown, format: string) => {
   if (!value) return "-";
-  return dayjs(value as string | number | Date).format(format);
+  if (typeof value === "string" || typeof value === "number" || value instanceof Date) {
+    return dayjs(value).format(format);
+  }
+  return "-";
 };
 
 const formatMoney = (value: unknown, precision?: number) => {

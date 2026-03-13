@@ -183,8 +183,6 @@
 <script setup lang="ts">
 import type { ProStepFormStep } from "@/types/pro";
 
-import type { FormInstance, Rule } from "antdv-next";
-
 import type { Dayjs } from "dayjs";
 
 import { message } from "antdv-next";
@@ -213,7 +211,11 @@ interface FormState {
 
 const DRAFT_KEY = "example:complex-form:draft";
 
-const formRef = ref<InstanceType<typeof ProStepForm> | null>(null);
+const formRef = ref<{
+  validateFields: (fields?: string[]) => Promise<void>;
+  clearValidate: () => void;
+  setFields: (fields: { name: string[]; errors: string[] }[]) => void;
+} | null>(null);
 const currentStep = ref(0);
 const ruleError = ref("");
 
@@ -257,7 +259,7 @@ const operatorOptions = [
   { label: "<=", value: "<=" },
 ];
 
-const checkProjectNameUnique = async (_rule: Rule, value: string) => {
+const checkProjectNameUnique = async (_rule: unknown, value: string) => {
   if (!value) {
     return Promise.reject(
       new Error($t("examples.scaffold.complexForm.projectNameRequired")),

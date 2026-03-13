@@ -690,22 +690,28 @@ const isServerHeaderFilterMode = (mode: HeaderFilterMode) => {
   return mode === "server" || mode === "hybrid";
 };
 
-const normalizeSelectedFilterValues = (value: unknown): unknown[] => {
+const normalizeSelectedFilterValues = (
+  value: unknown,
+): (string | number | boolean)[] => {
   if (Array.isArray(value)) {
     return value.filter(
-      (item) => item !== undefined && item !== null && item !== "",
+      (item): item is string | number | boolean =>
+        item !== undefined && item !== null && item !== "",
     );
   }
   if (value === undefined || value === null || value === "") {
     return [];
   }
-  return [value];
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return [value];
+  }
+  return [];
 };
 
 const normalizeTableFilters = (
   filters: Record<string, unknown> | undefined,
 ) => {
-  const normalized: Record<string, unknown[] | null> = {};
+  const normalized: Record<string, (string | number | boolean)[] | null> = {};
   if (!filters || typeof filters !== "object") {
     return normalized;
   }
@@ -1351,7 +1357,7 @@ const initializeColumnStates = () => {
   defaultColumnStates.value = states.map(cloneColumnState);
   showIndexColumn.value = defaultShowIndexColumn.value;
 
-  const nextFilters: Record<string, unknown[] | null> = {};
+  const nextFilters: Record<string, (string | number | boolean)[] | null> = {};
   states.forEach((state) => {
     const key = state.key;
     const previous = normalizeSelectedFilterValues(previousFilters[key]);

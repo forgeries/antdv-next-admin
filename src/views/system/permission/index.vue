@@ -69,8 +69,6 @@
 import type { Permission } from "@/types/auth";
 import type { ProFormItem, ProTableColumn } from "@/types/pro";
 
-import type { Rule } from "antdv-next";
-
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@antdv-next/icons";
 import { message, Modal } from "antdv-next";
 import { computed, ref } from "vue";
@@ -108,7 +106,7 @@ const tableRef = ref<{
 } | null>(null);
 const formRef = ref<{
   validate: () => Promise<boolean>;
-  getFieldsValue: () => Record<string, unknown>;
+  getFieldsValue: () => PermissionFormValues;
 } | null>(null);
 
 const modalVisible = ref(false);
@@ -310,7 +308,7 @@ const formItems = computed<ProFormItem[]>(() => [
     hidden: currentType.value !== "menu",
     rules: [
       {
-        validator: (_rule: Rule, value: unknown) => {
+        validator: (_rule: unknown, value: unknown) => {
           if (currentType.value === "menu" && !String(value || "").trim()) {
             return Promise.reject(
               new Error($t("permission.menuRouteRequired")),
@@ -427,8 +425,9 @@ function findPermissionName(list: Permission[], id: string): string {
 }
 
 const fetchTableData = async (params: Record<string, unknown>) => {
+  const keyword = typeof params.keyword === "string" ? params.keyword.trim() : undefined;
   const response = await getPermissionList({
-    keyword: params.keyword?.trim() || undefined,
+    keyword: keyword || undefined,
     type: params.type || undefined,
     status: params.status || undefined,
   });
@@ -551,7 +550,8 @@ const handleSubmit = async () => {
     return;
   }
 
-  const values = formRef.value?.getFieldsValue() || {};
+  const values = formRef.value?.getFieldsValue();
+  if (!values) return;
 
   const payload: Partial<Permission> = {
     name: values.name?.trim(),
