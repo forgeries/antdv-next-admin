@@ -1,13 +1,13 @@
 <template>
   <div class="page-container">
     <div class="card">
-      <h2>{{ $t("codeEditor.title") }}</h2>
+      <h2>{{ $t("examples.codeEditor.title") }}</h2>
       <p class="mb-lg text-secondary">
-        {{ $t("codeEditor.description") }}
+        {{ $t("examples.codeEditor.description") }}
       </p>
 
       <a-divider orientation="left">{{
-        $t("codeEditor.jsonEditor")
+        $t("examples.codeEditor.jsonEditor")
       }}</a-divider>
       <div class="example-section">
         <ProCodeEditor
@@ -18,7 +18,9 @@
         />
       </div>
 
-      <a-divider orientation="left">{{ $t("codeEditor.jsEditor") }}</a-divider>
+      <a-divider orientation="left">{{
+        $t("examples.codeEditor.jsEditor")
+      }}</a-divider>
       <div class="example-section">
         <ProCodeEditor
           v-model="jsContent"
@@ -28,7 +30,7 @@
       </div>
 
       <a-divider orientation="left">{{
-        $t("codeEditor.multiLanguage")
+        $t("examples.codeEditor.multiLanguage")
       }}</a-divider>
       <div class="example-section">
         <a-space direction="vertical" style="width: 100%">
@@ -48,7 +50,7 @@
       </div>
 
       <a-divider orientation="left">{{
-        $t("codeEditor.readonlyMode")
+        $t("examples.codeEditor.readonlyMode")
       }}</a-divider>
       <div class="example-section">
         <ProCodeEditor
@@ -59,13 +61,21 @@
         />
       </div>
 
-      <a-divider orientation="left">{{ $t("codeEditor.darkTheme") }}</a-divider>
+      <a-divider orientation="left">{{
+        $t("examples.codeEditor.darkTheme")
+      }}</a-divider>
       <div class="example-section">
         <a-space direction="vertical" style="width: 100%">
           <a-radio-group v-model:value="editorTheme">
-            <a-radio value="auto">{{ $t("codeEditor.themeAuto") }}</a-radio>
-            <a-radio value="light">{{ $t("codeEditor.themeLight") }}</a-radio>
-            <a-radio value="dark">{{ $t("codeEditor.themeDark") }}</a-radio>
+            <a-radio value="auto">{{
+              $t("examples.codeEditor.themeAuto")
+            }}</a-radio>
+            <a-radio value="light">{{
+              $t("examples.codeEditor.themeLight")
+            }}</a-radio>
+            <a-radio value="dark">{{
+              $t("examples.codeEditor.themeDark")
+            }}</a-radio>
           </a-radio-group>
           <ProCodeEditor
             v-model="darkContent"
@@ -77,7 +87,7 @@
       </div>
 
       <a-divider orientation="left">{{
-        $t("codeEditor.autoHeight")
+        $t("examples.codeEditor.autoHeight")
       }}</a-divider>
       <div class="example-section">
         <ProCodeEditor
@@ -89,7 +99,7 @@
       </div>
 
       <a-divider orientation="left">{{ $t("common.preview") }}</a-divider>
-      <a-card :title="$t('codeEditor.outputPreview')" size="small">
+      <a-card :title="$t('examples.codeEditor.outputPreview')" size="small">
         <pre class="output-preview">{{ jsonContent }}</pre>
       </a-card>
     </div>
