@@ -518,6 +518,17 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
               order: 8,
             },
           },
+          {
+            path: "/examples/qrcode",
+            name: "ExamplesQRCode",
+            component: () => import("@/views/examples/qrcode/index.vue"),
+            meta: {
+              title: "menu.qrcode",
+              icon: "QrcodeOutlined",
+              requiresAuth: true,
+              order: 9,
+            },
+          },
         ],
       },
       {

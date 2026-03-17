@@ -113,6 +113,7 @@ export default {
     watermark: "Watermark",
     splitter: "Splitter",
     tour: "Tour Guide",
+    qrcode: "QR Code",
     requestAuth: "Request/Auth Flow",
     rbacFlow: "RBAC Flow",
     proTableAdvanced: "ProTable Advanced",
@@ -712,6 +713,31 @@ export default {
     customStep4Title: "Top Placement",
     customStep4Desc:
       "The tour panel is displayed on top of the target with a custom indicator.",
+  },
+
+  exampleQRCode: {
+    title: "QR Code Example",
+    description:
+      "QRCode component generates QR codes with custom styles, logos, status display, and download functionality.",
+    basicTab: "Basic",
+    styleTab: "Style Config",
+    logoTab: "With Logo",
+    statusTab: "Status",
+    downloadTab: "Download",
+    content: "QR Code Content",
+    size: "Size",
+    bgColor: "Background Color",
+    fgColor: "Foreground Color",
+    errorLevel: "Error Level",
+    logoHint:
+      "Use errorLevel='H' to ensure QR codes with logos can be scanned correctly",
+    statusActive: "Active",
+    statusExpired: "Expired",
+    statusLoading: "Loading",
+    downloadContent: "QR Code Content",
+    fileName: "File Name",
+    downloadButton: "Download QR Code",
+    downloadSuccess: "Download successful",
   },
 
   exampleModal: {
