@@ -529,6 +529,17 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
               order: 9,
             },
           },
+          {
+            path: "/examples/segmented",
+            name: "ExamplesSegmented",
+            component: () => import("@/views/examples/segmented/index.vue"),
+            meta: {
+              title: "menu.segmented",
+              icon: "AppstoreOutlined",
+              requiresAuth: true,
+              order: 10,
+            },
+          },
         ],
       },
       {
